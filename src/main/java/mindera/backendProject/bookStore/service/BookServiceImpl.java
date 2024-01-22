@@ -1,4 +1,4 @@
 package mindera.backendProject.bookStore.service;
 
-public interface ClientService {
+public class BookServiceImpl implements BookService{
 }

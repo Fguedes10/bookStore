@@ -3,7 +3,6 @@ package mindera.backendProject.bookStore.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import net.bytebuddy.asm.Advice;
 
 import java.time.LocalDate;
 
@@ -23,18 +22,17 @@ public class Review {
 
     private boolean anonymous;
 
-    private LocalDate dateOfComment;
-
     private String comment;
+
+    private LocalDate commentDate;
+
+    @ManyToOne
+    @JoinColumn(name = "book_id")
+    private Book book;
 
 
     public Review() {
     }
 
-    public Review(String isbn, boolean anonymous, LocalDate dateOfComment, String comment) {
-        this.isbn = isbn;
-        this.anonymous = anonymous;
-        this.dateOfComment = dateOfComment;
-        this.comment = comment;
-    }
+
 }

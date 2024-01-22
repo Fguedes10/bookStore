@@ -1,6 +1,12 @@
 package mindera.backendProject.bookStore.service;
 
+import mindera.backendProject.bookStore.converter.CustomerConverter;
+import mindera.backendProject.bookStore.dtos.customer.CustomerCreateDto;
+import mindera.backendProject.bookStore.model.Customer;
 import mindera.backendProject.bookStore.repository.CustomerRepository;
+
+import java.util.List;
+import java.util.Optional;
 
 public class CustomerServiceImpl implements CustomerService{
 
@@ -12,13 +18,18 @@ public class CustomerServiceImpl implements CustomerService{
 
 
     @Override
-    public List<CustomerGetAllDto> getCustomers() {
-        return null;
+    public List<CustomerCreateDto> getCustomers() {
+        List<Customer> customersList = customerRepository.findAll();
+        return customersList.stream().map(CustomerConverter::fromEntitytoCustomerCreateDto).toList();
     }
 
     @Override
-    public CustomerGetDto getCustomer(Long customerId) throws CustomerNotFoundException {
-        return null;
+    public CustomerCreateDto getCustomer(Long customerId) throws CustomerNotFoundException {
+        Optional<Customer> customerOptional = customerRepository.findById(customerId);
+        if(customerOptional.isEmpty()){
+            throw new CustomerNotFoundException("Customer with id " + customerId + " doesn't exists");
+        }
+        return CustomerConverter.fromEntitytoCustomerCreateDto(customerOptional.get());
     }
 
     @Override

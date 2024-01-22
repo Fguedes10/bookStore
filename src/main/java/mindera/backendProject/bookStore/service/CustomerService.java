@@ -1,10 +1,14 @@
 package mindera.backendProject.bookStore.service;
 
+import mindera.backendProject.bookStore.dtos.customer.CustomerCreateDto;
+
+import java.util.List;
+
 public interface CustomerService {
 
-    List<CustomerGetAllDto> getCustomers();
+    List<CustomerCreateDto> getCustomers();
 
-    CustomerGetDto getCustomer(Long customerId) throws CustomerNotFoundException;
+    CustomerCreateDto getCustomer(Long customerId) throws CustomerNotFoundException;
 
     CustomerAddDto createCustomer(CostumerCreateDto customerCreateDto) throws CustomerAlreadyExistsException;
 

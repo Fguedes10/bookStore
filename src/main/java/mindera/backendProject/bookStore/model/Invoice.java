@@ -18,13 +18,13 @@ public class Invoice {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "client_id", nullable = false)
-    private Client client;
+//    @ManyToOne
+//    @JoinColumn(name = "client_id", nullable = false)
+//    private Client client;
 
     @ManyToOne
     @JoinColumn(name = "order_id", nullable = false)
-    private Order order;
+    private Request request;
 
     @Column(nullable = false)
     private LocalDateTime issueDate;
@@ -32,5 +32,5 @@ public class Invoice {
     @Column(nullable = false)
     private Double totalAmount;
 
-    //Misssing VAT identification number
+    //Missing VAT identification number
 }

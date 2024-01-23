@@ -19,8 +19,8 @@ public class Payment {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "order_id", nullable = false, unique = true)
-    private Order order;
+    @JoinColumn(name = "request_id", nullable = false, unique = true)
+    private Request request;
 
     @Column(nullable = false)
     private LocalDateTime paymentDate;

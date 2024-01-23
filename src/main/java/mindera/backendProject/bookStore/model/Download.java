@@ -19,8 +19,8 @@ public class Download {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "order_id", nullable = false)
-    private Order order;
+    @JoinColumn(name = "request_id", nullable = false)
+    private Request request;
 
     @Column(nullable = false)
     private LocalDateTime downloadDate;

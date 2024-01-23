@@ -13,19 +13,20 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Order {
+public class Request {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "client_id", nullable = false)
-    private Client client;
+//    @ManyToOne
+//    @JoinColumn(name = "client_id", nullable = false)
+//    private Client client;
 
-    @OneToMany
+    @OneToMany(mappedBy = "request", cascade = CascadeType.ALL)
     private List<Download> downloads;
+
     @Column(nullable = false)
-    private LocalDateTime orderDate;
+    private LocalDateTime requestDate;
 
     //Missing order status and download link??
 

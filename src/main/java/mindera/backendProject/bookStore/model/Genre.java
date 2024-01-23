@@ -21,7 +21,6 @@ public class Genre {
     @Column(unique=true)
     private String name;
 
-    @ManyToMany(mappedBy = "bookGenres")
     private Book book;
 
 

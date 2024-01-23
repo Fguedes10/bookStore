@@ -42,7 +42,6 @@ public class GenreController {
         return new ResponseEntity<>(genreService.getGenreByName(genreName), HttpStatus.OK);
     }
 
-
     @PostMapping("/")
     public ResponseEntity<GenreCreateDto> add(@RequestBody GenreCreateDto genre) throws GenreAlreadyExistsException {
         GenreCreateDto genreDto = genreService.add(genre);

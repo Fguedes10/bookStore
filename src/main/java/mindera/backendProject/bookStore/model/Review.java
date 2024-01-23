@@ -27,8 +27,6 @@ public class Review {
 
     private LocalDate commentDate;
 
-    @ManyToOne
-    @JoinColumn(name = "book_id")
     private Book book;
 
 

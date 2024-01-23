@@ -1,4 +1,4 @@
 package mindera.backendProject.bookStore.converter;
 
-public class RatingConverter {
+public record RatingConverter() {
 }

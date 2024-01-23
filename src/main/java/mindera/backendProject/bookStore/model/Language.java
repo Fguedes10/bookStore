@@ -23,6 +23,7 @@ public class Language {
     @Column(unique=true)
     private String name;
 
-    @OneToMany(mappedBy = "language")
     private Book book;
+
+
 }

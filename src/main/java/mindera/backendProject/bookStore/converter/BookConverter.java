@@ -12,17 +12,17 @@ public class BookConverter {
                 .isbn(bookCreateDto.isbn())
                 .author(author)
                 .publisher(bookCreateDto.publisher())
-                .genre(genre)
+                //.genre(genre)
                 .language(language)
                 .translation(translation)
-                .review(review)
+               // .review(review)
                 .edition(bookCreateDto.edition())
                 .releaseDate(bookCreateDto.releaseDate())
                 .price(bookCreateDto.price())
                 .build();
     }
 
-    public static BookCreateDto fromModelToBookCreateDto(Book book) {
+    /*public static BookCreateDto fromModelToBookCreateDto(Book book) {
         return new BookCreateDto(
                 book.getTitle(),
                 book.getIsbn(),
@@ -36,7 +36,7 @@ public class BookConverter {
                 book.getReleaseDate(),
                 book.getPrice()
         );
-    }
+    }*/
 
 
     public static BookUpdateEditionDto fromModelToBookUpdateEditionDto (Book book) {

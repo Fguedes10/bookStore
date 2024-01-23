@@ -41,4 +41,9 @@ public class BookServiceImpl implements BookService{
     public void updatePrice(Long id, BookUpdatePriceDto book) {
 
     }
+
+    @Override
+    public BookCreateDto getBookByTittle(String bookTittle) {
+        return null;
+    }
 }

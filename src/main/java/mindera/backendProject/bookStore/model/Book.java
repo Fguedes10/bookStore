@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Set;
 
 @Builder
 @AllArgsConstructor
@@ -24,25 +26,14 @@ public class Book {
     @Column(unique=true)
     private String isbn;
 
-    @ManyToOne
-    @JoinColumn(name = "author_id")
     private Author author;
 
     private String publisher;
 
-    @ManyToMany
-    @JoinTable(
-            name= "books_genres",
-            joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "genre_id"))
     private Genre genre;
 
-
-    @ManyToOne
-    @JoinColumn(name = "language_id")
     private Language language;
 
-    @OneToMany(mappedBy = "book")
     private Review review;
 
     private int edition;
@@ -50,6 +41,7 @@ public class Book {
     private LocalDate releaseDate;
 
     private double price;
+
     private Translation translation;
 
 

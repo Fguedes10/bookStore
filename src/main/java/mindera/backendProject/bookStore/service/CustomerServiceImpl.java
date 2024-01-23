@@ -1,8 +1,8 @@
 package mindera.backendProject.bookStore.service;
 
 import mindera.backendProject.bookStore.converter.CustomerConverter;
-import mindera.backendProject.bookStore.dtos.customer.CustomerCreateDto;
-import mindera.backendProject.bookStore.dtos.customer.CustomerPatchDto;
+import mindera.backendProject.bookStore.dto.customer.CustomerCreateDto;
+import mindera.backendProject.bookStore.dto.customer.CustomerPatchDto;
 import mindera.backendProject.bookStore.exception.CustomerAlreadyExistsException;
 import mindera.backendProject.bookStore.exception.CustomerNotFoundException;
 import mindera.backendProject.bookStore.exception.CustomerWithEmailAlreadyExists;
@@ -47,7 +47,7 @@ public class CustomerServiceImpl implements CustomerService{
         Customer customerToSave = CustomerConverter.fromCustomerCreateDtoToEntity(customerCreateDto);
         return customerCreateDto;
     }
-
+    @Override
     public CustomerPatchDto updateCustomer(Long customerId, CustomerPatchDto customerPatchDto) throws CustomerNotFoundException, CustomerWithEmailAlreadyExists {
         Optional<Customer> customerOptional = customerRepository.findById(customerId);
         if (customerOptional.isEmpty()){

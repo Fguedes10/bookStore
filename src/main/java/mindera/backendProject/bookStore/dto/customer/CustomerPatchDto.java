@@ -1,6 +1,5 @@
-package mindera.backendProject.bookStore.dtos.customer;
+package mindera.backendProject.bookStore.dto.customer;
 
-import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Size;
 
 public record CustomerPatchDto(

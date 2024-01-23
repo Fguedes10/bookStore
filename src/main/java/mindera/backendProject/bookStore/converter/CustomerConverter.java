@@ -1,8 +1,8 @@
 package mindera.backendProject.bookStore.converter;
 
-import mindera.backendProject.bookStore.dtos.customer.CustomerCreateDto;
-import mindera.backendProject.bookStore.dtos.customer.CustomerGetDto;
-import mindera.backendProject.bookStore.dtos.customer.CustomerPatchDto;
+import mindera.backendProject.bookStore.dto.customer.CustomerCreateDto;
+import mindera.backendProject.bookStore.dto.customer.CustomerGetDto;
+import mindera.backendProject.bookStore.dto.customer.CustomerPatchDto;
 import mindera.backendProject.bookStore.model.Customer;
 
 public class CustomerConverter {

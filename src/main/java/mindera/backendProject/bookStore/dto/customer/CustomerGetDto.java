@@ -1,4 +1,4 @@
-package mindera.backendProject.bookStore.dtos.customer;
+package mindera.backendProject.bookStore.dto.customer;
 
 public record CustomerGetDto(
 

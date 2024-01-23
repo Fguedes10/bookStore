@@ -1,7 +1,6 @@
 package mindera.backendProject.bookStore.repository;
 
-import mindera.backendProject.bookStore.dtos.customer.CustomerCreateDto;
-import mindera.backendProject.bookStore.dtos.customer.CustomerPatchDto;
+import mindera.backendProject.bookStore.dto.customer.CustomerCreateDto;
 import mindera.backendProject.bookStore.model.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

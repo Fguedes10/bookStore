@@ -1,6 +1,11 @@
 package mindera.backendProject.bookStore.service;
 
 import mindera.backendProject.bookStore.dtos.customer.CustomerCreateDto;
+import mindera.backendProject.bookStore.dtos.customer.CustomerPatchDto;
+import mindera.backendProject.bookStore.exception.CustomerAlreadyExistsException;
+import mindera.backendProject.bookStore.exception.CustomerNotFoundException;
+import mindera.backendProject.bookStore.exception.CustomerWithEmailAlreadyExists;
+import mindera.backendProject.bookStore.model.Customer;
 
 import java.util.List;
 
@@ -10,10 +15,12 @@ public interface CustomerService {
 
     CustomerCreateDto getCustomer(Long customerId) throws CustomerNotFoundException;
 
-    CustomerAddDto createCustomer(CostumerCreateDto customerCreateDto) throws CustomerAlreadyExistsException;
+    CustomerCreateDto createCustomer(CustomerCreateDto customerCreateDto) throws CustomerAlreadyExistsException;
 
-    CustomerPutDto putCustomer(Long customerId, Customer customer);
+    CustomerPatchDto updateCustomer(Long customerId, CustomerPatchDto customerPatchDto) throws CustomerNotFoundException, CustomerWithEmailAlreadyExists;
 
-    void deleteCustomer(Long customerId, Customer customer) throws CustomerNotFoundException;
+   // CustomerPutDto putCustomer(Long customerId, Customer customer);
+
+    void deleteCustomer(Long customerId) throws CustomerNotFoundException;
 
 }

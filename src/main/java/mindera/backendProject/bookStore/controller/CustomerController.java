@@ -1,7 +1,12 @@
 package mindera.backendProject.bookStore.controller;
 
-import io.swagger.models.Response;
+import jakarta.validation.Valid;
 import mindera.backendProject.bookStore.dtos.customer.CustomerCreateDto;
+import mindera.backendProject.bookStore.dtos.customer.CustomerPatchDto;
+import mindera.backendProject.bookStore.exception.CustomerAlreadyExistsException;
+import mindera.backendProject.bookStore.exception.CustomerNotFoundException;
+import mindera.backendProject.bookStore.exception.CustomerWithEmailAlreadyExists;
+import mindera.backendProject.bookStore.model.Customer;
 import mindera.backendProject.bookStore.service.CustomerServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,23 +27,36 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-
     @GetMapping("/")
-    public ResponseEntity<List<CustomerCreateDto>> getCustomers(){
+    public ResponseEntity<List<CustomerCreateDto>> getCustomers() {
         return new ResponseEntity<>(customerService.getCustomers(), HttpStatus.OK);
     }
 
-
     @GetMapping("/{customerId}")
-    public ResponseEntity<CustomerCreateDto> getCustomer(@PathVariable("customerId") Long customerId){
+    public ResponseEntity<CustomerCreateDto> getCustomer(@PathVariable("customerId") Long customerId) throws CustomerNotFoundException {
         return new ResponseEntity<>(customerService.getCustomer(customerId), HttpStatus.OK);
     }
 
     @PostMapping("/")
-    public ResponseEntity<CustomerGetDto> addNewCustomer(@RequestBody CostumerGetDto client,
-                                                         BindingResult bindingResult){
-        return ResponseEntity<>(customerService.createCustomer(client), HttpStatus.CREATED);
+    public ResponseEntity<CustomerCreateDto> addNewCustomer(@Valid @RequestBody CustomerCreateDto client,
+                                                            BindingResult bindingResult) throws CustomerAlreadyExistsException {
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(customerService.createCustomer(client), HttpStatus.CREATED);
     }
 
+    @PatchMapping("/{customerId}")
+    public ResponseEntity<CustomerPatchDto> updateCustomer(@PathVariable ("customerId") Long customerId, @Valid @RequestBody CustomerPatchDto customerPatchDto, BindingResult bindingResult) throws CustomerNotFoundException, CustomerWithEmailAlreadyExists {
+        if(bindingResult.hasErrors()){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(customerService.updateCustomer(customerId, customerPatchDto), HttpStatus.OK);
+    }
 
+    @DeleteMapping("/{customerId}")
+    public ResponseEntity<Customer> deleteCustomerById(@PathVariable ("customerId") Long customerId) throws CustomerNotFoundException {
+        customerService.deleteCustomer(customerId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

@@ -34,9 +34,9 @@ public class Customer {
 
     private String favoriteGenre;
 
-    private List<Book> favoriteBooks;
+    //private List<Book> favoriteBooks;
 
-    private List<Book> purchasedBooks;
+    //private List<Book> purchasedBooks;
 
 
 

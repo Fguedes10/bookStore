@@ -10,12 +10,12 @@ public record BookCreateDto(
 
     String title,
     String isbn,
-    Long author,
+    Long authorId,
     String publisher,
-    Long genre,
-    Long language,
-    Long translation,
-    Long review,
+    Long genreId,
+    Long languageId,
+    Long translationId,
+    Long reviewId,
     int edition,
     LocalDate releaseDate,
     double price

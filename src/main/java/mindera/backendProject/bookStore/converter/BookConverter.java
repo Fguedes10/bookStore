@@ -27,10 +27,10 @@ public class BookConverter {
                 book.getIsbn(),
                 book.getAuthor().getId(),
                 book.getPublisher(),
-                book.getGenre().getId(),
+                book.getGenres().getFirst().getId(),
                 book.getLanguage().getId(),
-                book.getTranslation().getId(),
-                book.getReview().getId(),
+                book.getTranslations().getFirst().getId(),
+                book.getReview().getFirst().getId(),
                 book.getEdition(),
                 book.getReleaseDate(),
                 book.getPrice()

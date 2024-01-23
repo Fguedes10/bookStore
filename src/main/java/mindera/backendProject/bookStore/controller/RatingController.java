@@ -22,7 +22,7 @@ public class RatingController {
     }
 
 
-    @GetMapping("/{ratingId")
+    @GetMapping("/{ratingId}")
     public ResponseEntity<RatingCreateDto> getRating(@PathVariable("ratingId") Long ratingId) throws RatingNotFoundException {
         return new ResponseEntity<>(ratingService.getRating(ratingId), HttpStatus.OK);
     }

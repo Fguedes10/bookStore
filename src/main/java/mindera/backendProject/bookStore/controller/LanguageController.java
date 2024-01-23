@@ -32,7 +32,7 @@ public class LanguageController {
     }
 
 
-    @GetMapping("/{languageId")
+    @GetMapping("/{languageId}")
     public ResponseEntity<LanguageCreateDto> getLanguage(@PathVariable("languageId") Long languageId) throws LanguageNotFoundException{
         return new ResponseEntity<>(languageService.getLanguage(languageId), HttpStatus.OK);
     }
@@ -50,7 +50,7 @@ public class LanguageController {
     }
 
 
-    @DeleteMapping("/{id")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable @Parameter(name= "id", description = "Language id", example = "1") Long id) throws LanguageNotFoundException {
         languageService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);

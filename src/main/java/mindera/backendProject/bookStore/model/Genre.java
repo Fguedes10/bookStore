@@ -21,8 +21,8 @@ public class Genre {
     @Column(unique=true)
     private String name;
 
-    @ManyToMany(mappedBy = "bookGenres")
-    List<Book> genres;
+    @ManyToMany(mappedBy = "genres")
+    private List<Book> books;
 
 
 

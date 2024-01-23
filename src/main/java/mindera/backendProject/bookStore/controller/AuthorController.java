@@ -30,7 +30,7 @@ public class AuthorController {
     }
 
 
-    @GetMapping("/{authorId")
+    @GetMapping("/{authorId}")
     public ResponseEntity<AuthorCreateDto> getAuthor(@PathVariable("authorId") Long authorId) throws AuthorNotFoundException{
         return new ResponseEntity<>(authorService.getAuthor(authorId), HttpStatus.OK);
     }
@@ -47,7 +47,7 @@ public class AuthorController {
     }
 
 
-    @DeleteMapping("/{id")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable @Parameter(name= "id", description = "Author id", example = "1") Long id) throws AuthorNotFoundException {
         authorService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);

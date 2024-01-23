@@ -10,7 +10,8 @@ import java.util.Optional;
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
     Optional<Customer> findByEmail(CustomerCreateDto customerCreateDto);
-    Optional<Customer> patchFindByEmail(String email);
+
+    //Optional<Customer> patchFindByEmail(String email);
 
     Optional<Customer> findByNif(CustomerCreateDto customerCreateDto);
 

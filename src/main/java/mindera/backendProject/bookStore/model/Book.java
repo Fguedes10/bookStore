@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Set;
 
 @Builder
 @AllArgsConstructor
@@ -35,7 +37,7 @@ public class Book {
             name= "books_genres",
             joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id"))
-    private Genre genre;
+    private List<Genre> genres;
 
 
     @ManyToOne
@@ -43,16 +45,15 @@ public class Book {
     private Language language;
 
     @OneToMany(mappedBy = "book")
-    private Review review;
+    private List<Review> review;
 
     private int edition;
 
     private LocalDate releaseDate;
 
     private double price;
-    private Translation translation;
 
-
-
+    @OneToMany(mappedBy = "book")
+    private List<Translation> translations;
 
 }

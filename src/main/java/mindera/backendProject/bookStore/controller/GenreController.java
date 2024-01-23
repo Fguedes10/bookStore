@@ -32,7 +32,7 @@ public class GenreController {
     }
 
 
-    @GetMapping("/{genreId")
+    @GetMapping("/{genreId}")
     public ResponseEntity<GenreCreateDto> getGenre(@PathVariable("genreId") Long genreId) throws GenreNotFoundException{
         return new ResponseEntity<>(genreService.getGenre(genreId), HttpStatus.OK);
     }
@@ -49,7 +49,7 @@ public class GenreController {
         return new ResponseEntity<>(genreDto, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{id")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable @Parameter(name= "id", description = "Genre id", example = "1") Long id) throws GenreNotFoundException {
         genreService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);

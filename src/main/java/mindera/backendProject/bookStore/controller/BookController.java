@@ -34,7 +34,7 @@ public class BookController {
     }
 
 
-    @GetMapping("/{bookId")
+    @GetMapping("/{bookId}")
     public ResponseEntity<BookCreateDto> getBook(@PathVariable("bookId") Long bookId){
         return new ResponseEntity<>(bookService.getBook(bookId), HttpStatus.OK);
     }
@@ -62,7 +62,7 @@ public class BookController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable @Parameter(name= "id", description = "Book id", example = "1") Long id) throws BookNotFoundException {
         bookService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);

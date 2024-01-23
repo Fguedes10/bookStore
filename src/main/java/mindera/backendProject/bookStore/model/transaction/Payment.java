@@ -1,17 +1,15 @@
-package mindera.backendProject.bookStore.model;
+package mindera.backendProject.bookStore.model.transaction;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
-@Getter
-@Setter
+@Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table
 public class Payment {
 
     @Id
@@ -19,8 +17,8 @@ public class Payment {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "request_id", nullable = false, unique = true)
-    private Request request;
+    @JoinColumn(name = "bookorder_id", nullable = false, unique = true)
+    private BookOrder bookOrder;
 
     @Column(nullable = false)
     private LocalDateTime paymentDate;

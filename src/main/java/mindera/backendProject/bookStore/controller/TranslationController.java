@@ -29,7 +29,7 @@ public class TranslationController {
     }
 
 
-    @GetMapping("/{translationId")
+    @GetMapping("/{translationId}")
     public ResponseEntity<TranslationCreateDto> getTranslation(@PathVariable("translationId") Long translationId) throws TranslationNotFoundException {
         return new ResponseEntity<>(translationService.getTranslation(translationId), HttpStatus.OK);
     }
@@ -47,7 +47,7 @@ public class TranslationController {
     }
 
 
-    @DeleteMapping("/{id")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable @Parameter(name= "id", description = "Translation id", example = "1") Long id) throws TranslationNotFoundException {
         translationService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);

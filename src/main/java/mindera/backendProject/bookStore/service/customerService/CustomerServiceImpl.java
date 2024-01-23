@@ -8,10 +8,11 @@ import mindera.backendProject.bookStore.exception.CustomerNotFoundException;
 import mindera.backendProject.bookStore.exception.CustomerWithEmailAlreadyExists;
 import mindera.backendProject.bookStore.model.Customer;
 import mindera.backendProject.bookStore.repository.customerRepository.CustomerRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
+@Service
 public class CustomerServiceImpl implements CustomerService{
 
     private final CustomerRepository customerRepository;
@@ -60,13 +61,13 @@ public class CustomerServiceImpl implements CustomerService{
         if(customerPatchDto.lastName() != null && !customerPatchDto.lastName().isEmpty() && !customerPatchDto.lastName().equals(customerToPatch.getLastName())){
             customerToPatch.setLastName(customerPatchDto.lastName());
         }
-        if(customerPatchDto.email() != null && !customerPatchDto.email().isEmpty() && !customerPatchDto.email().equals(customerToPatch.getEmail())){
-            Optional<Customer> customerFindByEmail = customerRepository.patchFindByEmail(customerPatchDto.email());
-            if(customerFindByEmail.isPresent()){
-                throw new CustomerWithEmailAlreadyExists("A customer with this email already exists");
-            }
-            customerToPatch.setEmail(customerPatchDto.email());
-        }
+//        if(customerPatchDto.email() != null && !customerPatchDto.email().isEmpty() && !customerPatchDto.email().equals(customerToPatch.getEmail())){
+//            Optional<Customer> customerFindByEmail = customerRepository.patchFindByEmail(customerPatchDto.email());
+//            if(customerFindByEmail.isPresent()){
+//                throw new CustomerWithEmailAlreadyExists("A customer with this email already exists");
+//            }
+//            customerToPatch.setEmail(customerPatchDto.email());
+//        }
         Customer customerToSave = customerRepository.save(customerToPatch);
         return CustomerConverter.fromEntityToCustomerPatchDto(customerToSave);
 

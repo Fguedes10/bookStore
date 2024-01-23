@@ -1,28 +1,27 @@
-package mindera.backendProject.bookStore.model;
+package mindera.backendProject.bookStore.model.transaction;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import mindera.backendProject.bookStore.model.Customer;
 
 import java.time.LocalDateTime;
 import java.util.List;
-@Getter
-@Setter
+@Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Request {
+@Table
+public class BookOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @ManyToOne
-//    @JoinColumn(name = "client_id", nullable = false)
-//    private Client client;
+    @ManyToOne
+    @JoinColumn(name = "customer_id", nullable = false)
+    private Customer customer;
 
-    @OneToMany(mappedBy = "request", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "bookOrder")
     private List<Download> downloads;
 
     @Column(nullable = false)

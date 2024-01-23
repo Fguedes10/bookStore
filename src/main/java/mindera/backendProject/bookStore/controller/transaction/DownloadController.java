@@ -1,9 +1,9 @@
-package mindera.backendProject.bookStore.controller;
+package mindera.backendProject.bookStore.controller.transaction;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/Payment")
-public class PaymentController {
+@RequestMapping("/api/v1/Download")
+public class DownloadController {
 }

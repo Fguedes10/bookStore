@@ -28,4 +28,9 @@ public class AuthorServiceImpl implements AuthorService{
     public void delete(Long id) {
 
     }
+
+    @Override
+    public AuthorCreateDto getAuthorByName(String authorName) {
+        return null;
+    }
 }

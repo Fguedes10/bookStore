@@ -29,7 +29,7 @@ public class ReviewController {
     }
 
 
-    @GetMapping("/{reviewId")
+    @GetMapping("/{reviewId}")
     public ResponseEntity<ReviewCreateDto> getReview(@PathVariable("reviewId") Long reviewId) throws ReviewNotFoundException{
         return new ResponseEntity<>(reviewService.getReview(reviewId), HttpStatus.OK);
     }
@@ -42,7 +42,7 @@ public class ReviewController {
     }
 
 
-    @DeleteMapping("/{id")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable @Parameter(name= "id", description = "Review id", example = "1") Long id) throws ReviewNotFoundException {
         reviewService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);

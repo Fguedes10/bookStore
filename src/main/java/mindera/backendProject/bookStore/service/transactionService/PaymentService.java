@@ -1,4 +1,4 @@
-package mindera.backendProject.bookStore.service;
+package mindera.backendProject.bookStore.service.transactionService;
 
 import org.springframework.stereotype.Service;
 

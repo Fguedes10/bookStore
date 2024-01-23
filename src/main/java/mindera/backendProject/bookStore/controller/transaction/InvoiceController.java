@@ -1,4 +1,4 @@
-package mindera.backendProject.bookStore.controller;
+package mindera.backendProject.bookStore.controller.transaction;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

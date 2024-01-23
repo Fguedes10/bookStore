@@ -1,30 +1,29 @@
-package mindera.backendProject.bookStore.model;
+package mindera.backendProject.bookStore.model.transaction;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import mindera.backendProject.bookStore.model.Customer;
 
 import java.time.LocalDateTime;
-@Getter
-@Setter
+@Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table
 public class Invoice {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @ManyToOne
-//    @JoinColumn(name = "client_id", nullable = false)
-//    private Client client;
+    @ManyToOne
+    @JoinColumn(name = "customer_id", nullable = false)
+    private Customer customer;
 
     @ManyToOne
-    @JoinColumn(name = "order_id", nullable = false)
-    private Request request;
+    @JoinColumn(name = "bookorder_id", nullable = false)
+    private BookOrder bookOrder;
 
     @Column(nullable = false)
     private LocalDateTime issueDate;

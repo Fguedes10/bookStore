@@ -1,4 +1,4 @@
-package mindera.backendProject.bookStore.dtos.books;
+package mindera.backendProject.bookStore.dto.book;
 
 import jakarta.persistence.*;
 import mindera.backendProject.bookStore.model.*;

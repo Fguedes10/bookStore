@@ -7,7 +7,7 @@ import mindera.backendProject.bookStore.exception.CustomerAlreadyExistsException
 import mindera.backendProject.bookStore.exception.CustomerNotFoundException;
 import mindera.backendProject.bookStore.exception.CustomerWithEmailAlreadyExists;
 import mindera.backendProject.bookStore.model.Customer;
-import mindera.backendProject.bookStore.service.CustomerServiceImpl;
+import mindera.backendProject.bookStore.service.customerService.CustomerServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;

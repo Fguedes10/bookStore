@@ -1,4 +1,4 @@
-package mindera.backendProject.bookStore.service;
+package mindera.backendProject.bookStore.service.customerService;
 
 import mindera.backendProject.bookStore.dto.customer.CustomerCreateDto;
 import mindera.backendProject.bookStore.dto.customer.CustomerPatchDto;

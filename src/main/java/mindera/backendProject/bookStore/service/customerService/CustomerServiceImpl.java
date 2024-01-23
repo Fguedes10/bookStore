@@ -1,4 +1,4 @@
-package mindera.backendProject.bookStore.service;
+package mindera.backendProject.bookStore.service.customerService;
 
 import mindera.backendProject.bookStore.converter.CustomerConverter;
 import mindera.backendProject.bookStore.dto.customer.CustomerCreateDto;
@@ -7,7 +7,7 @@ import mindera.backendProject.bookStore.exception.CustomerAlreadyExistsException
 import mindera.backendProject.bookStore.exception.CustomerNotFoundException;
 import mindera.backendProject.bookStore.exception.CustomerWithEmailAlreadyExists;
 import mindera.backendProject.bookStore.model.Customer;
-import mindera.backendProject.bookStore.repository.CustomerRepository;
+import mindera.backendProject.bookStore.repository.customerRepository.CustomerRepository;
 
 import java.util.List;
 import java.util.Optional;

@@ -2,9 +2,9 @@ package mindera.backendProject.bookStore.controller;
 
 import io.swagger.v3.oas.annotations.Parameter;
 
-import mindera.backendProject.bookStore.dtos.books.BookCreateDto;
-import mindera.backendProject.bookStore.dtos.books.BookUpdateEditionDto;
-import mindera.backendProject.bookStore.dtos.books.BookUpdatePriceDto;
+import mindera.backendProject.bookStore.dto.book.BookCreateDto;
+import mindera.backendProject.bookStore.dto.book.BookUpdateEditionDto;
+import mindera.backendProject.bookStore.dto.book.BookUpdatePriceDto;
 
 import mindera.backendProject.bookStore.exception.BookAlreadyExistsException;
 import mindera.backendProject.bookStore.exception.BookNotFoundException;

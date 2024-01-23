@@ -1,7 +1,7 @@
 package mindera.backendProject.bookStore.controller;
 
 
-import mindera.backendProject.bookStore.dtos.books.RatingCreateDto;
+import mindera.backendProject.bookStore.dto.book.RatingCreateDto;
 
 import mindera.backendProject.bookStore.exception.RatingNotFoundException;
 import mindera.backendProject.bookStore.service.bookService.RatingService;

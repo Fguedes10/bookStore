@@ -1,6 +1,6 @@
 package mindera.backendProject.bookStore.service.bookService;
 
-import mindera.backendProject.bookStore.dtos.books.AuthorCreateDto;
+import mindera.backendProject.bookStore.dto.book.AuthorCreateDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

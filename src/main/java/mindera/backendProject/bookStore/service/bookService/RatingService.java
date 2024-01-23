@@ -1,7 +1,6 @@
 package mindera.backendProject.bookStore.service.bookService;
 
-import mindera.backendProject.bookStore.dtos.books.AuthorCreateDto;
-import mindera.backendProject.bookStore.dtos.books.RatingCreateDto;
+import mindera.backendProject.bookStore.dto.book.RatingCreateDto;
 
 public interface RatingService {
 

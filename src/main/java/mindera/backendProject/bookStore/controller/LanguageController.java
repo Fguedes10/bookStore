@@ -2,7 +2,7 @@ package mindera.backendProject.bookStore.controller;
 
 import io.swagger.v3.oas.annotations.Parameter;
 
-import mindera.backendProject.bookStore.dtos.books.LanguageCreateDto;
+import mindera.backendProject.bookStore.dto.book.LanguageCreateDto;
 
 import mindera.backendProject.bookStore.exception.LanguageAlreadyExistsException;
 import mindera.backendProject.bookStore.exception.LanguageNotFoundException;

@@ -1,4 +1,4 @@
-package mindera.backendProject.bookStore.repository;
+package mindera.backendProject.bookStore.repository.customerRepository;
 
 import mindera.backendProject.bookStore.dto.customer.CustomerCreateDto;
 import mindera.backendProject.bookStore.model.Customer;

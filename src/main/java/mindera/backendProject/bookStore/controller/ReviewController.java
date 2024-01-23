@@ -1,7 +1,7 @@
 package mindera.backendProject.bookStore.controller;
 
 import io.swagger.v3.oas.annotations.Parameter;
-import mindera.backendProject.bookStore.dtos.books.ReviewCreateDto;
+import mindera.backendProject.bookStore.dto.book.ReviewCreateDto;
 import mindera.backendProject.bookStore.exception.ReviewNotFoundException;
 import mindera.backendProject.bookStore.service.bookService.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;

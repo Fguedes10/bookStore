@@ -1,6 +1,6 @@
 package mindera.backendProject.bookStore.service.bookService;
 
-import mindera.backendProject.bookStore.dtos.books.LanguageCreateDto;
+import mindera.backendProject.bookStore.dto.book.LanguageCreateDto;
 
 import java.util.List;
 

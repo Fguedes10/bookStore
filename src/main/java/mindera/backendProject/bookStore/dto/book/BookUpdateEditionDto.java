@@ -1,4 +1,4 @@
-package mindera.backendProject.bookStore.dtos.books;
+package mindera.backendProject.bookStore.dto.book;
 
 public record BookUpdateEditionDto (
         int edition

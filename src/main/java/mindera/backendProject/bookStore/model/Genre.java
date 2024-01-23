@@ -22,7 +22,7 @@ public class Genre {
     private String name;
 
     @ManyToMany(mappedBy = "bookGenres")
-    List<Book> genres;
+    private Book book;
 
 
 

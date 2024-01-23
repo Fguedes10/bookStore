@@ -1,20 +1,21 @@
 package mindera.backendProject.bookStore.converter;
-
 import mindera.backendProject.bookStore.dto.book.BookCreateDto;
-import mindera.backendProject.bookStore.model.Book;
+import mindera.backendProject.bookStore.dto.book.BookUpdateEditionDto;
+import mindera.backendProject.bookStore.dto.book.BookUpdatePriceDto;
+import mindera.backendProject.bookStore.model.*;
 
 public class BookConverter {
 
-    public static Book fromCreateDtoToModel(BookCreateDto bookCreateDto){
+    public static Book fromCreateDtoToModel(BookCreateDto bookCreateDto, Author author, Genre genre, Language language, Translation translation, Review review){
         return Book.builder()
                 .title(bookCreateDto.title())
                 .isbn(bookCreateDto.isbn())
-               // .author(bookCreateDto.author())
+                .author(author)
                 .publisher(bookCreateDto.publisher())
-                //.genre(bookCreateDto.genre())
-                //.language(bookCreateDto.language())
-                //.translation(bookCreateDto.translation())
-                //.review((bookCreateDto.review()))
+                .genre(genre)
+                .language(language)
+                .translation(translation)
+                .review(review)
                 .edition(bookCreateDto.edition())
                 .releaseDate(bookCreateDto.releaseDate())
                 .price(bookCreateDto.price())
@@ -37,5 +38,30 @@ public class BookConverter {
         );
     }
 
+
+    public static BookUpdateEditionDto fromModelToBookUpdateEditionDto (Book book) {
+        return new BookUpdateEditionDto(
+                book.getEdition()
+        );
+    }
+
+    public static Book fromUpdateEditionDtoToModel (BookUpdateEditionDto bookUpdateEditionDto){
+        return Book.builder()
+                .edition(bookUpdateEditionDto.edition())
+                .build();
+    }
+
+
+    public static BookUpdatePriceDto fromModelToBookUpdatePriceDto (Book book) {
+        return new BookUpdatePriceDto(
+                book.getPrice()
+        );
+    }
+
+    public static Book fromUpdatePriceDtoToModel (BookUpdatePriceDto bookUpdatePriceDto){
+        return Book.builder()
+                .price(bookUpdatePriceDto.price())
+                .build();
+    }
 
 }

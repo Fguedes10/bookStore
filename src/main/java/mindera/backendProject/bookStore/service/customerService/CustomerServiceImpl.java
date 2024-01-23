@@ -35,6 +35,13 @@ public class CustomerServiceImpl implements CustomerService{
         }
         return CustomerConverter.fromEntitytoCustomerCreateDto(customerOptional.get());
     }
+    public CustomerCreateDto getCustomerByUsername(String username) throws CustomerNotFoundException {
+        Optional<Customer> customerOptional = customerRepository.findByUsername(username);
+        if(customerOptional.isEmpty()){
+            throw new CustomerNotFoundException("Customer with username " + username + " doesn't exists");
+        }
+        return CustomerConverter.fromEntitytoCustomerCreateDto(customerOptional.get());
+    }
 
     @Override
     public CustomerCreateDto createCustomer(CustomerCreateDto customerCreateDto) throws CustomerAlreadyExistsException {

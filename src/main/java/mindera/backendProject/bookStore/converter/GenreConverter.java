@@ -1,5 +1,5 @@
 package mindera.backendProject.bookStore.converter;
-import mindera.backendProject.bookStore.dtos.books.GenreCreateDto;
+import mindera.backendProject.bookStore.dto.book.GenreCreateDto;
 import mindera.backendProject.bookStore.model.Genre;
 
 public class GenreConverter {

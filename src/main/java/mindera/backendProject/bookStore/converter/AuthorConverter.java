@@ -1,6 +1,6 @@
 package mindera.backendProject.bookStore.converter;
 
-import mindera.backendProject.bookStore.dtos.books.AuthorCreateDto;
+import mindera.backendProject.bookStore.dto.book.AuthorCreateDto;
 import mindera.backendProject.bookStore.model.Author;
 import mindera.backendProject.bookStore.model.Book;
 

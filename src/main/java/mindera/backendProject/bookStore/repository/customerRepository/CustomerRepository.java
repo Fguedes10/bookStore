@@ -14,5 +14,5 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
     Optional<Customer> findByNif(CustomerCreateDto customerCreateDto);
 
-    Optional<Customer> findByUsername(CustomerCreateDto customerCreateDto);
+    Optional<Customer> findByUsername(String username);
 }

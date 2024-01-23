@@ -1,13 +1,15 @@
 package mindera.backendProject.bookStore.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+
 
 import java.util.List;
 
-@Getter
-@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 @Entity
 @Table
 public class Genre {
@@ -16,14 +18,12 @@ public class Genre {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique=true)
     private String name;
 
-    @OneToMany(mappedBy = "genre")
-    private List<Book> books;
+    @ManyToMany(mappedBy = "bookGenres")
+    List<Book> genres;
 
-    public Genre(){
-
-    }
 
 
 }

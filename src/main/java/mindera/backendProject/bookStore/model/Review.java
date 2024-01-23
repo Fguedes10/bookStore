@@ -1,14 +1,15 @@
 package mindera.backendProject.bookStore.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 
 
-@Getter
-@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 @Entity
 @Table
 public class Review {
@@ -31,8 +32,6 @@ public class Review {
     private Book book;
 
 
-    public Review() {
-    }
 
 
 }

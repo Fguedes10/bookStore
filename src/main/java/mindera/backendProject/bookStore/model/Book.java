@@ -2,16 +2,14 @@ package mindera.backendProject.bookStore.model;
 
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import net.bytebuddy.asm.Advice;
+import lombok.*;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Objects;
 
-@Setter
-@Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 @Entity
 @Table
 public class Book {
@@ -32,29 +30,29 @@ public class Book {
 
     private String publisher;
 
-    @ManyToOne
-    @JoinColumn(name = "genre_id")
+    @ManyToMany
+    @JoinTable(
+            name= "books_genres",
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "genre_id"))
     private Genre genre;
+
 
     @ManyToOne
     @JoinColumn(name = "language_id")
     private Language language;
 
     @OneToMany(mappedBy = "book")
-    private List<Review> reviews;
+    private Review review;
 
     private int edition;
 
     private LocalDate releaseDate;
 
     private double price;
+    private Translation translation;
 
 
-
-
-    public Book(){
-
-    }
 
 
 }

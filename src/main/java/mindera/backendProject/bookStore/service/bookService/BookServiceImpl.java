@@ -43,7 +43,7 @@ public class BookServiceImpl implements BookService{
 
     @Override
     public void delete(Long bookId) throws BookNotFoundException {
-        bookRepository.findById(bookId).orElseThrow(() -> new BookNotFoundException("Book with id" + bookId + "does not exists"));
+        bookRepository.findById(bookId).orElseThrow(() -> new BookNotFoundException("Book with id" + bookId + "does not exist"));
         bookRepository.deleteById(bookId);
     }
 
@@ -51,27 +51,27 @@ public class BookServiceImpl implements BookService{
     public BookCreateDto getBook(Long bookId) throws BookNotFoundException {
         Optional<Book> bookOptional = bookRepository.findById(bookId);
         if(bookOptional.isEmpty()){
-            throw new BookNotFoundException("Book with id" + bookId + "does not exists");
+            throw new BookNotFoundException("Book with id" + bookId + "does not exist");
         }
         return BookConverter.fromModelToBookCreateDto(bookOptional.get());
     }
 
     @Override
     public void updateEdition(Long bookId, BookUpdateEditionDto book) throws BookNotFoundException {
-        Book updatedBook = bookRepository.findById(bookId).orElseThrow(() -> new BookNotFoundException("Book with id" + bookId + "does not exists"));
+        Book updatedBook = bookRepository.findById(bookId).orElseThrow(() -> new BookNotFoundException("Book with id" + bookId + "does not exist"));
         updatedBook.setEdition(book.edition());
         bookRepository.save(updatedBook);
     }
 
     @Override
     public void updatePrice(Long bookId, BookUpdatePriceDto book) throws BookNotFoundException {
-        Book updatedBook = bookRepository.findById(bookId).orElseThrow(() -> new BookNotFoundException("Book with id" + bookId + "does not exists"));
+        Book updatedBook = bookRepository.findById(bookId).orElseThrow(() -> new BookNotFoundException("Book with id" + bookId + "does not exist"));
         updatedBook.setPrice(book.price());
         bookRepository.save(updatedBook);
     }
 
     @Override
     public BookCreateDto getBookByTittle(String bookTittle) throws BookNotFoundException {
-        return (BookCreateDto) bookRepository.findByTittle(bookTittle).orElseThrow(() -> new BookNotFoundException("Book with tittle" + bookTittle + "does not exists"));
+        return (BookCreateDto) bookRepository.findByTittle(bookTittle).orElseThrow(() -> new BookNotFoundException("Book with tittle" + bookTittle + "does not exist"));
     }
 }

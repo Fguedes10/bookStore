@@ -5,21 +5,29 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
+import static mindera.backendProject.bookStore.util.Messages.*;
+
 public record CustomerCreateDto(
 
-        @NotBlank(message = "Please input First Name")
-        @Size(max = 15, message = "You exceed the max number of characters")
+        @NotBlank(message = INVALID_USERNAME)
+        @Size(max = 10, message = MAX_CHAR_SIZE)
+        @Pattern(regexp = "[a-zA-Z]",message = INVALID_USERNAME)
+        String username,
+
+        @NotBlank(message = INVALID_FIRSTNAME)
+        @Size(max = 15, message = MAX_CHAR_SIZE)
+        @Pattern(regexp = "[a-zA-Z]",message = INVALID_FIRSTNAME)
         String firstName,
-        @NotBlank(message = "Please input Last Name")
-        @Size(max = 15, message = "You exceed the max number of characters")
-        @Pattern(regexp = "[a-zA-Z]",message = "Please insert a valid name")
+        @NotBlank(message = INVALID_LASTNAME)
+        @Size(max = 15, message = MAX_CHAR_SIZE)
+        @Pattern(regexp = "[a-zA-Z]",message = INVALID_LASTNAME)
         String lastName,
-        @NotBlank(message = "Please input an email")
+        @NotBlank(message = INVALID_EMAIL)
         @Email
-        @Size(max = 100, message = "You exceed the max number of characters")
+        @Size(max = 100, message = MAX_CHAR_SIZE)
         String email,
-        @NotBlank(message = "Please input a nif")
-        @Size(min = 100000000, max = 999999999, message = "Please input a valid number")
+        @NotBlank(message = INVALID_NIF)
+        @Size(min = 100000000, max = 999999999, message = INVALID_NIF)
         Long nif,
         @NotBlank(message = "Please input a favorite genre")
         String favoriteGenre

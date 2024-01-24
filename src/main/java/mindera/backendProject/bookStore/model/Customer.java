@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -32,11 +34,12 @@ public class Customer {
     @Column(unique = true)
     private Long nif;
 
+
     private String favoriteGenre;
 
-    //private List<Book> favoriteBooks;
+    private List<Book> favoriteBooks;
 
-    //private List<Book> purchasedBooks;
+    private List<Book> purchasedBooks;
 
 
 

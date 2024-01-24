@@ -23,7 +23,6 @@ public class CustomerController {
 
     private final CustomerServiceImpl customerService;
 
-    @Autowired
     public CustomerController(CustomerServiceImpl customerService) {
         this.customerService = customerService;
     }
@@ -37,6 +36,12 @@ public class CustomerController {
     public ResponseEntity<CustomerCreateDto> getCustomer(@PathVariable("customerId") Long customerId) throws CustomerNotFoundException {
         return new ResponseEntity<>(customerService.getCustomer(customerId), HttpStatus.OK);
     }
+
+    @GetMapping("/{username}")
+    public ResponseEntity<CustomerCreateDto> getCustomerByUsername(@PathVariable("username") String username) throws CustomerNotFoundException {
+        return new ResponseEntity<>(customerService.getCustomerByUsername(username), HttpStatus.OK);
+    }
+
 
     @PostMapping("/")
     public ResponseEntity<CustomerCreateDto> addNewCustomer(@Valid @RequestBody CustomerCreateDto client,

@@ -10,6 +10,7 @@ public class CustomerConverter {
 
     public static CustomerCreateDto fromEntitytoCustomerCreateDto(Customer customer){
         return new CustomerCreateDto(
+                customer.getUsername(),
                 customer.getFirstName(),
                 customer.getLastName(),
                 customer.getEmail(),

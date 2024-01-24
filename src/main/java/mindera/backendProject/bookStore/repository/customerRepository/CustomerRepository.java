@@ -1,7 +1,6 @@
 package mindera.backendProject.bookStore.repository.customerRepository;
 
 import jakarta.transaction.Transactional;
-import mindera.backendProject.bookStore.dto.customer.CustomerCreateDto;
 import mindera.backendProject.bookStore.model.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -12,9 +11,11 @@ import java.util.Optional;
 
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
+
     Optional<Customer> findByEmail(String email);
     Optional<Customer> findByNif(Long nif);
     Optional<Customer> findByUsername(String username);
+
 
 
     @Modifying

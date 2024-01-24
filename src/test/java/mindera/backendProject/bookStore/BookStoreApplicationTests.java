@@ -58,7 +58,7 @@ class BookStoreApplicationTests {
 
     @Test
     @DisplayName("Test create customer when client returns code 201")
-	void testCreateCustomerWhenClientReturnsDtoFields(){
+	void testCreateCustomerWhenClientReturnsDtoFields() throws Exception {
 
 		String customerInputJson = "{\"username\": \"fguedes10\", \"firstName\": \"Fabio\", \"lastName\": \"Guedes\"," +
 				"  " +

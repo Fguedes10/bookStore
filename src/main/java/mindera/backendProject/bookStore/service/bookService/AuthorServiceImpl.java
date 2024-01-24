@@ -6,6 +6,7 @@ import mindera.backendProject.bookStore.exception.AuthorAlreadyExistsException;
 import mindera.backendProject.bookStore.exception.AuthorNotFoundException;
 import mindera.backendProject.bookStore.model.Author;
 import mindera.backendProject.bookStore.repository.bookRepository.AuthorRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +17,7 @@ public class AuthorServiceImpl implements AuthorService{
 
     private final AuthorRepository authorRepository;
 
+    @Autowired
     public AuthorServiceImpl(AuthorRepository authorRepository){
         this.authorRepository=authorRepository;}
 
@@ -36,17 +38,22 @@ public class AuthorServiceImpl implements AuthorService{
     }
 
     @Override
-    public AuthorCreateDto add(AuthorCreateDto author)  {
-        return null;
+    public AuthorCreateDto add(AuthorCreateDto author) throws AuthorAlreadyExistsException {
+        if (authorRepository.findByName(author.name()).isPresent()) {
+            throw new AuthorAlreadyExistsException("This author already exists");
+        }
+            Author newAuthor = authorRepository.save(AuthorConverter.fromCreateDtoToModel(author));
+            return author;
     }
 
     @Override
-    public void delete(Long id) {
-
+    public void delete(Long authorId) throws AuthorNotFoundException {
+        authorRepository.findById(authorId).orElseThrow(() -> new AuthorNotFoundException("Author with id" + authorId + "does not exists"));
+        authorRepository.deleteById(authorId);
     }
 
     @Override
-    public AuthorCreateDto getAuthorByName(String authorName) {
-        return null;
+    public AuthorCreateDto getAuthorByName(String authorName) throws AuthorNotFoundException {
+        return (AuthorCreateDto) authorRepository.findByName(authorName).orElseThrow(()-> new AuthorNotFoundException("Author with name" + authorName + "does not exists"));
     }
 }

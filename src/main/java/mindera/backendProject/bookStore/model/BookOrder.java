@@ -5,14 +5,14 @@ import lombok.*;
 import mindera.backendProject.bookStore.model.Customer;
 
 import java.time.LocalDateTime;
+import java.util.List;
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table
-public class Invoice {
-
+public class BookOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,15 +21,12 @@ public class Invoice {
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
-    @ManyToOne
-    @JoinColumn(name = "bookorder_id", nullable = false)
-    private BookOrder bookOrder;
+    @OneToMany(mappedBy = "bookOrder")
+    private List<Download> downloads;
 
     @Column(nullable = false)
-    private LocalDateTime issueDate;
+    private LocalDateTime requestDate;
 
-    @Column(nullable = false)
-    private Double totalAmount;
+    //Missing order status and download link??
 
-    //Missing VAT identification number
 }

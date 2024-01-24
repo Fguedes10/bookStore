@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,6 +23,8 @@ public class Translation {
     @Column(unique=true)
     private String name;
 
-    private Language language;
+    @ManyToOne( fetch = FetchType.EAGER)
+    @JoinColumn(name = "book_id")
+    private Book book;
 
 }

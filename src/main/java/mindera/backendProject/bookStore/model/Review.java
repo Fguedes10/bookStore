@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 
 @Builder
@@ -27,8 +28,9 @@ public class Review {
 
     private LocalDate commentDate;
 
+    @ManyToOne( fetch = FetchType.EAGER)
+    @JoinColumn(name = "book_id")
     private Book book;
-
 
 
 

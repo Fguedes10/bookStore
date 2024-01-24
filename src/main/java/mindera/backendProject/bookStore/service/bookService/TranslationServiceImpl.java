@@ -39,21 +39,29 @@ public class TranslationServiceImpl implements TranslationService{
 
     @Override
     public TranslationCreateDto add(TranslationCreateDto translation) throws TranslationAlreadyExistsException {
-       if(translationRepository.findByName(translation.name()).isPresent()){
+        Optional<Translation> translationOptional = translationRepository.findByName(translation.name());
+       if(translationOptional.isPresent()){
            throw new TranslationAlreadyExistsException("Translation already exists");
        }
-       Translation newTranslation = TranslationConverter.fromCreateDtoToModel(translation);
-       return (translation);
+       translationRepository.save(TranslationConverter.fromCreateDtoToModel(translation));
+       return translation;
     }
 
     @Override
     public void delete(Long translationId) throws TranslationNotFoundException {
-        translationRepository.findById(translationId).orElseThrow(() -> new TranslationNotFoundException("Translation with id " + translationId + " does not exist"));
-        translationRepository.deleteById(translationId);
+        Optional<Translation> translationOptional = translationRepository.findById(translationId);
+        if(translationOptional.isEmpty()){
+            throw new TranslationNotFoundException("Translation with id " + translationId + " does not exist");
+        }
+        translationRepository.delete(translationOptional.get());
     }
 
     @Override
     public TranslationCreateDto getTranslationByName(String translationName) throws TranslationNotFoundException {
-        return (TranslationCreateDto) translationRepository.findByName(translationName).orElseThrow(()-> new TranslationNotFoundException("Translation with name " + translationName + " does not exist"));
+       Optional<Translation> translationOptional = translationRepository.findByName(translationName);
+        if(translationOptional.isEmpty()){
+            throw new TranslationNotFoundException("Translation with name " + translationName + " does not exist");
+        }
+        return TranslationConverter.fromModelToTranslationCreateDto(translationOptional.get());
     }
 }

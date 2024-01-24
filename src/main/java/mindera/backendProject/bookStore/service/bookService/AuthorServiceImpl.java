@@ -39,21 +39,37 @@ public class AuthorServiceImpl implements AuthorService{
 
     @Override
     public AuthorCreateDto add(AuthorCreateDto author) throws AuthorAlreadyExistsException {
-        if (authorRepository.findByName(author.name()).isPresent()) {
+        Optional<Author> authorOptional = authorRepository.findByName(author.name());
+        if (authorOptional.isPresent()) {
             throw new AuthorAlreadyExistsException("This author already exists");
         }
-            Author newAuthor = authorRepository.save(AuthorConverter.fromCreateDtoToModel(author));
-            return author;
+        authorRepository.save(AuthorConverter.fromCreateDtoToModel(author));
+        return author;
     }
 
     @Override
     public void delete(Long authorId) throws AuthorNotFoundException {
-        authorRepository.findById(authorId).orElseThrow(() -> new AuthorNotFoundException("Author with id" + authorId + "does not exists"));
-        authorRepository.deleteById(authorId);
+        Optional<Author> authorOptional = authorRepository.findById(authorId);
+        if(authorOptional.isEmpty()){
+            throw new AuthorNotFoundException("Author with id" + authorId + "does not exists");
+        }
+        authorRepository.delete(authorOptional.get());
     }
 
     @Override
     public AuthorCreateDto getAuthorByName(String authorName) throws AuthorNotFoundException {
-        return (AuthorCreateDto) authorRepository.findByName(authorName).orElseThrow(()-> new AuthorNotFoundException("Author with name" + authorName + "does not exists"));
+        Optional<Author> authorOptional = authorRepository.findByName(authorName);
+        if(authorOptional.isEmpty()){
+            throw new AuthorNotFoundException("Author with name" + authorName + "does not exists");
+        }
+        return AuthorConverter.fromModelToAuthorCreateDto(authorOptional.get());
+    }
+
+    public Author getAuthorById(Long authorId) throws AuthorNotFoundException {
+        Optional<Author> authorOptional = authorRepository.findById(authorId);
+        if(authorOptional.isEmpty()){
+            throw new AuthorNotFoundException("Author with id: " + authorId + "does not exists");
+        }
+        return authorOptional.get();
     }
 }

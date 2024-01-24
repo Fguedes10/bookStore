@@ -21,9 +21,8 @@ public class Author {
     @Column(unique=true)
     private String name;
 
-
-    private Book book;
-
+    @OneToMany (mappedBy = "author")
+    List<Book> books;
 
 
 

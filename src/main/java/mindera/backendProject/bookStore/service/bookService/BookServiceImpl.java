@@ -4,9 +4,11 @@ import mindera.backendProject.bookStore.converter.BookConverter;
 import mindera.backendProject.bookStore.dto.book.BookCreateDto;
 import mindera.backendProject.bookStore.dto.book.BookUpdateEditionDto;
 import mindera.backendProject.bookStore.dto.book.BookUpdatePriceDto;
+import mindera.backendProject.bookStore.exception.AuthorNotFoundException;
 import mindera.backendProject.bookStore.exception.BookAlreadyExistsException;
 import mindera.backendProject.bookStore.exception.BookNotFoundException;
 import mindera.backendProject.bookStore.model.Book;
+import mindera.backendProject.bookStore.repository.bookRepository.AuthorRepository;
 import mindera.backendProject.bookStore.repository.bookRepository.BookRepository;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +21,12 @@ import java.util.Optional;
 public class BookServiceImpl implements BookService{
 
     private final BookRepository bookRepository;
+    private final AuthorServiceImpl authorServiceImpl;
 
     @Autowired
-    public BookServiceImpl(BookRepository bookRepository){
+    public BookServiceImpl(BookRepository bookRepository, AuthorServiceImpl authorServiceImpl){
         this.bookRepository = bookRepository;
+        this.authorServiceImpl = authorServiceImpl;
     }
 
 
@@ -33,18 +37,24 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
-    public BookCreateDto add(BookCreateDto book) throws BookAlreadyExistsException {
-        if(bookRepository.findByTittle(book.title()).isPresent() || bookRepository.findByIsbn(book.isbn()).isPresent()){
+    public BookCreateDto add(BookCreateDto book) throws BookAlreadyExistsException, AuthorNotFoundException {
+        Optional<Book> bookOptional = bookRepository.findByTitle(book.title());
+        Optional<Book> bookOptional1 = bookRepository.findByIsbn(book.isbn());
+        if(bookOptional.isPresent() || bookOptional1.isPresent()){
             throw new BookAlreadyExistsException("Book already exists");
         }
-        Book newBook = BookConverter.fromCreateDtoToModel(book);
+        Book newBook = BookConverter.fromCreateDtoToModel(book, authorServiceImpl.getAuthorById(book.authorId()));
+        bookRepository.save(newBook);
         return book;
     }
 
     @Override
     public void delete(Long bookId) throws BookNotFoundException {
-        bookRepository.findById(bookId).orElseThrow(() -> new BookNotFoundException("Book with id" + bookId + "does not exist"));
-        bookRepository.deleteById(bookId);
+        Optional<Book> bookOptional = bookRepository.findById(bookId);
+        if(bookOptional.isEmpty()){
+            throw new BookNotFoundException("Book with id" + bookId + "does not exist");
+        }
+        bookRepository.delete(bookOptional.get());
     }
 
     @Override
@@ -57,21 +67,39 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
-    public void updateEdition(Long bookId, BookUpdateEditionDto book) throws BookNotFoundException {
-        Book updatedBook = bookRepository.findById(bookId).orElseThrow(() -> new BookNotFoundException("Book with id" + bookId + "does not exist"));
-        updatedBook.setEdition(book.edition());
-        bookRepository.save(updatedBook);
+    public BookUpdateEditionDto updateEdition(Long bookId, BookUpdateEditionDto book) throws BookNotFoundException {
+        Optional<Book> bookOptional = bookRepository.findById(bookId);
+        if(bookOptional.isEmpty()){
+            throw new BookNotFoundException("Book with id" + bookId + "does not exist");
+        }
+        Book bookToUpdate =bookOptional.get();
+        if(book.edition() != 0 && book.edition() != bookToUpdate.getEdition()){
+            bookToUpdate.setEdition(book.edition());
+        }
+        Book bookToSave = bookRepository.save(bookToUpdate);
+        return BookConverter.fromModelToBookUpdateEditionDto(bookToSave);
     }
 
     @Override
-    public void updatePrice(Long bookId, BookUpdatePriceDto book) throws BookNotFoundException {
-        Book updatedBook = bookRepository.findById(bookId).orElseThrow(() -> new BookNotFoundException("Book with id" + bookId + "does not exist"));
-        updatedBook.setPrice(book.price());
-        bookRepository.save(updatedBook);
+    public BookUpdatePriceDto updatePrice(Long bookId, BookUpdatePriceDto book) throws BookNotFoundException {
+        Optional<Book> bookOptional = bookRepository.findById(bookId);
+        if(bookOptional.isEmpty()){
+            throw new BookNotFoundException("Book with id" + bookId + "does not exist");
+        }
+        Book bookToUpdate = bookOptional.get();
+        if(book.price() != 0 && book.price() != bookToUpdate.getPrice()){
+            bookToUpdate.setPrice(book.price());
+        }
+      Book bookToSave = bookRepository.save(bookToUpdate);
+        return BookConverter.fromModelToBookUpdatePriceDto(bookToSave);
     }
 
     @Override
-    public BookCreateDto getBookByTittle(String bookTittle) throws BookNotFoundException {
-        return (BookCreateDto) bookRepository.findByTittle(bookTittle).orElseThrow(() -> new BookNotFoundException("Book with tittle" + bookTittle + "does not exist"));
+    public BookCreateDto getBookByTitle(String bookTitle) throws BookNotFoundException {
+        Optional<Book> bookOptional = bookRepository.findByTitle(bookTitle);
+        if(bookOptional.isEmpty()){
+            throw new BookNotFoundException("Book with tittle" + bookTitle + "does not exist");
+        }
+        return BookConverter.fromModelToBookCreateDto(bookOptional.get());
     }
 }

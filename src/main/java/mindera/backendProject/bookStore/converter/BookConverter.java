@@ -6,16 +6,15 @@ import mindera.backendProject.bookStore.model.*;
 
 public class BookConverter {
 
-    public static Book fromCreateDtoToModel(BookCreateDto bookCreateDto){
+    public static Book fromCreateDtoToModel(BookCreateDto bookCreateDto, Author author){
         return Book.builder()
                 .title(bookCreateDto.title())
                 .isbn(bookCreateDto.isbn())
-                //.author(author)
+                .author(author)
                 .publisher(bookCreateDto.publisher())
-                //.genre(genre)
-                //.language(language)
-                //.translation(translation)
-               // .review(review)
+                .genres(bookCreateDto.genres())
+                .translations(bookCreateDto.translations())
+                .reviews(bookCreateDto.reviews())
                 .edition(bookCreateDto.edition())
                 .releaseDate(bookCreateDto.releaseDate())
                 .price(bookCreateDto.price())
@@ -28,10 +27,9 @@ public class BookConverter {
                 book.getIsbn(),
                 book.getAuthor().getId(),
                 book.getPublisher(),
-                book.getGenre().getId(),
-                book.getLanguage().getId(),
-                book.getTranslation().getId(),
-                book.getReview().getId(),
+                book.getGenres(),
+                book.getTranslations(),
+                book.getReviews(),
                 book.getEdition(),
                 book.getReleaseDate(),
                 book.getPrice()

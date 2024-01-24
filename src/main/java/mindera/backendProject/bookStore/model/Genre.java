@@ -21,6 +21,8 @@ public class Genre {
     @Column(unique=true)
     private String name;
 
+    @ManyToOne( fetch = FetchType.EAGER)
+    @JoinColumn(name = "book_id")
     private Book book;
 
 

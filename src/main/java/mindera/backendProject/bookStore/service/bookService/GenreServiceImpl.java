@@ -39,23 +39,30 @@ public class GenreServiceImpl implements GenreService{
 
     @Override
     public GenreCreateDto add(GenreCreateDto genre) throws GenreAlreadyExistsException {
-        if(genreRepository.findByName(genre.name()).isPresent()){
+        Optional<Genre> genreOptional = genreRepository.findByName(genre.name());
+        if(genreOptional.isPresent()){
             throw new GenreAlreadyExistsException("Genre already exists");
         }
         Genre newGenre =  GenreConverter.fromCreateDtoToModel(genre);
+        genreRepository.save(newGenre);
         return genre;
     }
 
     @Override
     public void delete(Long genreId) throws GenreNotFoundException {
-       genreRepository.findById(genreId).orElseThrow(() -> new GenreNotFoundException("Genre with id" + genreId + "does not exist"));
-       genreRepository.deleteById(genreId);
-
-
+        Optional<Genre> genreOptional = genreRepository.findById(genreId);
+        if(genreOptional.isEmpty()){
+            throw new GenreNotFoundException("Genre with id" + genreId + "does not exist");
+        }
+       genreRepository.delete(genreOptional.get());
     }
 
     @Override
     public GenreCreateDto getGenreByName(String genreName) throws GenreNotFoundException {
-        return (GenreCreateDto) genreRepository.findByName(genreName).orElseThrow(()-> new GenreNotFoundException("Genre with name" + genreName + "does not exist"));
+        Optional<Genre> genreOptional = genreRepository.findByName(genreName);
+        if(genreOptional.isEmpty()){
+            throw new GenreNotFoundException("Genre with name" + genreName + "does not exist");
+        }
+        return GenreConverter.fromModelToGenreCreateDto(genreOptional.get());
     }
 }

@@ -8,10 +8,11 @@ import mindera.backendProject.bookStore.exception.CustomerNotFoundException;
 import mindera.backendProject.bookStore.exception.CustomerWithEmailAlreadyExists;
 import mindera.backendProject.bookStore.model.Customer;
 import mindera.backendProject.bookStore.repository.customerRepository.CustomerRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
+@Service
 public class CustomerServiceImpl implements CustomerService{
 
     private final CustomerRepository customerRepository;

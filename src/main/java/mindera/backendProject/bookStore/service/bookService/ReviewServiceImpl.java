@@ -2,7 +2,6 @@ package mindera.backendProject.bookStore.service.bookService;
 
 import mindera.backendProject.bookStore.converter.ReviewConverter;
 import mindera.backendProject.bookStore.dto.book.ReviewCreateDto;
-import mindera.backendProject.bookStore.exception.BookNotFoundException;
 import mindera.backendProject.bookStore.exception.ReviewNotFoundException;
 import mindera.backendProject.bookStore.model.Review;
 import mindera.backendProject.bookStore.repository.bookRepository.ReviewRepository;
@@ -35,13 +34,16 @@ public class ReviewServiceImpl implements ReviewService{
     }
 
     @Override
-    public void add(ReviewCreateDto review) {
-       reviewRepository.save(ReviewConverter.fromCreateDtoToModel(review));
+    public ReviewCreateDto add(ReviewCreateDto review) {
+        return null;
     }
 
     @Override
     public void delete(Long reviewId) throws ReviewNotFoundException {
-        reviewRepository.findById(reviewId).orElseThrow(()-> new ReviewNotFoundException("Review with id " + reviewId + "does not exist"));
-        reviewRepository.deleteById(reviewId);
+        Optional<Review> reviewOptional = reviewRepository.findById(reviewId);
+        if(reviewOptional.isEmpty()){
+            throw new ReviewNotFoundException("Review with id " + reviewId + "does not exist");
+        }
+        reviewRepository.delete(reviewOptional.get());
     }
 }

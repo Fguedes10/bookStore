@@ -1,4 +1,6 @@
 package mindera.backendProject.bookStore.dto.book;
 
-public record TranslationCreateDto() {
+public record TranslationCreateDto(
+        String name
+) {
 }

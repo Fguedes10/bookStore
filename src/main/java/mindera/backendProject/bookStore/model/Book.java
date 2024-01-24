@@ -1,10 +1,9 @@
 package mindera.backendProject.bookStore.model;
-
-
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.time.LocalDate;
+import java.util.Set;
+
 
 @Builder
 @AllArgsConstructor
@@ -24,35 +23,24 @@ public class Book {
     @Column(unique=true)
     private String isbn;
 
-    @ManyToOne
-    @JoinColumn(name = "author_id")
+    @ManyToOne(fetch = FetchType.EAGER)
     private Author author;
 
     private String publisher;
 
-    @ManyToMany
-    @JoinTable(
-            name= "books_genres",
-            joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "genre_id"))
-    private Genre genre;
+    @OneToMany (mappedBy = "book")
+    Set<Genre> genres;
 
-
-    @ManyToOne
-    @JoinColumn(name = "language_id")
-    private Language language;
-
-    @OneToMany(mappedBy = "book")
-    private Review review;
+    @OneToMany (mappedBy = "book", fetch = FetchType.EAGER)
+    Set<Review> reviews;
 
     private int edition;
 
     private LocalDate releaseDate;
 
     private double price;
-    private Translation translation;
 
-
-
+    @OneToMany (mappedBy = "book", fetch = FetchType.EAGER)
+    Set<Translation> translations;
 
 }

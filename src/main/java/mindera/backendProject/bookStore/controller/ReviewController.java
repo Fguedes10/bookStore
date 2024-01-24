@@ -36,8 +36,8 @@ public class ReviewController {
 
 
     @PostMapping("/")
-    public ResponseEntity<ReviewCreateDto> add(@RequestBody ReviewCreateDto author) {
-        ReviewCreateDto reviewDto = reviewService.add(author);
+    public ResponseEntity<ReviewCreateDto> add(@RequestBody ReviewCreateDto review) {
+        ReviewCreateDto reviewDto = reviewService.add(review);
         return new ResponseEntity<>(reviewDto, HttpStatus.CREATED);
     }
 

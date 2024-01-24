@@ -5,6 +5,7 @@ import mindera.backendProject.bookStore.model.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 public record BookCreateDto(
 
@@ -12,10 +13,9 @@ public record BookCreateDto(
     String isbn,
     Long authorId,
     String publisher,
-    Long genreId,
-    Long languageId,
-    Long translationId,
-    Long reviewId,
+    Set<Genre> genres,
+    Set<Translation> translations,
+    Set<Review> reviews,
     int edition,
     LocalDate releaseDate,
     double price

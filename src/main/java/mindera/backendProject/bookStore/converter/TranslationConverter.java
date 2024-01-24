@@ -12,7 +12,7 @@ public class TranslationConverter {
     }
 
 
-    public static TranslationCreateDto fromModelToGenreCreateDto(Translation translation) {
+    public static TranslationCreateDto fromModelToTranslationCreateDto(Translation translation) {
         return new TranslationCreateDto(
                 translation.getName());
     }

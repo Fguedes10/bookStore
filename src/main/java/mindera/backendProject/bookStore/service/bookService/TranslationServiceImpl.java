@@ -1,34 +1,59 @@
 package mindera.backendProject.bookStore.service.bookService;
 
+import mindera.backendProject.bookStore.converter.TranslationConverter;
 import mindera.backendProject.bookStore.dto.book.TranslationCreateDto;
+import mindera.backendProject.bookStore.exception.TranslationAlreadyExistsException;
+import mindera.backendProject.bookStore.exception.TranslationNotFoundException;
+import mindera.backendProject.bookStore.model.Translation;
+import mindera.backendProject.bookStore.repository.bookRepository.TranslationRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TranslationServiceImpl implements TranslationService{
+
+    private final TranslationRepository translationRepository;
+
+    @Autowired
+    public TranslationServiceImpl(TranslationRepository translationRepository){
+        this.translationRepository = translationRepository;
+    }
+
     @Override
     public List<TranslationCreateDto> getAll() {
-        return null;
+        List<Translation> translationList = translationRepository.findAll();
+        return translationList.stream().map(TranslationConverter::fromModelToTranslationCreateDto).toList();
     }
 
     @Override
-    public TranslationCreateDto getTranslation(Long translationId) {
-        return null;
+    public TranslationCreateDto getTranslation(Long translationId) throws TranslationNotFoundException {
+        Optional<Translation> translationOptional = translationRepository.findById(translationId);
+        if(translationOptional.isEmpty()){
+            throw new TranslationNotFoundException("Translation with id " + translationId + " does not exist");
+        }
+        return TranslationConverter.fromModelToTranslationCreateDto(translationOptional.get());
     }
 
     @Override
-    public TranslationCreateDto add(TranslationCreateDto translation) {
-        return null;
+    public TranslationCreateDto add(TranslationCreateDto translation) throws TranslationAlreadyExistsException {
+       if(translationRepository.findByName(translation.name()).isPresent()){
+           throw new TranslationAlreadyExistsException("Translation already exists");
+       }
+       Translation newTranslation = TranslationConverter.fromCreateDtoToModel(translation);
+       return (translation);
     }
 
     @Override
-    public void delete(Long id) {
-
+    public void delete(Long translationId) throws TranslationNotFoundException {
+        translationRepository.findById(translationId).orElseThrow(() -> new TranslationNotFoundException("Translation with id " + translationId + " does not exist"));
+        translationRepository.deleteById(translationId);
     }
 
     @Override
-    public TranslationCreateDto getTranslationByName(String translationName) {
-        return null;
+    public TranslationCreateDto getTranslationByName(String translationName) throws TranslationNotFoundException {
+        return (TranslationCreateDto) translationRepository.findByName(translationName).orElseThrow(()-> new TranslationNotFoundException("Translation with name " + translationName + " does not exist"));
     }
 }

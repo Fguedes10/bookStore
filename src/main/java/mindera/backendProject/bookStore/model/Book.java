@@ -23,15 +23,16 @@ public class Book {
     @Column(unique=true)
     private String isbn;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
+    @JoinColumn(name = "author_id")
     private Author author;
 
     private String publisher;
 
-    @OneToMany (mappedBy = "book")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "book", cascade = CascadeType.ALL)
     Set<Genre> genres;
 
-    @OneToMany (mappedBy = "book", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
     Set<Review> reviews;
 
     private int edition;
@@ -40,7 +41,7 @@ public class Book {
 
     private double price;
 
-    @OneToMany (mappedBy = "book", fetch = FetchType.EAGER)
+    @OneToMany (fetch = FetchType.EAGER, mappedBy = "book", cascade = CascadeType.ALL)
     Set<Translation> translations;
 
 }

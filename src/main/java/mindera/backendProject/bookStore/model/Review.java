@@ -28,7 +28,7 @@ public class Review {
 
     private LocalDate commentDate;
 
-    @ManyToOne( fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "book_id")
     private Book book;
 

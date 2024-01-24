@@ -22,7 +22,7 @@ public class Invoice {
     private Customer customer;
 
     @ManyToOne
-    @JoinColumn(name = "bookorder_id", nullable = false)
+    @JoinColumn(name = "bookOrder_id", nullable = false)
     private BookOrder bookOrder;
 
     @Column(nullable = false)

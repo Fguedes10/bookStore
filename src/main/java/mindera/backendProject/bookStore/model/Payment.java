@@ -17,7 +17,7 @@ public class Payment {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "bookorder_id", nullable = false, unique = true)
+    @JoinColumn(name = "bookOrder_id", nullable = false, unique = true)
     private BookOrder bookOrder;
 
     @Column(nullable = false)

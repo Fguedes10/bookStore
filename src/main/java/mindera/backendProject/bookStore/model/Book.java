@@ -2,7 +2,9 @@ package mindera.backendProject.bookStore.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.text.DateFormat;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.Set;
 
 
@@ -25,22 +27,22 @@ public class Book {
     @Column(unique=true)
     private Long isbn;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Author author;
 
     private String publisher;
 
 
-    @ManyToMany(mappedBy = "favoriteBooks")
+    @ManyToMany(mappedBy = "favoriteBooks", fetch = FetchType.EAGER)
     Set<Customer> customersWhoFavorited;
 
-    @ManyToMany(mappedBy = "purchasedBooks")
+    @ManyToMany(mappedBy = "purchasedBooks", fetch = FetchType.EAGER)
     private Set<Customer> customersWhoPurchased;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     Set<Genre> genre;
 
-    @OneToMany(mappedBy = "book")
+    @OneToMany(mappedBy = "book", fetch = FetchType.EAGER)
     Set<Review> review;
 
     private Integer edition;
@@ -49,7 +51,7 @@ public class Book {
 
     private double price;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     Set<Translation> translation;
 
 

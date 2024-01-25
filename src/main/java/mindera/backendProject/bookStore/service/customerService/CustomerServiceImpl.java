@@ -53,8 +53,14 @@ public class CustomerServiceImpl implements CustomerService{
         Optional<Customer> customerFindByEmail = customerRepository.findByEmail(customerCreateDto.email());
         Optional<Customer> customerFindByNif = customerRepository.findByNif(customerCreateDto.nif());
         Optional<Customer> customerFindByUsername= customerRepository.findByUsername(customerCreateDto.username());
-        if(customerFindByEmail.isPresent() || customerFindByNif.isPresent() || customerFindByUsername.isPresent()){
-            throw new CustomerAlreadyExistsException(CUSTOMER_ALREADY_EXISTS);
+        if(customerFindByUsername.isPresent()){
+            throw new CustomerAlreadyExistsException(CUSTOMER_WITH_USERNAME + customerCreateDto.username() + ALREADY_EXISTS );
+        }
+        if(customerFindByEmail.isPresent()){
+            throw new CustomerAlreadyExistsException(CUSTOMER_WITH_EMAIL + customerCreateDto.email() + ALREADY_EXISTS);
+        }
+        if(customerFindByNif.isPresent()){
+            throw new CustomerAlreadyExistsException(CUSTOMER_WITH_NIF + customerCreateDto.nif() + ALREADY_EXISTS);
         }
         Customer customerToSave = CustomerConverter.fromCustomerCreateDtoToEntity(customerCreateDto);
         customerRepository.save(customerToSave);

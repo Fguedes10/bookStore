@@ -23,8 +23,9 @@ public class Genre {
     @Column(unique=true)
     private String name;
 
-    @ManyToMany(mappedBy = "genre")
+    @ManyToMany(mappedBy = "genre", fetch = FetchType.EAGER)
     private List<Book> books;
+
 
 
 

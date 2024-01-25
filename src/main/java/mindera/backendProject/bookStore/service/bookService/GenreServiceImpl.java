@@ -1,7 +1,6 @@
 package mindera.backendProject.bookStore.service.bookService;
 
 
-import io.swagger.annotations.Authorization;
 import mindera.backendProject.bookStore.converter.GenreConverter;
 import mindera.backendProject.bookStore.dto.book.GenreCreateDto;
 import mindera.backendProject.bookStore.exception.GenreAlreadyExistsException;
@@ -19,7 +18,6 @@ public class GenreServiceImpl implements GenreService{
 
     private final GenreRepository genreRepository;
 
-    @Autowired
     public GenreServiceImpl(GenreRepository genreRepository){this.genreRepository=genreRepository;}
 
     @Override

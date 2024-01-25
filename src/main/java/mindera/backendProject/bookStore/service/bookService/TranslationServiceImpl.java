@@ -17,7 +17,6 @@ public class TranslationServiceImpl implements TranslationService{
 
     private final TranslationRepository translationRepository;
 
-    @Autowired
     public TranslationServiceImpl(TranslationRepository translationRepository){
         this.translationRepository = translationRepository;
     }

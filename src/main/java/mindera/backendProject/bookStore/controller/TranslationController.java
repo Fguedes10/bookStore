@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import mindera.backendProject.bookStore.dto.book.TranslationCreateDto;
 import mindera.backendProject.bookStore.exception.*;
 import mindera.backendProject.bookStore.service.bookService.TranslationService;
+import mindera.backendProject.bookStore.service.bookService.TranslationServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +17,10 @@ import java.util.List;
 public class TranslationController {
 
 
-    private final TranslationService translationService;
+    private final TranslationServiceImpl translationService;
 
-    @Autowired
-    public TranslationController(TranslationService translationService){
+
+    public TranslationController(TranslationServiceImpl translationService){
         this.translationService = translationService;
     }
 
@@ -29,7 +30,7 @@ public class TranslationController {
     }
 
 
-    @GetMapping("/{translationId")
+    @GetMapping("/{translationId}")
     public ResponseEntity<TranslationCreateDto> getTranslation(@PathVariable("translationId") Long translationId) throws TranslationNotFoundException {
         return new ResponseEntity<>(translationService.getTranslation(translationId), HttpStatus.OK);
     }
@@ -47,7 +48,7 @@ public class TranslationController {
     }
 
 
-    @DeleteMapping("/{id")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable @Parameter(name= "id", description = "Translation id", example = "1") Long id) throws TranslationNotFoundException {
         translationService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);

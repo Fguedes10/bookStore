@@ -6,7 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.util.Set;
+
 
 @Builder
 @AllArgsConstructor
@@ -37,10 +38,33 @@ public class Customer {
 
     private String favoriteGenre;
 
-    private List<Book> favoriteBooks;
+    @ManyToMany
+    @JoinTable(
+            name = "customer_favorite_books",
+            joinColumns = @JoinColumn(name = "customer_id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id")
+    )
 
-    private List<Book> purchasedBooks;
+    private Set<Book> favoriteBooks;
+
+    @ManyToMany
+    @JoinTable(
+            name = "customer_purchased_books",
+            joinColumns = @JoinColumn(name = "customer_id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id")
+    )
+    private Set<Book> purchasedBooks;
+
+
+    @OneToMany(mappedBy = "customer")
+    private Set<Invoice> invoices;
+
+
+    @OneToMany(mappedBy = "customer")
+    private Set<BookOrder> bookOrders;
+
 
 
 
 }
+

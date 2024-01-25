@@ -3,8 +3,7 @@ package mindera.backendProject.bookStore.controller;
 import io.swagger.v3.oas.annotations.Parameter;
 import mindera.backendProject.bookStore.dto.book.ReviewCreateDto;
 import mindera.backendProject.bookStore.exception.ReviewNotFoundException;
-import mindera.backendProject.bookStore.service.bookService.ReviewService;
-import org.springframework.beans.factory.annotation.Autowired;
+import mindera.backendProject.bookStore.service.bookService.ReviewServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,10 +14,10 @@ import java.util.List;
 @RequestMapping("api/v1/reviews")
 public class ReviewController {
 
-    private final ReviewService reviewService;
+    private final ReviewServiceImpl reviewService;
 
-    @Autowired
-    public ReviewController(ReviewService reviewService){
+
+    public ReviewController(ReviewServiceImpl reviewService){
         this.reviewService = reviewService;
     }
 
@@ -29,7 +28,7 @@ public class ReviewController {
     }
 
 
-    @GetMapping("/{reviewId")
+    @GetMapping("/{reviewId}")
     public ResponseEntity<ReviewCreateDto> getReview(@PathVariable("reviewId") Long reviewId) throws ReviewNotFoundException{
         return new ResponseEntity<>(reviewService.getReview(reviewId), HttpStatus.OK);
     }
@@ -42,7 +41,7 @@ public class ReviewController {
     }
 
 
-    @DeleteMapping("/{id")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable @Parameter(name= "id", description = "Review id", example = "1") Long id) throws ReviewNotFoundException {
         reviewService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);

@@ -1,8 +1,10 @@
 package mindera.backendProject.bookStore.model;
 
 import jakarta.persistence.*;
-import lombok.*;
-import mindera.backendProject.bookStore.model.Customer;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 @Data
@@ -13,7 +15,7 @@ import java.time.LocalDateTime;
 @Table
 public class Invoice {
 
-    @Id
+   @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

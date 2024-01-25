@@ -1,10 +1,12 @@
 package mindera.backendProject.bookStore.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.Set;
 
 
 @Builder
@@ -19,17 +21,13 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique=true)
-    private String isbn;
-
     private boolean anonymous;
 
     private String comment;
 
     private LocalDate commentDate;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "book_id")
+   @ManyToOne
     private Book book;
 
 

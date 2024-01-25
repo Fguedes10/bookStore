@@ -5,6 +5,7 @@ import mindera.backendProject.bookStore.dto.book.AuthorCreateDto;
 import mindera.backendProject.bookStore.exception.AuthorAlreadyExistsException;
 import mindera.backendProject.bookStore.exception.AuthorNotFoundException;
 import mindera.backendProject.bookStore.service.bookService.AuthorService;
+import mindera.backendProject.bookStore.service.bookService.AuthorServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +17,10 @@ import java.util.List;
 @RequestMapping("api/v1/authors")
 public class AuthorController {
 
-    private final AuthorService authorService;
+    private final AuthorServiceImpl authorService;
 
-    @Autowired
-    public AuthorController(AuthorService authorService){
+
+    public AuthorController(AuthorServiceImpl authorService){
         this.authorService = authorService;
     }
 
@@ -30,7 +31,7 @@ public class AuthorController {
     }
 
 
-    @GetMapping("/{authorId")
+    @GetMapping("/{authorId}")
     public ResponseEntity<AuthorCreateDto> getAuthor(@PathVariable("authorId") Long authorId) throws AuthorNotFoundException{
         return new ResponseEntity<>(authorService.getAuthor(authorId), HttpStatus.OK);
     }
@@ -47,7 +48,7 @@ public class AuthorController {
     }
 
 
-    @DeleteMapping("/{id")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable @Parameter(name= "id", description = "Author id", example = "1") Long id) throws AuthorNotFoundException {
         authorService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);

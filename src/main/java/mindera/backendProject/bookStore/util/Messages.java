@@ -6,7 +6,9 @@ public class Messages {
     public static final String CUSTOMER_WITH_ID = "Customer with id: ";
     public static final String DOESNT_EXIST = " doesn't exist";
     public static final String CUSTOMER_WITH_USERNAME = "Customer with username: ";
-    public static final String CUSTOMER_ALREADY_EXISTS = "Customer with username: ";
+    public static final String CUSTOMER_WITH_EMAIL = "Customer with email: ";
+    public static final String CUSTOMER_WITH_NIF = "Customer with Nif: ";
+    public static final String ALREADY_EXISTS = " already exists.";
     public static final String CUSTOMER_EMAIL_ALREADY_EXISTS = "A customer with this email already exists";
 
 

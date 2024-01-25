@@ -1,6 +1,7 @@
 package mindera.backendProject.bookStore.model;
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -24,6 +25,7 @@ public class Book {
 
     @Column(unique=true)
     private Long isbn;
+
 
     @ManyToOne(fetch = FetchType.EAGER )
     private Author author;
@@ -51,9 +53,6 @@ public class Book {
 
     @ManyToMany(fetch = FetchType.EAGER)
     List<Translation> translation;
-
-
-
 
     public void addReview(List<Review> review1, Review review){
         review1.add(review);

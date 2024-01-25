@@ -14,8 +14,7 @@ public class CustomerConverter {
                 customer.getFirstName(),
                 customer.getLastName(),
                 customer.getEmail(),
-                customer.getNif(),
-                customer.getFavoriteGenre()
+                customer.getNif()
 
         );
     }
@@ -26,7 +25,7 @@ public class CustomerConverter {
                 .lastName(customerCreateDto.lastName())
                 .email(customerCreateDto.email())
                 .nif(customerCreateDto.nif())
-                .favoriteGenre(customerCreateDto.favoriteGenre()).build();
+                .build();
     }
 
     public static CustomerGetDto fromEntityToCustomerGetDto(Customer customer){

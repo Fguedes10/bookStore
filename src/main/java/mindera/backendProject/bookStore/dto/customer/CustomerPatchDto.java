@@ -2,19 +2,19 @@ package mindera.backendProject.bookStore.dto.customer;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public record CustomerPatchDto(
 
 
-        @NotBlank(message = "Please input First Name")
+        @Pattern(regexp = "[a-zA-Z]+", message = "Please input a valid firstName")
         @Size(max = 15)
         String firstName,
-        @NotBlank(message = "Please input Last Name")
+        @Pattern(regexp = "[a-zA-Z]+", message = "Please input a valid lastName")
         @Size(max = 15)
         String lastName,
 
-        @NotBlank(message = "Please input an Email")
         @Email
         @Size(max = 100)
         String email

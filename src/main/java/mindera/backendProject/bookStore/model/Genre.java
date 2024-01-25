@@ -1,8 +1,10 @@
 package mindera.backendProject.bookStore.model;
 
 import jakarta.persistence.*;
-import lombok.*;
-
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -21,9 +23,8 @@ public class Genre {
     @Column(unique=true)
     private String name;
 
-    @ManyToOne( fetch = FetchType.EAGER)
-    @JoinColumn(name = "book_id")
-    private Book book;
+    @ManyToMany(mappedBy = "genre")
+    private List<Book> books;
 
 
 

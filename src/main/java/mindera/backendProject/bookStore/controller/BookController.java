@@ -10,6 +10,7 @@ import mindera.backendProject.bookStore.exception.AuthorNotFoundException;
 import mindera.backendProject.bookStore.exception.BookAlreadyExistsException;
 import mindera.backendProject.bookStore.exception.BookNotFoundException;
 import mindera.backendProject.bookStore.service.bookService.BookService;
+import mindera.backendProject.bookStore.service.bookService.BookServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,10 +22,10 @@ import java.util.List;
 @RequestMapping("api/v1/books")
 public class BookController {
 
-    private final BookService bookService;
+    private final BookServiceImpl bookService;
 
-    @Autowired
-    public BookController(BookService bookService){
+
+    public BookController(BookServiceImpl bookService){
         this.bookService = bookService;
     }
 
@@ -35,7 +36,7 @@ public class BookController {
     }
 
 
-    @GetMapping("/{bookId")
+    @GetMapping("/{bookId}")
     public ResponseEntity<BookCreateDto> getBook(@PathVariable("bookId") Long bookId) throws BookNotFoundException {
         return new ResponseEntity<>(bookService.getBook(bookId), HttpStatus.OK);
     }
@@ -63,7 +64,7 @@ public class BookController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable @Parameter(name= "id", description = "Book id", example = "1") Long id) throws BookNotFoundException {
         bookService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);

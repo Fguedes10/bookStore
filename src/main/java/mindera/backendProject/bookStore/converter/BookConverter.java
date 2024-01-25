@@ -12,9 +12,9 @@ public class BookConverter {
                 .isbn(bookCreateDto.isbn())
                 .author(author)
                 .publisher(bookCreateDto.publisher())
-                .genres(bookCreateDto.genres())
-                .translations(bookCreateDto.translations())
-                .reviews(bookCreateDto.reviews())
+                .genre(bookCreateDto.genres())
+                .translation(bookCreateDto.translations())
+                .review(bookCreateDto.reviews())
                 .edition(bookCreateDto.edition())
                 .releaseDate(bookCreateDto.releaseDate())
                 .price(bookCreateDto.price())
@@ -27,9 +27,9 @@ public class BookConverter {
                 book.getIsbn(),
                 book.getAuthor().getId(),
                 book.getPublisher(),
-                book.getGenres(),
-                book.getTranslations(),
-                book.getReviews(),
+                book.getGenre(),
+                book.getTranslation(),
+                book.getReview(),
                 book.getEdition(),
                 book.getReleaseDate(),
                 book.getPrice()

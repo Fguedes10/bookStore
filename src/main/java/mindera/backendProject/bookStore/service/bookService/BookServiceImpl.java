@@ -8,9 +8,7 @@ import mindera.backendProject.bookStore.exception.AuthorNotFoundException;
 import mindera.backendProject.bookStore.exception.BookAlreadyExistsException;
 import mindera.backendProject.bookStore.exception.BookNotFoundException;
 import mindera.backendProject.bookStore.model.Book;
-import mindera.backendProject.bookStore.repository.bookRepository.AuthorRepository;
 import mindera.backendProject.bookStore.repository.bookRepository.BookRepository;
-import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +21,6 @@ public class BookServiceImpl implements BookService{
     private final BookRepository bookRepository;
     private final AuthorServiceImpl authorServiceImpl;
 
-    @Autowired
     public BookServiceImpl(BookRepository bookRepository, AuthorServiceImpl authorServiceImpl){
         this.bookRepository = bookRepository;
         this.authorServiceImpl = authorServiceImpl;

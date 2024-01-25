@@ -1,10 +1,13 @@
 package mindera.backendProject.bookStore.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-@Data
+ @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -12,7 +15,7 @@ import java.time.LocalDateTime;
 @Table
 public class Download {
 
-    @Id
+   @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

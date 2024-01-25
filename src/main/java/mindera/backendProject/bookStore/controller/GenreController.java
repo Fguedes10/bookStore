@@ -7,6 +7,7 @@ import mindera.backendProject.bookStore.dto.book.GenreCreateDto;
 import mindera.backendProject.bookStore.exception.GenreAlreadyExistsException;
 import mindera.backendProject.bookStore.exception.GenreNotFoundException;
 import mindera.backendProject.bookStore.service.bookService.GenreService;
+import mindera.backendProject.bookStore.service.bookService.GenreServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +19,10 @@ import java.util.List;
 @RequestMapping("api/v1/genres")
 public class GenreController {
 
-    private final GenreService genreService;
+    private final GenreServiceImpl genreService;
 
-    @Autowired
-    public GenreController(GenreService genreService){
+
+    public GenreController(GenreServiceImpl genreService){
         this.genreService = genreService;
     }
 
@@ -32,7 +33,7 @@ public class GenreController {
     }
 
 
-    @GetMapping("/{genreId")
+    @GetMapping("/{genreId}")
     public ResponseEntity<GenreCreateDto> getGenre(@PathVariable("genreId") Long genreId) throws GenreNotFoundException{
         return new ResponseEntity<>(genreService.getGenre(genreId), HttpStatus.OK);
     }
@@ -48,7 +49,7 @@ public class GenreController {
         return new ResponseEntity<>(genreDto, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{id")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable @Parameter(name= "id", description = "Genre id", example = "1") Long id) throws GenreNotFoundException {
         genreService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);

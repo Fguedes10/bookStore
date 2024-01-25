@@ -10,7 +10,7 @@ import java.util.Set;
 public record BookCreateDto(
 
     String title,
-    String isbn,
+    Long isbn,
     Long authorId,
     String publisher,
     Set<Genre> genres,

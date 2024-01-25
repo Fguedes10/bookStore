@@ -6,15 +6,16 @@ import mindera.backendProject.bookStore.exception.ReviewNotFoundException;
 import mindera.backendProject.bookStore.model.Review;
 import mindera.backendProject.bookStore.repository.bookRepository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class ReviewServiceImpl implements ReviewService{
 
     private final ReviewRepository reviewRepository;
 
-    @Autowired
     public ReviewServiceImpl(ReviewRepository reviewRepository){
         this.reviewRepository = reviewRepository;
     }

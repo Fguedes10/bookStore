@@ -1,8 +1,10 @@
 package mindera.backendProject.bookStore.model;
 
 import jakarta.persistence.*;
-import lombok.*;
-import mindera.backendProject.bookStore.model.Customer;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -26,6 +28,9 @@ public class BookOrder {
 
     @Column(nullable = false)
     private LocalDateTime requestDate;
+
+    @OneToOne
+    private Payment payment;
 
     //Missing order status and download link??
 

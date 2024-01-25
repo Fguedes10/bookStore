@@ -23,7 +23,7 @@ public class Translation {
     @Column(unique=true)
     private String name;
 
-    @ManyToMany(mappedBy = "translation")
+    @ManyToMany(mappedBy = "translation", fetch = FetchType.EAGER)
     private List<Book> books;
 
 }

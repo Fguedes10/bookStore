@@ -21,15 +21,19 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private boolean anonymous;
-
     private String comment;
 
     private LocalDate commentDate;
 
-   @ManyToOne
+   @ManyToOne(fetch = FetchType.EAGER)
     private Book book;
 
+
+    public Review(String comment, LocalDate commentDate) {
+        this.comment = comment;
+        this.commentDate = commentDate;
+
+    }
 
 
 }

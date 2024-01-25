@@ -36,6 +36,10 @@ public class GenreServiceImpl implements GenreService{
         return GenreConverter.fromModelToGenreCreateDto(genreOptional.get());
     }
 
+    public List<Genre> getAllGenres() {
+       return genreRepository.findAll();
+    }
+
     @Override
     public GenreCreateDto add(GenreCreateDto genre) throws GenreAlreadyExistsException {
         Optional<Genre> genreOptional = genreRepository.findByName(genre.name());

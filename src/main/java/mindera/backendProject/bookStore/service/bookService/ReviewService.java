@@ -10,7 +10,6 @@ public interface ReviewService {
 
     ReviewCreateDto getReview(Long reviewId) throws ReviewNotFoundException;
 
-    ReviewCreateDto add(ReviewCreateDto review);
 
     void delete(Long id) throws ReviewNotFoundException;
 }

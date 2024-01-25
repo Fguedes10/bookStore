@@ -5,11 +5,13 @@ import mindera.backendProject.bookStore.dto.book.ReviewCreateDto;
 import mindera.backendProject.bookStore.exception.ReviewNotFoundException;
 import mindera.backendProject.bookStore.model.Review;
 import mindera.backendProject.bookStore.repository.bookRepository.ReviewRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
+import static mindera.backendProject.bookStore.util.Messages.DOESNT_EXIST;
+import static mindera.backendProject.bookStore.util.Messages.REVIEW_WITH_ID;
 
 @Service
 public class ReviewServiceImpl implements ReviewService{
@@ -29,7 +31,7 @@ public class ReviewServiceImpl implements ReviewService{
     public ReviewCreateDto getReview(Long reviewId) throws ReviewNotFoundException {
         Optional<Review> reviewOptional = reviewRepository.findById(reviewId);
         if(reviewOptional.isEmpty()){
-            throw new ReviewNotFoundException("Review with id" + reviewId + "does not exist");
+            throw new ReviewNotFoundException(REVIEW_WITH_ID + reviewId + DOESNT_EXIST);
         }
         return ReviewConverter.fromModelToReviewCreateDto(reviewOptional.get());
     }
@@ -43,7 +45,7 @@ public class ReviewServiceImpl implements ReviewService{
     public void delete(Long reviewId) throws ReviewNotFoundException {
         Optional<Review> reviewOptional = reviewRepository.findById(reviewId);
         if(reviewOptional.isEmpty()){
-            throw new ReviewNotFoundException("Review with id " + reviewId + "does not exist");
+            throw new ReviewNotFoundException(REVIEW_WITH_ID + reviewId + DOESNT_EXIST);
         }
         reviewRepository.delete(reviewOptional.get());
     }

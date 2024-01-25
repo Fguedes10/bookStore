@@ -6,11 +6,12 @@ import mindera.backendProject.bookStore.exception.AuthorAlreadyExistsException;
 import mindera.backendProject.bookStore.exception.AuthorNotFoundException;
 import mindera.backendProject.bookStore.model.Author;
 import mindera.backendProject.bookStore.repository.bookRepository.AuthorRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
+import static mindera.backendProject.bookStore.util.Messages.*;
 
 @Service
 public class AuthorServiceImpl implements AuthorService{
@@ -31,7 +32,7 @@ public class AuthorServiceImpl implements AuthorService{
     public AuthorCreateDto getAuthor(Long authorId) throws AuthorNotFoundException {
         Optional<Author> authorOptional = authorRepository.findById(authorId);
         if(authorOptional.isEmpty()){
-            throw new AuthorNotFoundException("Author with id: " + authorId + "does not exists");
+            throw new AuthorNotFoundException(AUTHOR_WITH_ID + authorId + DOESNT_EXIST);
         }
         return AuthorConverter.fromModelToAuthorCreateDto(authorOptional.get());
     }
@@ -40,7 +41,7 @@ public class AuthorServiceImpl implements AuthorService{
     public AuthorCreateDto add(AuthorCreateDto author) throws AuthorAlreadyExistsException {
         Optional<Author> authorOptional = authorRepository.findByName(author.name());
         if (authorOptional.isPresent()) {
-            throw new AuthorAlreadyExistsException("This author already exists");
+            throw new AuthorAlreadyExistsException(AUTHOR_ALREADY_EXISTS);
         }
         authorRepository.save(AuthorConverter.fromCreateDtoToModel(author));
         return author;
@@ -50,7 +51,7 @@ public class AuthorServiceImpl implements AuthorService{
     public void delete(Long authorId) throws AuthorNotFoundException {
         Optional<Author> authorOptional = authorRepository.findById(authorId);
         if(authorOptional.isEmpty()){
-            throw new AuthorNotFoundException("Author with id" + authorId + "does not exists");
+            throw new AuthorNotFoundException(AUTHOR_WITH_ID + authorId + DOESNT_EXIST);
         }
         authorRepository.delete(authorOptional.get());
     }
@@ -59,7 +60,7 @@ public class AuthorServiceImpl implements AuthorService{
     public AuthorCreateDto getAuthorByName(String authorName) throws AuthorNotFoundException {
         Optional<Author> authorOptional = authorRepository.findByName(authorName);
         if(authorOptional.isEmpty()){
-            throw new AuthorNotFoundException("Author with name" + authorName + "does not exists");
+            throw new AuthorNotFoundException(AUTHOR_WITH_NAME + authorName + DOESNT_EXIST);
         }
         return AuthorConverter.fromModelToAuthorCreateDto(authorOptional.get());
     }
@@ -67,7 +68,7 @@ public class AuthorServiceImpl implements AuthorService{
     public Author getAuthorById(Long authorId) throws AuthorNotFoundException {
         Optional<Author> authorOptional = authorRepository.findById(authorId);
         if(authorOptional.isEmpty()){
-            throw new AuthorNotFoundException("Author with id: " + authorId + "does not exists");
+            throw new AuthorNotFoundException(AUTHOR_WITH_ID + authorId + DOESNT_EXIST);
         }
         return authorOptional.get();
     }

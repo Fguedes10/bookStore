@@ -4,10 +4,11 @@ public class Messages {
 
     //CUSTOMER CONTROLLER
     public static final String CUSTOMER_WITH_ID = "Customer with id: ";
-    public static final String DOESNT_EXISTS = " doesn't exists";
+    public static final String DOESNT_EXIST = " doesn't exist";
     public static final String CUSTOMER_WITH_USERNAME = "Customer with username: ";
     public static final String CUSTOMER_ALREADY_EXISTS = "Customer with username: ";
     public static final String CUSTOMER_EMAIL_ALREADY_EXISTS = "A customer with this email already exists";
+
 
 
     //CUSTOMER CREATEDTO
@@ -20,10 +21,47 @@ public class Messages {
 
 
 
+    // BOOK CONTROLLER
+
+    public static final String BOOK_WITH_ID = "Book with id: ";
+    public static final String BOOK_ALREADY_EXISTS = "Book already exists.";
+    public static final String BOOK_WITH_TITLE = "Book with tittle: ";
 
 
 
-    // BOOK
+    // AUTHOR CONTROLLER
+    public static final String AUTHOR_WITH_ID = "Author with id: ";
+    public static final String AUTHOR_WITH_NAME = "Author with name: ";
+    public static final String AUTHOR_ALREADY_EXISTS = "Author already exists.";
+
+
+
+    // GENRE CONTROLLER
+
+    public static final String GENRE_WITH_ID = "Genre with id: ";
+    public static final String GENRE_WITH_NAME = "Genre with name: ";
+    public static final String GENRE_ALREADY_EXISTS = "Genre already exists.";
+
+
+
+    //RATING CONTROLLER
+    public static final String RATING_WITH_ID = "Rating with id: ";
+
+
+
+    //REVIEW CONTROLLER
+    public static final String REVIEW_WITH_ID = "Review with id: ";
+    public static final String REVIEW_SAME_CUSTOMER = "You have already written a review about this book.";
+
+
+
+    //TRANSLATION CONTROLLER
+    public static final String TRANSLATION_WITH_ID = "Translation with id: ";
+    public static final String TRANSLATION_WITH_NAME = "Translation with name: ";
+    public static final String TRANSLATION_ALREADY_EXISTS = "Translation already exists.";
+
+
+
 
     //STORE
 

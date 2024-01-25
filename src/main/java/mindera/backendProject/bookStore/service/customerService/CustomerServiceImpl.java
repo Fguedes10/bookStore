@@ -36,14 +36,14 @@ public class CustomerServiceImpl implements CustomerService{
     public CustomerCreateDto getCustomer(Long customerId) throws CustomerNotFoundException {
         Optional<Customer> customerOptional = customerRepository.findById(customerId);
         if(customerOptional.isEmpty()){
-            throw new CustomerNotFoundException(CUSTOMER_WITH_ID + customerId + DOESNT_EXISTS);
+            throw new CustomerNotFoundException(CUSTOMER_WITH_ID + customerId + DOESNT_EXIST);
         }
         return CustomerConverter.fromEntitytoCustomerCreateDto(customerOptional.get());
     }
     public CustomerCreateDto getCustomerByUsername(String username) throws CustomerNotFoundException {
         Optional<Customer> customerOptional = customerRepository.findByUsername(username);
         if(customerOptional.isEmpty()){
-            throw new CustomerNotFoundException(CUSTOMER_WITH_USERNAME + username + DOESNT_EXISTS);
+            throw new CustomerNotFoundException(CUSTOMER_WITH_USERNAME + username + DOESNT_EXIST);
         }
         return CustomerConverter.fromEntitytoCustomerCreateDto(customerOptional.get());
     }
@@ -64,7 +64,7 @@ public class CustomerServiceImpl implements CustomerService{
     public CustomerPatchDto updateCustomer(Long customerId, CustomerPatchDto customerPatchDto) throws CustomerNotFoundException, CustomerWithEmailAlreadyExists {
         Optional<Customer> customerOptional = customerRepository.findById(customerId);
         if (customerOptional.isEmpty()){
-            throw new CustomerNotFoundException(CUSTOMER_WITH_ID + customerId + DOESNT_EXISTS);
+            throw new CustomerNotFoundException(CUSTOMER_WITH_ID + customerId + DOESNT_EXIST);
         }
         Customer customerToPatch = customerOptional.get();
         if(customerPatchDto.firstName() != null && !customerPatchDto.firstName().isEmpty() && !customerPatchDto.firstName().equals(customerToPatch.getFirstName())){
@@ -90,7 +90,7 @@ public class CustomerServiceImpl implements CustomerService{
     public void deleteCustomer(Long customerId) throws CustomerNotFoundException {
         Optional<Customer> customerOptional = customerRepository.findById(customerId);
         if(customerOptional.isEmpty()){
-            throw new CustomerNotFoundException(CUSTOMER_WITH_ID + customerId + DOESNT_EXISTS);
+            throw new CustomerNotFoundException(CUSTOMER_WITH_ID + customerId + DOESNT_EXIST);
         }
         customerRepository.delete(customerOptional.get());
     }

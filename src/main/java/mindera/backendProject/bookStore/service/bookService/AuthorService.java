@@ -3,7 +3,6 @@ package mindera.backendProject.bookStore.service.bookService;
 import mindera.backendProject.bookStore.dto.book.AuthorCreateDto;
 import mindera.backendProject.bookStore.exception.AuthorAlreadyExistsException;
 import mindera.backendProject.bookStore.exception.AuthorNotFoundException;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 

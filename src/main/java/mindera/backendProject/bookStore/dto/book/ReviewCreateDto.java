@@ -1,6 +1,5 @@
 package mindera.backendProject.bookStore.dto.book;
 
-import jakarta.persistence.Column;
 
 import java.time.LocalDate;
 

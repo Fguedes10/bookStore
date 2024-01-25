@@ -1,8 +1,6 @@
 package mindera.backendProject.bookStore.model;
 import jakarta.persistence.*;
 import lombok.*;
-import java.time.LocalDate;
-import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;

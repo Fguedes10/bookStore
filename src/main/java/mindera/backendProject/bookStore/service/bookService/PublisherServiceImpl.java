@@ -1,6 +1,5 @@
 package mindera.backendProject.bookStore.service.bookService;
 
-import mindera.backendProject.bookStore.converter.AuthorConverter;
 import mindera.backendProject.bookStore.converter.PublisherConverter;
 import mindera.backendProject.bookStore.dto.book.PublisherCreateDto;
 import mindera.backendProject.bookStore.exception.PublisherAlreadyExistsException;

@@ -3,7 +3,6 @@ package mindera.backendProject.bookStore.dto.book;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import mindera.backendProject.bookStore.model.*;
 
 import java.util.List;
 

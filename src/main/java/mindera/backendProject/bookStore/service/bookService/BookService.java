@@ -8,7 +8,6 @@ import mindera.backendProject.bookStore.exception.AuthorNotFoundException;
 import mindera.backendProject.bookStore.exception.BookAlreadyExistsException;
 import mindera.backendProject.bookStore.exception.BookNotFoundException;
 import mindera.backendProject.bookStore.exception.PublisherNotFoundException;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 

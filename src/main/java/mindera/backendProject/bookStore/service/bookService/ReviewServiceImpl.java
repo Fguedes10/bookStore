@@ -40,6 +40,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
 
+    @Override
     public List<Review> addFirstReview() {
         List<Review> firstReview = new ArrayList<>();
         firstReview.add(new Review("This book doesn't have any reviews", LocalDate.now()));

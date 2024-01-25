@@ -3,7 +3,6 @@ import mindera.backendProject.bookStore.dto.book.*;
 import mindera.backendProject.bookStore.model.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class BookConverter {
 

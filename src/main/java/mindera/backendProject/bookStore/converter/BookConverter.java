@@ -7,12 +7,12 @@ import java.util.stream.Collectors;
 
 public class BookConverter {
 
-    public static Book fromCreateDtoToModel(BookCreateDto bookCreateDto, Author author, List<Genre> genreList, List<Translation> translationList){
+    public static Book fromCreateDtoToModel(BookCreateDto bookCreateDto, Author author, Publisher publisher, List<Genre> genreList, List<Translation> translationList){
         return Book.builder()
                 .title(bookCreateDto.title())
                 .isbn(bookCreateDto.isbn())
                 .author(author)
-                .publisher(bookCreateDto.publisher())
+                .publisher(publisher)
                 .genre(genreList)
                 .translation(translationList)
                 .edition(bookCreateDto.edition())
@@ -28,7 +28,7 @@ public class BookConverter {
         return new BookGetDto(
                 book.getTitle(),
                 AuthorConverter.fromModelToAuthorCreateDto(book.getAuthor()),
-                book.getPublisher(),
+                PublisherConverter.fromModelToPublisherCreateDto(book.getPublisher()),
                 book.getGenre().stream().map(GenreConverter::fromModelToGenreCreateDto).toList(),
                 book.getTranslation().stream().map(TranslationConverter::fromModelToTranslationCreateDto).toList(),
                 book.getEdition(),

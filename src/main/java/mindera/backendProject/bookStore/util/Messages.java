@@ -54,6 +54,13 @@ public class Messages {
 
 
 
+    // PUBLISHER CONTROLLER
+    public static final String PUBLISHER_WITH_ID = "Publisher with id: ";
+    public static final String PUBLISHER_WITH_NAME = "Publisher with name: ";
+    public static final String PUBLISHER_ALREADY_EXISTS = "Publisher already exists.";
+
+
+
     //RATING CONTROLLER
     public static final String RATING_WITH_ID = "Rating with id: ";
 

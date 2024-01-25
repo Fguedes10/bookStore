@@ -7,11 +7,11 @@ public record BookGetDto (
 
         String title,
         AuthorCreateDto author,
-        String publisher,
+        PublisherCreateDto publisher,
         List<GenreCreateDto> genres,
         List<TranslationCreateDto> translations,
         int edition,
-        LocalDate yearRelease,
+        int yearRelease,
         double price,
         List<ReviewCreateDto> reviews
 

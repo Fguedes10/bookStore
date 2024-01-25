@@ -7,6 +7,7 @@ import mindera.backendProject.bookStore.dto.book.BookUpdatePriceDto;
 import mindera.backendProject.bookStore.exception.AuthorNotFoundException;
 import mindera.backendProject.bookStore.exception.BookAlreadyExistsException;
 import mindera.backendProject.bookStore.exception.BookNotFoundException;
+import mindera.backendProject.bookStore.exception.PublisherNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public interface BookService {
 
     List<BookGetDto> getAll();
 
-    BookGetDto add(BookCreateDto book) throws BookAlreadyExistsException, AuthorNotFoundException;
+    BookGetDto add(BookCreateDto book) throws BookAlreadyExistsException, AuthorNotFoundException, PublisherNotFoundException;
 
     void delete(Long id) throws BookNotFoundException;
 

@@ -8,6 +8,7 @@ import mindera.backendProject.bookStore.dto.book.BookUpdatePriceDto;
 import mindera.backendProject.bookStore.exception.AuthorNotFoundException;
 import mindera.backendProject.bookStore.exception.BookAlreadyExistsException;
 import mindera.backendProject.bookStore.exception.BookNotFoundException;
+import mindera.backendProject.bookStore.exception.PublisherNotFoundException;
 import mindera.backendProject.bookStore.model.Book;
 import mindera.backendProject.bookStore.repository.bookRepository.BookRepository;
 import org.springframework.stereotype.Service;
@@ -25,12 +26,15 @@ public class BookServiceImpl implements BookService{
     private final GenreServiceImpl genreServiceImpl;
     private final TranslationServiceImpl translationServiceImpl;
     private final ReviewServiceImpl reviewServiceImpl;
-    public BookServiceImpl(BookRepository bookRepository, AuthorServiceImpl authorServiceImpl, GenreServiceImpl genreServiceImpl, TranslationServiceImpl translationServiceImpl, ReviewServiceImpl reviewServiceImpl){
+    private final PublisherServiceImpl publisherServiceImpl;
+
+    public BookServiceImpl(BookRepository bookRepository, AuthorServiceImpl authorServiceImpl, GenreServiceImpl genreServiceImpl, TranslationServiceImpl translationServiceImpl, ReviewServiceImpl reviewServiceImpl, PublisherServiceImpl publisherServiceImpl){
         this.bookRepository = bookRepository;
         this.authorServiceImpl = authorServiceImpl;
         this.genreServiceImpl = genreServiceImpl;
         this.translationServiceImpl = translationServiceImpl;
         this.reviewServiceImpl = reviewServiceImpl;
+        this.publisherServiceImpl = publisherServiceImpl;
     }
 
 
@@ -41,13 +45,13 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
-    public BookGetDto add(BookCreateDto book) throws BookAlreadyExistsException, AuthorNotFoundException {
+    public BookGetDto add(BookCreateDto book) throws BookAlreadyExistsException, AuthorNotFoundException, PublisherNotFoundException {
         Optional<Book> bookOptional = bookRepository.findByTitle(book.title());
         Optional<Book> bookOptional1 = bookRepository.findByIsbn(book.isbn());
         if(bookOptional.isPresent() || bookOptional1.isPresent()){
             throw new BookAlreadyExistsException(BOOK_ALREADY_EXISTS);
         }
-        Book newBook = BookConverter.fromCreateDtoToModel(book, authorServiceImpl.getAuthorById(book.authorId()), genreServiceImpl.getAllGenres(), translationServiceImpl.getAllTranslations());
+        Book newBook = BookConverter.fromCreateDtoToModel(book, authorServiceImpl.getAuthorById(book.authorId()), publisherServiceImpl.getPublisherById(book.publisherId()), genreServiceImpl.getAllGenres(), translationServiceImpl.getAllTranslations());
         newBook.setReview(reviewServiceImpl.addFirstReview());
         bookRepository.save(newBook);
         return BookConverter.fromModelToBookGetDto(newBook);

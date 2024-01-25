@@ -6,11 +6,12 @@ import mindera.backendProject.bookStore.exception.TranslationAlreadyExistsExcept
 import mindera.backendProject.bookStore.exception.TranslationNotFoundException;
 import mindera.backendProject.bookStore.model.Translation;
 import mindera.backendProject.bookStore.repository.bookRepository.TranslationRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
+import static mindera.backendProject.bookStore.util.Messages.*;
 
 @Service
 public class TranslationServiceImpl implements TranslationService{
@@ -31,7 +32,7 @@ public class TranslationServiceImpl implements TranslationService{
     public TranslationCreateDto getTranslation(Long translationId) throws TranslationNotFoundException {
         Optional<Translation> translationOptional = translationRepository.findById(translationId);
         if(translationOptional.isEmpty()){
-            throw new TranslationNotFoundException("Translation with id " + translationId + " does not exist");
+            throw new TranslationNotFoundException(TRANSLATION_WITH_ID + translationId + DOESNT_EXIST);
         }
         return TranslationConverter.fromModelToTranslationCreateDto(translationOptional.get());
     }
@@ -40,7 +41,7 @@ public class TranslationServiceImpl implements TranslationService{
     public TranslationCreateDto add(TranslationCreateDto translation) throws TranslationAlreadyExistsException {
         Optional<Translation> translationOptional = translationRepository.findByName(translation.name());
        if(translationOptional.isPresent()){
-           throw new TranslationAlreadyExistsException("Translation already exists");
+           throw new TranslationAlreadyExistsException(TRANSLATION_ALREADY_EXISTS);
        }
        translationRepository.save(TranslationConverter.fromCreateDtoToModel(translation));
        return translation;
@@ -50,7 +51,7 @@ public class TranslationServiceImpl implements TranslationService{
     public void delete(Long translationId) throws TranslationNotFoundException {
         Optional<Translation> translationOptional = translationRepository.findById(translationId);
         if(translationOptional.isEmpty()){
-            throw new TranslationNotFoundException("Translation with id " + translationId + " does not exist");
+            throw new TranslationNotFoundException(TRANSLATION_WITH_ID + translationId + DOESNT_EXIST);
         }
         translationRepository.delete(translationOptional.get());
     }
@@ -59,7 +60,7 @@ public class TranslationServiceImpl implements TranslationService{
     public TranslationCreateDto getTranslationByName(String translationName) throws TranslationNotFoundException {
        Optional<Translation> translationOptional = translationRepository.findByName(translationName);
         if(translationOptional.isEmpty()){
-            throw new TranslationNotFoundException("Translation with name " + translationName + " does not exist");
+            throw new TranslationNotFoundException(TRANSLATION_WITH_NAME + translationName + DOESNT_EXIST);
         }
         return TranslationConverter.fromModelToTranslationCreateDto(translationOptional.get());
     }

@@ -42,6 +42,11 @@ public class Messages {
     public static final String INVALID_BOOK_GENRE = "Please input a valid book genre";
     public static final String INVALID_BOOK_TRANSLATION = "Please input a valid book translation";
     public static final String INVALID_BOOK_REVIEW = "Please write a valid review";
+    public static final String INVALID_AUTHOR_ID = "Please input a valid author Id";
+    public static final String INVALID_PUBLISHER_ID = "Please input a valid publisher Id";
+    public static final String INVALID_GENRE_ID = "Please input a valid genre Id";
+    public static final String INVALID_TRANSLATION_ID = "Please input a valid translation Id";
+
 
 
 

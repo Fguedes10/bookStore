@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static mindera.backendProject.bookStore.util.Messages.*;
 
@@ -69,7 +71,13 @@ public class TranslationServiceImpl implements TranslationService{
         return TranslationConverter.fromModelToTranslationCreateDto(translationOptional.get());
     }
 
-    public List<Translation> findByIds(List<Long> translationIds) {
-        return translationRepository.findAllByIdIn(translationIds);
+    public List<Translation> findByIds(List<Long> translationIds) throws TranslationNotFoundException {
+        List<Translation> translationList = translationRepository.findAllByIdIn(translationIds);
+        Set<Long> existingIds = translationList.stream().map(Translation::getId).collect(Collectors.toSet());
+        List<Long> nonExistingIds = translationIds.stream().filter(id -> !existingIds.contains(id)).toList();
+        if(!nonExistingIds.isEmpty()){
+            throw new TranslationNotFoundException("Translations with the Id/s: " + nonExistingIds + " doesn't exist/s. ");
+        }
+        return  translationList;
     }
 }

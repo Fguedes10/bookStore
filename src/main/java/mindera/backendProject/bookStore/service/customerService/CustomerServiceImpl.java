@@ -10,6 +10,7 @@ import mindera.backendProject.bookStore.model.Customer;
 import mindera.backendProject.bookStore.repository.customerRepository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,22 +51,38 @@ public class CustomerServiceImpl implements CustomerService{
 
     @Override
     public CustomerCreateDto createCustomer(CustomerCreateDto customerCreateDto) throws CustomerAlreadyExistsException {
-        Optional<Customer> customerFindByEmail = customerRepository.findByEmail(customerCreateDto.email());
-        Optional<Customer> customerFindByNif = customerRepository.findByNif(customerCreateDto.nif());
-        Optional<Customer> customerFindByUsername= customerRepository.findByUsername(customerCreateDto.username());
-        if(customerFindByUsername.isPresent()){
-            throw new CustomerAlreadyExistsException(CUSTOMER_WITH_USERNAME + customerCreateDto.username() + ALREADY_EXISTS );
-        }
-        if(customerFindByEmail.isPresent()){
-            throw new CustomerAlreadyExistsException(CUSTOMER_WITH_EMAIL + customerCreateDto.email() + ALREADY_EXISTS);
-        }
-        if(customerFindByNif.isPresent()){
-            throw new CustomerAlreadyExistsException(CUSTOMER_WITH_NIF + customerCreateDto.nif() + ALREADY_EXISTS);
-        }
+        verifyIfCustomerExists(customerCreateDto);
         Customer customerToSave = CustomerConverter.fromCustomerCreateDtoToEntity(customerCreateDto);
         customerRepository.save(customerToSave);
         return customerCreateDto;
     }
+
+    public List<CustomerCreateDto> createCustomers(List<CustomerCreateDto> customerCreateDto) throws CustomerAlreadyExistsException {
+        List<CustomerCreateDto> customersCreated = new ArrayList<>();
+        for(CustomerCreateDto customerToCreate : customerCreateDto){
+            verifyIfCustomerExists(customerToCreate);
+            Customer customerToSave = CustomerConverter.fromCustomerCreateDtoToEntity(customerToCreate);
+            customerRepository.save(customerToSave);
+            customersCreated.add(customerToCreate);
+        }
+        return customersCreated;
+    }
+
+    private void verifyIfCustomerExists(CustomerCreateDto customerToCreate) throws CustomerAlreadyExistsException {
+        Optional<Customer> customerFindByEmail = customerRepository.findByEmail(customerToCreate.email());
+        Optional<Customer> customerFindByNif = customerRepository.findByNif(customerToCreate.nif());
+        Optional<Customer> customerFindByUsername= customerRepository.findByUsername(customerToCreate.username());
+        if(customerFindByUsername.isPresent()){
+            throw new CustomerAlreadyExistsException(CUSTOMER_WITH_USERNAME + customerToCreate.username() + ALREADY_EXISTS );
+        }
+        if(customerFindByEmail.isPresent()){
+            throw new CustomerAlreadyExistsException(CUSTOMER_WITH_EMAIL + customerToCreate.email() + ALREADY_EXISTS);
+        }
+        if(customerFindByNif.isPresent()){
+            throw new CustomerAlreadyExistsException(CUSTOMER_WITH_NIF + customerToCreate.nif() + ALREADY_EXISTS);
+        }
+    }
+
     @Override
     public CustomerPatchDto updateCustomer(Long customerId, CustomerPatchDto customerPatchDto) throws CustomerNotFoundException, CustomerWithEmailAlreadyExists {
         Optional<Customer> customerOptional = customerRepository.findById(customerId);

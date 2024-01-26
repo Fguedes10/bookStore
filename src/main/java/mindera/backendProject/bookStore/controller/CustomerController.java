@@ -43,13 +43,23 @@ public class CustomerController {
 
 
     @PostMapping("/")
-    public ResponseEntity<CustomerCreateDto> addNewCustomer(@Valid @RequestBody CustomerCreateDto client,
+    public ResponseEntity<CustomerCreateDto> addNewCustomer(@Valid @RequestBody CustomerCreateDto customer,
                                                             BindingResult bindingResult) throws CustomerAlreadyExistsException {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(customerService.createCustomer(client), HttpStatus.CREATED);
+        return new ResponseEntity<>(customerService.createCustomer(customer), HttpStatus.CREATED);
     }
+    @PostMapping("/addMany")
+    public ResponseEntity<List<CustomerCreateDto>> addNewCustomers(@Valid @RequestBody List<CustomerCreateDto> customer,
+                                                            BindingResult bindingResult) throws CustomerAlreadyExistsException {
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(customerService.createCustomers(customer), HttpStatus.CREATED);
+    }
+
+
 
     @PatchMapping("/id/{customerId}")
     public ResponseEntity<CustomerPatchDto> updateCustomer(@PathVariable ("customerId") Long customerId, @Valid @RequestBody CustomerPatchDto customerPatchDto, BindingResult bindingResult) throws CustomerNotFoundException, CustomerWithEmailAlreadyExists {

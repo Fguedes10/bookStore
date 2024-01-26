@@ -14,8 +14,7 @@ public class ReviewConverter {
 
     public static ReviewCreateDto fromModelToReviewCreateDto(Review review) {
         return new ReviewCreateDto(
-                review.getComment(),
-                review.getCommentDate()
+                review.getComment()
         );
     }
 }

@@ -2,6 +2,7 @@ package mindera.backendProject.bookStore.converter;
 import mindera.backendProject.bookStore.dto.book.*;
 import mindera.backendProject.bookStore.model.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BookConverter {
@@ -21,10 +22,8 @@ public class BookConverter {
     }
 
 
-
-
     public static BookGetDto fromModelToBookGetDto(Book book) {
-        return new BookGetDto(
+       return new BookGetDto(
                 book.getTitle(),
                 AuthorConverter.fromModelToAuthorCreateDto(book.getAuthor()),
                 PublisherConverter.fromModelToPublisherCreateDto(book.getPublisher()),
@@ -36,7 +35,6 @@ public class BookConverter {
                 book.getReview().stream().map(ReviewConverter::fromModelToReviewCreateDto).toList()
         );
     }
-
 
 
     public static BookUpdateEditionDto fromModelToBookUpdateEditionDto (Book book) {

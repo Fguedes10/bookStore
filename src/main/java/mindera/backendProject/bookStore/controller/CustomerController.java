@@ -31,27 +31,37 @@ public class CustomerController {
         return new ResponseEntity<>(customerService.getCustomers(), HttpStatus.OK);
     }
 
-    @GetMapping("/{customerId}")
+    @GetMapping("/id/{customerId}")
     public ResponseEntity<CustomerCreateDto> getCustomer(@PathVariable("customerId") Long customerId) throws CustomerNotFoundException {
         return new ResponseEntity<>(customerService.getCustomer(customerId), HttpStatus.OK);
     }
 
-    @GetMapping("/{username}")
+    @GetMapping("/username/{username}")
     public ResponseEntity<CustomerCreateDto> getCustomerByUsername(@PathVariable("username") String username) throws CustomerNotFoundException {
         return new ResponseEntity<>(customerService.getCustomerByUsername(username), HttpStatus.OK);
     }
 
 
     @PostMapping("/")
-    public ResponseEntity<CustomerCreateDto> addNewCustomer(@Valid @RequestBody CustomerCreateDto client,
+    public ResponseEntity<CustomerCreateDto> addNewCustomer(@Valid @RequestBody CustomerCreateDto customer,
                                                             BindingResult bindingResult) throws CustomerAlreadyExistsException {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(customerService.createCustomer(client), HttpStatus.CREATED);
+        return new ResponseEntity<>(customerService.createCustomer(customer), HttpStatus.CREATED);
+    }
+    @PostMapping("/addMany")
+    public ResponseEntity<List<CustomerCreateDto>> addNewCustomers(@Valid @RequestBody List<CustomerCreateDto> customer,
+                                                            BindingResult bindingResult) throws CustomerAlreadyExistsException {
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(customerService.createCustomers(customer), HttpStatus.CREATED);
     }
 
-    @PatchMapping("/{customerId}")
+
+
+    @PatchMapping("/id/{customerId}")
     public ResponseEntity<CustomerPatchDto> updateCustomer(@PathVariable ("customerId") Long customerId, @Valid @RequestBody CustomerPatchDto customerPatchDto, BindingResult bindingResult) throws CustomerNotFoundException, CustomerWithEmailAlreadyExists {
         if(bindingResult.hasErrors()){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -59,7 +69,7 @@ public class CustomerController {
         return new ResponseEntity<>(customerService.updateCustomer(customerId, customerPatchDto), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{customerId}")
+    @DeleteMapping("/id/{customerId}")
     public ResponseEntity<Customer> deleteCustomerById(@PathVariable ("customerId") Long customerId) throws CustomerNotFoundException {
         customerService.deleteCustomer(customerId);
         return new ResponseEntity<>(HttpStatus.OK);

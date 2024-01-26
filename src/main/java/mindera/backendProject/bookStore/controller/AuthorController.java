@@ -6,6 +6,7 @@ import mindera.backendProject.bookStore.aspect.ExceptionsHandler;
 import mindera.backendProject.bookStore.dto.book.AuthorCreateDto;
 import mindera.backendProject.bookStore.exception.AuthorAlreadyExistsException;
 import mindera.backendProject.bookStore.exception.AuthorNotFoundException;
+import mindera.backendProject.bookStore.exception.CannotDeleteException;
 import mindera.backendProject.bookStore.model.Author;
 import mindera.backendProject.bookStore.service.bookService.AuthorServiceImpl;
 import mindera.backendProject.bookStore.util.Messages;
@@ -59,7 +60,7 @@ public class AuthorController {
 
 
     @DeleteMapping("/id/{authorId}")
-    public ResponseEntity<Author> delete(@PathVariable ("authorId") Long authorId) throws AuthorNotFoundException {
+    public ResponseEntity<Author> delete(@PathVariable ("authorId") Long authorId) throws AuthorNotFoundException, CannotDeleteException {
         authorService.delete(authorId);
         return new ResponseEntity<>(HttpStatus.OK);
     }

@@ -31,7 +31,7 @@ public class Messages {
 
 
 
-    //BOOK RELATEDDTO
+    //BOOK RELATED DTO
     public static final String INVALID_TITLE = "Please input a valid title";
     public static final String INVALID_PUBLISHER = "Please input a valid publisher";
     public static final String INVALID_EDITION = "Please input a valid edition";
@@ -84,7 +84,8 @@ public class Messages {
     public static final String TRANSLATION_ALREADY_EXISTS = "Translation already exists.";
 
 
-
+    // DELETE MESSAGE
+    public static final String CANNOT_BE_DELETED = "Cannot de deleted because it is being used in another table";
 
 
     //STORE

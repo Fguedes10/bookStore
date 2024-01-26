@@ -8,15 +8,13 @@ public class ReviewConverter {
     public static Review fromCreateDtoToModel(ReviewCreateDto reviewCreateDto) {
         return Review.builder()
                 .comment(reviewCreateDto.comment())
-                .commentDate(reviewCreateDto.commentDate())
                 .build();
     }
 
 
     public static ReviewCreateDto fromModelToReviewCreateDto(Review review) {
         return new ReviewCreateDto(
-                review.getComment(),
-                review.getCommentDate()
+                review.getComment()
         );
     }
 }

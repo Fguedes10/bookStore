@@ -9,7 +9,7 @@ import mindera.backendProject.bookStore.exception.AuthorNotFoundException;
 import mindera.backendProject.bookStore.exception.BookAlreadyExistsException;
 import mindera.backendProject.bookStore.exception.BookNotFoundException;
 import mindera.backendProject.bookStore.exception.PublisherNotFoundException;
-import mindera.backendProject.bookStore.model.Book;
+import mindera.backendProject.bookStore.model.*;
 import mindera.backendProject.bookStore.repository.bookRepository.BookRepository;
 import org.springframework.stereotype.Service;
 
@@ -46,13 +46,17 @@ public class BookServiceImpl implements BookService{
 
     @Override
     public BookGetDto add(BookCreateDto book) throws BookAlreadyExistsException, AuthorNotFoundException, PublisherNotFoundException {
-        Optional<Book> bookOptional = bookRepository.findByTitle(book.title());
-        Optional<Book> bookOptional1 = bookRepository.findByIsbn(book.isbn());
-        if(bookOptional.isPresent() || bookOptional1.isPresent()){
+        Optional<Book> bookFindByTitle = bookRepository.findByTitle(book.title());
+        Optional<Book> bookFindByIsbn = bookRepository.findByIsbn(book.isbn());
+        Author author= authorServiceImpl.getAuthorById(book.authorId());
+        Publisher publisher = publisherServiceImpl.getPublisherById(book.publisherId());
+        List<Genre> genreList = genreServiceImpl.findByIds(book.genre());
+        List<Translation> translationList = translationServiceImpl.findByIds(book.translation());
+        if(bookFindByTitle.isPresent() || bookFindByIsbn.isPresent()){
             throw new BookAlreadyExistsException(BOOK_ALREADY_EXISTS);
         }
-        Book newBook = BookConverter.fromCreateDtoToModel(book, authorServiceImpl.getAuthorById(book.authorId()), publisherServiceImpl.getPublisherById(book.publisherId()), genreServiceImpl.getAllGenres(), translationServiceImpl.getAllTranslations());
-        newBook.setReview(reviewServiceImpl.addFirstReview());
+        Book newBook = BookConverter.fromCreateDtoToModel(book, author, publisher, genreList, translationList);
+        reviewServiceImpl.addFirstReview(newBook);
         bookRepository.save(newBook);
         return BookConverter.fromModelToBookGetDto(newBook);
     }

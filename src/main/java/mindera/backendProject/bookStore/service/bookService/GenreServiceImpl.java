@@ -68,4 +68,8 @@ public class GenreServiceImpl implements GenreService{
         }
         return GenreConverter.fromModelToGenreCreateDto(genreOptional.get());
     }
+
+    public List<Genre> findByIds(List<Long> genreIds) {
+        return genreRepository.findAllByIdIn(genreIds);
+    }
 }

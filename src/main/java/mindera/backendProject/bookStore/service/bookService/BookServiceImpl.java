@@ -5,10 +5,7 @@ import mindera.backendProject.bookStore.dto.book.BookCreateDto;
 import mindera.backendProject.bookStore.dto.book.BookGetDto;
 import mindera.backendProject.bookStore.dto.book.BookUpdateEditionDto;
 import mindera.backendProject.bookStore.dto.book.BookUpdatePriceDto;
-import mindera.backendProject.bookStore.exception.AuthorNotFoundException;
-import mindera.backendProject.bookStore.exception.BookAlreadyExistsException;
-import mindera.backendProject.bookStore.exception.BookNotFoundException;
-import mindera.backendProject.bookStore.exception.PublisherNotFoundException;
+import mindera.backendProject.bookStore.exception.*;
 import mindera.backendProject.bookStore.model.*;
 import mindera.backendProject.bookStore.repository.bookRepository.BookRepository;
 import org.springframework.stereotype.Service;
@@ -45,7 +42,7 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
-    public BookGetDto add(BookCreateDto book) throws BookAlreadyExistsException, AuthorNotFoundException, PublisherNotFoundException {
+    public BookGetDto add(BookCreateDto book) throws BookAlreadyExistsException, AuthorNotFoundException, PublisherNotFoundException, GenreNotFoundException, TranslationNotFoundException {
         Optional<Book> bookFindByTitle = bookRepository.findByTitle(book.title());
         Optional<Book> bookFindByIsbn = bookRepository.findByIsbn(book.isbn());
         Author author= authorServiceImpl.getAuthorById(book.authorId());

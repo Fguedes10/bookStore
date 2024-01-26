@@ -16,11 +16,8 @@ public record ReviewCreateDto(
 
         @NotBlank(message = INVALID_BOOK_REVIEW)
         @Pattern(regexp = "[a-zA-Z_0-9!?#$]+",message = INVALID_BOOK_REVIEW)
-        String comment,
+        String comment
 
-        @NotBlank(message = INVALID_DATE)
-        @CurrentTimestamp
-        LocalDate commentDate
 
 ) {
 }

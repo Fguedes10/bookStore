@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static mindera.backendProject.bookStore.util.Messages.*;
 
@@ -69,7 +71,13 @@ public class GenreServiceImpl implements GenreService{
         return GenreConverter.fromModelToGenreCreateDto(genreOptional.get());
     }
 
-    public List<Genre> findByIds(List<Long> genreIds) {
-        return genreRepository.findAllByIdIn(genreIds);
+    public List<Genre> findByIds(List<Long> genreIds) throws GenreNotFoundException {
+        List<Genre> genreList = genreRepository.findAllByIdIn(genreIds);
+        Set<Long> existingIds = genreList.stream().map(Genre::getId).collect(Collectors.toSet());
+        List<Long> nonExistingIds = genreIds.stream().filter(id -> !existingIds.contains(id)).toList();
+        if(!nonExistingIds.isEmpty()){
+            throw new GenreNotFoundException("Genre with the Id/s: " + nonExistingIds + " doesn't exist/s. ");
+        }
+        return genreList;
     }
 }

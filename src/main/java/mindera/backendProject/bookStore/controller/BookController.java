@@ -7,10 +7,7 @@ import mindera.backendProject.bookStore.dto.book.BookGetDto;
 import mindera.backendProject.bookStore.dto.book.BookUpdateEditionDto;
 import mindera.backendProject.bookStore.dto.book.BookUpdatePriceDto;
 
-import mindera.backendProject.bookStore.exception.AuthorNotFoundException;
-import mindera.backendProject.bookStore.exception.BookAlreadyExistsException;
-import mindera.backendProject.bookStore.exception.BookNotFoundException;
-import mindera.backendProject.bookStore.exception.PublisherNotFoundException;
+import mindera.backendProject.bookStore.exception.*;
 import mindera.backendProject.bookStore.service.bookService.BookServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,7 +44,7 @@ public class BookController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<BookGetDto> add(@RequestBody BookCreateDto book) throws BookAlreadyExistsException, AuthorNotFoundException, PublisherNotFoundException {
+    public ResponseEntity<BookGetDto> add(@RequestBody BookCreateDto book) throws BookAlreadyExistsException, AuthorNotFoundException, PublisherNotFoundException, GenreNotFoundException, TranslationNotFoundException {
         BookGetDto bookDto = bookService.add(book);
         return new ResponseEntity<>(bookDto, HttpStatus.CREATED);
     }

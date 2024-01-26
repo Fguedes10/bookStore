@@ -68,4 +68,8 @@ public class TranslationServiceImpl implements TranslationService{
         }
         return TranslationConverter.fromModelToTranslationCreateDto(translationOptional.get());
     }
+
+    public List<Translation> findByIds(List<Long> translationIds) {
+        return translationRepository.findAllByIdIn(translationIds);
+    }
 }

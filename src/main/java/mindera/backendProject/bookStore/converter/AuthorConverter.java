@@ -1,6 +1,7 @@
 package mindera.backendProject.bookStore.converter;
 
 import mindera.backendProject.bookStore.dto.book.AuthorCreateDto;
+import mindera.backendProject.bookStore.dto.book.AuthorGetDto;
 import mindera.backendProject.bookStore.model.Author;
 
 
@@ -17,4 +18,12 @@ public class AuthorConverter {
         return new AuthorCreateDto(
                 author.getName());
     }
+
+    public static AuthorGetDto fromAuthorCreateDtoToAuthorGetDto(AuthorCreateDto authorCreateDto) {
+        return new AuthorGetDto(
+                authorCreateDto.name()
+        );
+    }
+
+
 }

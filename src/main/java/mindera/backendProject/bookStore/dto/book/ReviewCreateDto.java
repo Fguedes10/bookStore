@@ -21,5 +21,6 @@ public record ReviewCreateDto(
         @NotBlank(message = INVALID_DATE)
         @CurrentTimestamp
         LocalDate commentDate
+
 ) {
 }

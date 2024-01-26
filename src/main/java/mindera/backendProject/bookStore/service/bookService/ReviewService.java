@@ -13,5 +13,4 @@ public interface ReviewService {
 
     void delete(Long id) throws ReviewNotFoundException;
 
-    List<Review> addFirstReview();
 }

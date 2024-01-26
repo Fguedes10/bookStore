@@ -2,6 +2,7 @@ package mindera.backendProject.bookStore.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -36,12 +37,12 @@ public class Book {
     List<Customer> customersWhoFavorited;
 
     @ManyToMany(mappedBy = "purchasedBooks", fetch = FetchType.EAGER)
-    private Set<Customer> customersWhoPurchased;
+    private List<Customer> customersWhoPurchased;
 
     @ManyToMany(fetch = FetchType.EAGER)
     List<Genre> genre;
 
-    @OneToMany(mappedBy = "book", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "book", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     List<Review> review = new ArrayList<>();
 
     private Integer edition;
@@ -54,8 +55,7 @@ public class Book {
     List<Translation> translation;
 
 
-    public void addReview(List<Review> review1, Review review){
-        review1.add(review);
+    public void addReview(Review review){
+        this.review.add(review);
     }
-
 }

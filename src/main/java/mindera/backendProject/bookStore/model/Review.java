@@ -25,14 +25,12 @@ public class Review {
 
     private LocalDate commentDate;
 
-   @ManyToOne(fetch = FetchType.EAGER)
+   @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Book book;
 
 
-    public Review(String comment, LocalDate commentDate) {
+    public Review(String comment) {
         this.comment = comment;
-        this.commentDate = commentDate;
-
     }
 
 

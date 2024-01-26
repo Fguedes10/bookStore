@@ -3,6 +3,7 @@ package mindera.backendProject.bookStore.service.bookService;
 import mindera.backendProject.bookStore.converter.ReviewConverter;
 import mindera.backendProject.bookStore.dto.book.ReviewCreateDto;
 import mindera.backendProject.bookStore.exception.ReviewNotFoundException;
+import mindera.backendProject.bookStore.model.Book;
 import mindera.backendProject.bookStore.model.Review;
 import mindera.backendProject.bookStore.repository.bookRepository.ReviewRepository;
 import org.springframework.stereotype.Service;
@@ -39,12 +40,16 @@ public class ReviewServiceImpl implements ReviewService {
         return ReviewConverter.fromModelToReviewCreateDto(reviewOptional.get());
     }
 
+    public void addFirstReview(Book book) {
+        Review noReviewsYet = new Review("This book doesn't have any reviews");
+        noReviewsYet.setBook(book);
+        noReviewsYet.setCommentDate(LocalDate.now());
 
-    @Override
-    public List<Review> addFirstReview() {
-        List<Review> firstReview = new ArrayList<>();
-        firstReview.add(new Review("This book doesn't have any reviews", LocalDate.now()));
-        return firstReview;
+        if(book.getReview() == null){
+            book.setReview(new ArrayList<>());
+        }
+        book.addReview(noReviewsYet);
+        reviewRepository.save(noReviewsYet);
     }
 
     @Override

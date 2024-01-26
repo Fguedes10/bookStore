@@ -4,7 +4,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-import static java.security.cert.PKIXReason.INVALID_NAME;
 import static mindera.backendProject.bookStore.util.Messages.*;
 
 public record AuthorCreateDto(

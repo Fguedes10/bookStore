@@ -31,13 +31,17 @@ public class Messages {
 
 
 
-    //BOOK CREATEDTO
+    //BOOK RELATEDDTO
     public static final String INVALID_TITLE = "Please input a valid title";
     public static final String INVALID_PUBLISHER = "Please input a valid publisher";
     public static final String INVALID_EDITION = "Please input a valid edition";
     public static final String INVALID_DATE = "Please input a valid date";
     public static final String INVALID_PRICE = "Please input a valid price";
     public static final String INVALID_ISBN = "Please input a valid isbn";
+    public static final String INVALID_NAME_AUTHOR = "Please input a valid author's name";
+    public static final String INVALID_BOOK_GENRE = "Please input a valid book genre";
+    public static final String INVALID_BOOK_TRANSLATION = "Please input a valid book translation";
+    public static final String INVALID_BOOK_REVIEW = "Please write a valid review";
 
 
 

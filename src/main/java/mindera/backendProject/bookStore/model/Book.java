@@ -26,7 +26,6 @@ public class Book {
     @Column(unique=true)
     private Long isbn;
 
-
     @ManyToOne(fetch = FetchType.EAGER )
     private Author author;
 

@@ -33,13 +33,13 @@ public class BookController {
     }
 
 
-    @GetMapping("/{bookId}")
+    @GetMapping("/search/{bookId}")
     public ResponseEntity<BookGetDto> getBook(@PathVariable("bookId") Long bookId) throws BookNotFoundException {
         return new ResponseEntity<>(bookService.getBook(bookId), HttpStatus.OK);
     }
 
-    @GetMapping("/search")
-    public ResponseEntity<BookGetDto> getBookByTitle(@PathVariable("bookTittle") String bookTittle) throws BookNotFoundException {
+    @GetMapping("/search/{title}")
+    public ResponseEntity<BookGetDto> getBookByTitle(@PathVariable("title") String bookTittle) throws BookNotFoundException {
         return new ResponseEntity<>(bookService.getBookByTitle(bookTittle), HttpStatus.OK);
     }
 

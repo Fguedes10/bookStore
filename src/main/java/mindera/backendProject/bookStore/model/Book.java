@@ -54,6 +54,7 @@ public class Book {
     @ManyToMany(fetch = FetchType.EAGER)
     List<Translation> translation;
 
+
     public void addReview(List<Review> review1, Review review){
         review1.add(review);
     }

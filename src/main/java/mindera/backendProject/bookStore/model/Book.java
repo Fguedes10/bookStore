@@ -1,8 +1,8 @@
 package mindera.backendProject.bookStore.model;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 
@@ -25,32 +25,38 @@ public class Book {
     @Column(unique=true)
     private Long isbn;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER )
     private Author author;
 
-    private String publisher;
+    @ManyToOne(fetch = FetchType.EAGER )
+    private Publisher publisher;
 
+    @ManyToMany(mappedBy = "favoriteBooks", fetch = FetchType.EAGER )
+    List<Customer> customersWhoFavorited;
 
-    @ManyToMany(mappedBy = "favoriteBooks")
-    Set<Customer> customersWhoFavorited;
-
-    @ManyToMany(mappedBy = "purchasedBooks")
+    @ManyToMany(mappedBy = "purchasedBooks", fetch = FetchType.EAGER)
     private Set<Customer> customersWhoPurchased;
 
-    @ManyToMany
-    Set<Genre> genre;
+    @ManyToMany(fetch = FetchType.EAGER)
+    List<Genre> genre;
 
-    @OneToMany(mappedBy = "book")
-    Set<Review> review;
+    @OneToMany(mappedBy = "book", fetch = FetchType.EAGER)
+    List<Review> review = new ArrayList<>();
 
     private Integer edition;
 
-    private LocalDate releaseDate;
+    private int yearRelease;
 
     private double price;
 
-    @ManyToMany
-    Set<Translation> translation;
+    @ManyToMany(fetch = FetchType.EAGER)
+    List<Translation> translation;
 
+
+
+
+    public void addReview(List<Review> review1, Review review){
+        review1.add(review);
+    }
 
 }

@@ -7,7 +7,6 @@ public class ReviewConverter {
 
     public static Review fromCreateDtoToModel(ReviewCreateDto reviewCreateDto) {
         return Review.builder()
-                .anonymous(reviewCreateDto.anonymous())
                 .comment(reviewCreateDto.comment())
                 .commentDate(reviewCreateDto.commentDate())
                 .build();
@@ -16,7 +15,6 @@ public class ReviewConverter {
 
     public static ReviewCreateDto fromModelToReviewCreateDto(Review review) {
         return new ReviewCreateDto(
-                review.isAnonymous(),
                 review.getComment(),
                 review.getCommentDate()
         );

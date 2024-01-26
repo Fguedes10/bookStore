@@ -37,6 +37,10 @@ public class TranslationServiceImpl implements TranslationService{
         return TranslationConverter.fromModelToTranslationCreateDto(translationOptional.get());
     }
 
+    public List<Translation> getAllTranslations() {
+        return translationRepository.findAll();
+    }
+
     @Override
     public TranslationCreateDto add(TranslationCreateDto translation) throws TranslationAlreadyExistsException {
         Optional<Translation> translationOptional = translationRepository.findByName(translation.name());

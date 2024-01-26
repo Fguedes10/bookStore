@@ -1,40 +1,42 @@
 package mindera.backendProject.bookStore.converter;
-import mindera.backendProject.bookStore.dto.book.BookCreateDto;
-import mindera.backendProject.bookStore.dto.book.BookUpdateEditionDto;
-import mindera.backendProject.bookStore.dto.book.BookUpdatePriceDto;
+import mindera.backendProject.bookStore.dto.book.*;
 import mindera.backendProject.bookStore.model.*;
+
+import java.util.List;
 
 public class BookConverter {
 
-    public static Book fromCreateDtoToModel(BookCreateDto bookCreateDto, Author author){
+    public static Book fromCreateDtoToModel(BookCreateDto bookCreateDto, Author author, Publisher publisher, List<Genre> genreList, List<Translation> translationList){
         return Book.builder()
                 .title(bookCreateDto.title())
                 .isbn(bookCreateDto.isbn())
                 .author(author)
-                .publisher(bookCreateDto.publisher())
-                .genre(bookCreateDto.genres())
-                .translation(bookCreateDto.translations())
-                .review(bookCreateDto.reviews())
+                .publisher(publisher)
+                .genre(genreList)
+                .translation(translationList)
                 .edition(bookCreateDto.edition())
-                .releaseDate(bookCreateDto.releaseDate())
+                .yearRelease(bookCreateDto.yearRelease())
                 .price(bookCreateDto.price())
                 .build();
     }
 
-    public static BookCreateDto fromModelToBookCreateDto(Book book) {
-        return new BookCreateDto(
+
+
+
+    public static BookGetDto fromModelToBookGetDto(Book book) {
+        return new BookGetDto(
                 book.getTitle(),
-                book.getIsbn(),
-                book.getAuthor().getId(),
-                book.getPublisher(),
-                book.getGenre(),
-                book.getTranslation(),
-                book.getReview(),
+                AuthorConverter.fromModelToAuthorCreateDto(book.getAuthor()),
+                PublisherConverter.fromModelToPublisherCreateDto(book.getPublisher()),
+                book.getGenre().stream().map(GenreConverter::fromModelToGenreCreateDto).toList(),
+                book.getTranslation().stream().map(TranslationConverter::fromModelToTranslationCreateDto).toList(),
                 book.getEdition(),
-                book.getReleaseDate(),
-                book.getPrice()
+                book.getYearRelease(),
+                book.getPrice(),
+                book.getReview().stream().map(ReviewConverter::fromModelToReviewCreateDto).toList()
         );
     }
+
 
 
     public static BookUpdateEditionDto fromModelToBookUpdateEditionDto (Book book) {

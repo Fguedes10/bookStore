@@ -29,6 +29,16 @@ public class Messages {
 
 
 
+    //BOOK CREATEDTO
+    public static final String INVALID_TITLE = "Please input a valid title";
+    public static final String INVALID_PUBLISHER = "Please input a valid publisher";
+    public static final String INVALID_EDITION = "Please input a valid edition";
+    public static final String INVALID_DATE = "Please input a valid date";
+    public static final String INVALID_PRICE = "Please input a valid price";
+    public static final String INVALID_ISBN = "Please input a valid isbn";
+
+
+
     // AUTHOR CONTROLLER
     public static final String AUTHOR_WITH_ID = "Author with id: ";
     public static final String AUTHOR_WITH_NAME = "Author with name: ";
@@ -41,6 +51,13 @@ public class Messages {
     public static final String GENRE_WITH_ID = "Genre with id: ";
     public static final String GENRE_WITH_NAME = "Genre with name: ";
     public static final String GENRE_ALREADY_EXISTS = "Genre already exists.";
+
+
+
+    // PUBLISHER CONTROLLER
+    public static final String PUBLISHER_WITH_ID = "Publisher with id: ";
+    public static final String PUBLISHER_WITH_NAME = "Publisher with name: ";
+    public static final String PUBLISHER_ALREADY_EXISTS = "Publisher already exists.";
 
 
 

@@ -34,11 +34,11 @@ public class ReviewController {
     }
 
 
-    @PostMapping("/")
+   /* @PostMapping("/")
     public ResponseEntity<ReviewCreateDto> add(@RequestBody ReviewCreateDto review) {
         ReviewCreateDto reviewDto = reviewService.add(review);
         return new ResponseEntity<>(reviewDto, HttpStatus.CREATED);
-    }
+    }*/
 
 
     @DeleteMapping("/{id}")

@@ -41,9 +41,9 @@ public class ReviewController {
     }*/
 
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable @Parameter(name= "id", description = "Review id", example = "1") Long id) throws ReviewNotFoundException {
-        reviewService.delete(id);
+    @DeleteMapping("/{reviewId}")
+    public ResponseEntity<String> delete(@PathVariable (name="reviewId") Long reviewId) throws ReviewNotFoundException {
+        reviewService.delete(reviewId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

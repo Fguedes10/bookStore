@@ -23,12 +23,12 @@ public class RatingController {
     }
 
 
-    @GetMapping("/{ratingId}")
+    @GetMapping("/id/{ratingId}")
     public ResponseEntity<RatingCreateDto> getRating(@PathVariable("ratingId") Long ratingId) throws RatingNotFoundException {
         return new ResponseEntity<>(ratingService.getRating(ratingId), HttpStatus.OK);
     }
 
-    @GetMapping("/search")
+    @GetMapping("/value/{ratingValue}")
     public ResponseEntity<RatingCreateDto> getRatingByValue(@PathVariable("ratingValue") int ratingValue) throws RatingNotFoundException {
         return new ResponseEntity<>(ratingService.getRatingByValue(ratingValue), HttpStatus.OK);
     }

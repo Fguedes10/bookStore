@@ -1,11 +1,13 @@
 package mindera.backendProject.bookStore.controller;
 
 import io.swagger.v3.oas.annotations.Parameter;
+import jakarta.validation.Valid;
 import mindera.backendProject.bookStore.dto.book.TranslationCreateDto;
 import mindera.backendProject.bookStore.exception.*;
 import mindera.backendProject.bookStore.service.bookService.TranslationServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,27 +30,30 @@ public class TranslationController {
     }
 
 
-    @GetMapping("/{translationId}")
+    @GetMapping("/id/{translationId}")
     public ResponseEntity<TranslationCreateDto> getTranslation(@PathVariable("translationId") Long translationId) throws TranslationNotFoundException {
         return new ResponseEntity<>(translationService.getTranslation(translationId), HttpStatus.OK);
     }
 
-    @GetMapping("/search")
+    @GetMapping("/name/{translationName}")
     public ResponseEntity<TranslationCreateDto> getTranslationByName(@PathVariable("translationName") String translationName) throws TranslationNotFoundException {
         return new ResponseEntity<>(translationService.getTranslationByName(translationName), HttpStatus.OK);
     }
 
 
     @PostMapping("/")
-    public ResponseEntity<TranslationCreateDto> add(@RequestBody TranslationCreateDto translation) throws TranslationAlreadyExistsException {
+    public ResponseEntity<TranslationCreateDto> add(@Valid @RequestBody TranslationCreateDto translation, BindingResult bindingResult) throws TranslationAlreadyExistsException {
+        if(bindingResult.hasErrors()){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         TranslationCreateDto translationDto = translationService.add(translation);
         return new ResponseEntity<>(translationDto, HttpStatus.CREATED);
     }
 
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable @Parameter(name= "id", description = "Translation id", example = "1") Long id) throws TranslationNotFoundException {
-        translationService.delete(id);
+    @DeleteMapping("/id/{translationId}")
+    public ResponseEntity<String> delete(@PathVariable ("translationId") Long translationId) throws TranslationNotFoundException {
+        translationService.delete(translationId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

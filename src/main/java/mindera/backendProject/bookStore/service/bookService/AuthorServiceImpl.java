@@ -4,8 +4,10 @@ import mindera.backendProject.bookStore.converter.AuthorConverter;
 import mindera.backendProject.bookStore.dto.book.AuthorCreateDto;
 import mindera.backendProject.bookStore.exception.AuthorAlreadyExistsException;
 import mindera.backendProject.bookStore.exception.AuthorNotFoundException;
+import mindera.backendProject.bookStore.exception.CannotDeleteException;
 import mindera.backendProject.bookStore.model.Author;
 import mindera.backendProject.bookStore.repository.bookRepository.AuthorRepository;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -48,13 +50,19 @@ public class AuthorServiceImpl implements AuthorService{
     }
 
     @Override
-    public void delete(Long authorId) throws AuthorNotFoundException {
-        Optional<Author> authorOptional = authorRepository.findById(authorId);
-        if(authorOptional.isEmpty()){
-            throw new AuthorNotFoundException(AUTHOR_WITH_ID + authorId + DOESNT_EXIST);
+    public void delete(Long authorId) throws AuthorNotFoundException, DataIntegrityViolationException, CannotDeleteException {
+        try {
+            Optional<Author> authorOptional = authorRepository.findById(authorId);
+
+            if (authorOptional.isEmpty()) {
+                throw new AuthorNotFoundException(AUTHOR_WITH_ID + authorId + DOESNT_EXIST);
+            }
+            authorRepository.delete(authorOptional.get());
+        } catch (DataIntegrityViolationException exception) {
+            throw new CannotDeleteException(CANNOT_BE_DELETED);
         }
-        authorRepository.delete(authorOptional.get());
     }
+
 
     @Override
     public AuthorCreateDto getAuthorByName(String authorName) throws AuthorNotFoundException {

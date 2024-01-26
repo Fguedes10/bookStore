@@ -4,9 +4,11 @@ import io.swagger.v3.oas.annotations.Parameter;
 import mindera.backendProject.bookStore.dto.book.PublisherCreateDto;
 import mindera.backendProject.bookStore.exception.PublisherAlreadyExistsException;
 import mindera.backendProject.bookStore.exception.PublisherNotFoundException;
+import mindera.backendProject.bookStore.model.Publisher;
 import mindera.backendProject.bookStore.service.bookService.PublisherServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,26 +31,29 @@ public class PublisherController {
     }
 
 
-    @GetMapping("/{publisherId}")
+    @GetMapping("/id/{publisherId}")
     public ResponseEntity<PublisherCreateDto> getPublisher(@PathVariable("publisherId") Long publisherId) throws PublisherNotFoundException {
         return new ResponseEntity<>(publisherService.getPublisher(publisherId), HttpStatus.OK);
     }
 
-    @GetMapping("/search")
+    @GetMapping("/name/{publisherName}")
     public ResponseEntity<PublisherCreateDto> getPublisherByName(@PathVariable("publisherName") String publisherName) throws PublisherNotFoundException{
         return new ResponseEntity<>(publisherService.getPublisherByName(publisherName), HttpStatus.OK);
     }
 
     @PostMapping("/")
-    public ResponseEntity<PublisherCreateDto> add(@RequestBody PublisherCreateDto publisher) throws PublisherAlreadyExistsException {
+    public ResponseEntity<PublisherCreateDto> add(@RequestBody PublisherCreateDto publisher, BindingResult bindingResult) throws PublisherAlreadyExistsException {
+        if(bindingResult.hasErrors()){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         PublisherCreateDto publisherDto = publisherService.add(publisher);
         return new ResponseEntity<>(publisherDto, HttpStatus.CREATED);
     }
 
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable @Parameter(name= "id", description = "Publisher id", example = "1") Long id) throws PublisherNotFoundException {
-        publisherService.delete(id);
+    @DeleteMapping("/id/{publisherId}")
+    public ResponseEntity<Publisher> delete(@PathVariable ("publisherId") Long publisherId) throws PublisherNotFoundException {
+        publisherService.delete(publisherId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

@@ -7,7 +7,6 @@ import mindera.backendProject.bookStore.exception.*;
 import mindera.backendProject.bookStore.service.bookService.TranslationServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

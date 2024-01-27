@@ -42,12 +42,8 @@ public class TranslationController {
 
 
     @PostMapping("/")
-    public ResponseEntity<TranslationCreateDto> add(@Valid @RequestBody TranslationCreateDto translation, BindingResult bindingResult) throws TranslationAlreadyExistsException {
-        if(bindingResult.hasErrors()){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        TranslationCreateDto translationDto = translationService.add(translation);
-        return new ResponseEntity<>(translationDto, HttpStatus.CREATED);
+    public ResponseEntity<TranslationCreateDto> add(@Valid @RequestBody TranslationCreateDto translation) throws TranslationAlreadyExistsException {
+        return new ResponseEntity<>(translationService.add(translation), HttpStatus.CREATED);
     }
 
 

@@ -1,6 +1,7 @@
 package mindera.backendProject.bookStore.controller;
 
 import io.swagger.v3.oas.annotations.Parameter;
+import jakarta.validation.Valid;
 import mindera.backendProject.bookStore.dto.book.PublisherCreateDto;
 import mindera.backendProject.bookStore.exception.PublisherAlreadyExistsException;
 import mindera.backendProject.bookStore.exception.PublisherNotFoundException;
@@ -8,7 +9,6 @@ import mindera.backendProject.bookStore.model.Publisher;
 import mindera.backendProject.bookStore.service.bookService.PublisherServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -42,12 +42,8 @@ public class PublisherController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<PublisherCreateDto> add(@RequestBody PublisherCreateDto publisher, BindingResult bindingResult) throws PublisherAlreadyExistsException {
-        if(bindingResult.hasErrors()){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        PublisherCreateDto publisherDto = publisherService.add(publisher);
-        return new ResponseEntity<>(publisherDto, HttpStatus.CREATED);
+    public ResponseEntity<PublisherCreateDto> add(@Valid @RequestBody PublisherCreateDto publisher) throws PublisherAlreadyExistsException {
+        return new ResponseEntity<>(publisherService.add(publisher), HttpStatus.CREATED);
     }
 
 

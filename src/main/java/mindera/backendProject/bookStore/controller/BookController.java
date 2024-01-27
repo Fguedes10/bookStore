@@ -2,6 +2,7 @@ package mindera.backendProject.bookStore.controller;
 
 import io.swagger.v3.oas.annotations.Parameter;
 
+import jakarta.validation.Valid;
 import mindera.backendProject.bookStore.dto.book.BookCreateDto;
 import mindera.backendProject.bookStore.dto.book.BookGetDto;
 import mindera.backendProject.bookStore.dto.book.BookUpdateEditionDto;
@@ -33,32 +34,29 @@ public class BookController {
     }
 
 
-    @GetMapping("/{bookId}")
+    @GetMapping("/search/{bookId}")
     public ResponseEntity<BookGetDto> getBook(@PathVariable("bookId") Long bookId) throws BookNotFoundException {
         return new ResponseEntity<>(bookService.getBook(bookId), HttpStatus.OK);
     }
 
-    @GetMapping("/search")
-    public ResponseEntity<BookGetDto> getBookByTitle(@PathVariable("bookTittle") String bookTittle) throws BookNotFoundException {
+    @GetMapping("/search/{title}")
+    public ResponseEntity<BookGetDto> getBookByTitle(@PathVariable("title") String bookTittle) throws BookNotFoundException {
         return new ResponseEntity<>(bookService.getBookByTitle(bookTittle), HttpStatus.OK);
     }
 
     @PostMapping("/")
     public ResponseEntity<BookGetDto> add(@RequestBody BookCreateDto book) throws BookAlreadyExistsException, AuthorNotFoundException, PublisherNotFoundException, GenreNotFoundException, TranslationNotFoundException {
-        BookGetDto bookDto = bookService.add(book);
-        return new ResponseEntity<>(bookDto, HttpStatus.CREATED);
+        return new ResponseEntity<>(bookService.add(book), HttpStatus.CREATED);
     }
 
     @PatchMapping("/edition/{id}")
-    public ResponseEntity<BookUpdateEditionDto> updateEdition(@RequestBody BookUpdateEditionDto book, @PathVariable @Parameter(name = "id", description = "Book id", example = "1") Long id) throws BookNotFoundException{
-        bookService.updateEdition(id, book);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<BookUpdateEditionDto> updateEdition(@Valid @RequestBody BookUpdateEditionDto book, @PathVariable @Parameter(name = "id", description = "Book id", example = "1") Long id) throws BookNotFoundException{
+        return new ResponseEntity<>(bookService.updateEdition(id, book), HttpStatus.OK);
     }
 
     @PatchMapping("/price/{id}")
-    public ResponseEntity<BookUpdatePriceDto> updatePrice(@RequestBody BookUpdatePriceDto book, @PathVariable @Parameter(name = "id", description = "Book id", example = "1") Long id) throws BookNotFoundException{
-        bookService.updatePrice(id, book);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<BookUpdatePriceDto> updatePrice(@Valid @RequestBody BookUpdatePriceDto book, @PathVariable @Parameter(name = "id", description = "Book id", example = "1") Long id) throws BookNotFoundException{
+        return new ResponseEntity<>(bookService.updatePrice(id, book), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

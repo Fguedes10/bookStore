@@ -11,7 +11,6 @@ import mindera.backendProject.bookStore.model.Genre;
 import mindera.backendProject.bookStore.service.bookService.GenreServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -45,12 +44,8 @@ public class GenreController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<GenreCreateDto> add(@Valid @RequestBody GenreCreateDto genre, BindingResult bindingResult) throws GenreAlreadyExistsException {
-        if(bindingResult.hasErrors()){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        GenreCreateDto genreDto = genreService.add(genre);
-        return new ResponseEntity<>(genreDto, HttpStatus.CREATED);
+    public ResponseEntity<GenreCreateDto> add(@Valid @RequestBody GenreCreateDto genre) throws GenreAlreadyExistsException {
+        return new ResponseEntity<>(genreService.add(genre), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/id/{genreId}")

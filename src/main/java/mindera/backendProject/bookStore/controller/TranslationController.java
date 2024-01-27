@@ -7,7 +7,6 @@ import mindera.backendProject.bookStore.exception.*;
 import mindera.backendProject.bookStore.service.bookService.TranslationServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -42,12 +41,8 @@ public class TranslationController {
 
 
     @PostMapping("/")
-    public ResponseEntity<TranslationCreateDto> add(@Valid @RequestBody TranslationCreateDto translation, BindingResult bindingResult) throws TranslationAlreadyExistsException {
-        if(bindingResult.hasErrors()){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        TranslationCreateDto translationDto = translationService.add(translation);
-        return new ResponseEntity<>(translationDto, HttpStatus.CREATED);
+    public ResponseEntity<TranslationCreateDto> add(@Valid @RequestBody TranslationCreateDto translation) throws TranslationAlreadyExistsException {
+        return new ResponseEntity<>(translationService.add(translation), HttpStatus.CREATED);
     }
 
 

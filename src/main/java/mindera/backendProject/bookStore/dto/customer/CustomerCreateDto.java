@@ -2,6 +2,8 @@ package mindera.backendProject.bookStore.dto.customer;
 
 import jakarta.validation.constraints.*;
 
+import java.util.List;
+
 import static mindera.backendProject.bookStore.util.Messages.*;
 
 public record CustomerCreateDto(
@@ -24,8 +26,11 @@ public record CustomerCreateDto(
         @Size(max = 100, message = MAX_CHAR_SIZE)
         String email,
         @NotNull(message = INVALID_NIF)
-       // @Size(min = 100000000, max = 999999999, message = INVALID_NIF)
-        Long nif
+        //@Size(min = 100000000, max = 999999999, message = INVALID_NIF)
+        Long nif,
+
+        @NotNull
+        List<Long> favoriteGenresIds
 
 ) {
 }

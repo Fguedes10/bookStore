@@ -1,11 +1,15 @@
 package mindera.backendProject.bookStore.controller;
 
 import jakarta.validation.Valid;
+import mindera.backendProject.bookStore.dto.book.GenreCreateDto;
 import mindera.backendProject.bookStore.dto.customer.CustomerCreateDto;
+import mindera.backendProject.bookStore.dto.customer.CustomerFavoriteGenresDto;
+import mindera.backendProject.bookStore.dto.customer.CustomerGetDto;
 import mindera.backendProject.bookStore.dto.customer.CustomerPatchDto;
 import mindera.backendProject.bookStore.exception.CustomerAlreadyExistsException;
 import mindera.backendProject.bookStore.exception.CustomerNotFoundException;
 import mindera.backendProject.bookStore.exception.CustomerWithEmailAlreadyExists;
+import mindera.backendProject.bookStore.exception.GenreNotFoundException;
 import mindera.backendProject.bookStore.model.Customer;
 import mindera.backendProject.bookStore.service.customerService.CustomerServiceImpl;
 import org.springframework.http.HttpStatus;
@@ -26,27 +30,32 @@ public class CustomerController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<CustomerCreateDto>> getCustomers() {
+    public ResponseEntity<List<CustomerGetDto>> getCustomers() {
         return new ResponseEntity<>(customerService.getCustomers(), HttpStatus.OK);
     }
 
     @GetMapping("/id/{customerId}")
-    public ResponseEntity<CustomerCreateDto> getCustomer(@PathVariable("customerId") Long customerId) throws CustomerNotFoundException {
+    public ResponseEntity<CustomerGetDto> getCustomer(@PathVariable("customerId") Long customerId) throws CustomerNotFoundException {
         return new ResponseEntity<>(customerService.getCustomer(customerId), HttpStatus.OK);
     }
 
     @GetMapping("/username/{username}")
-    public ResponseEntity<CustomerCreateDto> getCustomerByUsername(@PathVariable("username") String username) throws CustomerNotFoundException {
+    public ResponseEntity<CustomerGetDto> getCustomerByUsername(@PathVariable("username") String username) throws CustomerNotFoundException {
         return new ResponseEntity<>(customerService.getCustomerByUsername(username), HttpStatus.OK);
+    }
+
+    @GetMapping("/favorites/{customerId}")
+    public ResponseEntity<List<GenreCreateDto>> getFavoritesById(@PathVariable ("customerId") Long customerId) throws CustomerNotFoundException{
+    return new ResponseEntity<>(customerService.getFavoriteById(customerId), HttpStatus.OK);
     }
 
 
     @PostMapping("/")
-    public ResponseEntity<CustomerCreateDto> addNewCustomer(@Valid @RequestBody CustomerCreateDto customer) throws CustomerAlreadyExistsException {
+    public ResponseEntity<CustomerGetDto> addNewCustomer(@Valid @RequestBody CustomerCreateDto customer) throws CustomerAlreadyExistsException, GenreNotFoundException {
         return new ResponseEntity<>(customerService.createCustomer(customer), HttpStatus.CREATED);
     }
     @PostMapping("/addMany")
-    public ResponseEntity<List<CustomerCreateDto>> addNewCustomers(@Valid @RequestBody List<CustomerCreateDto> customer) throws CustomerAlreadyExistsException {
+    public ResponseEntity<List<CustomerGetDto>> addNewCustomers(@Valid @RequestBody List<CustomerCreateDto> customer) throws CustomerAlreadyExistsException, GenreNotFoundException {
         return new ResponseEntity<>(customerService.createCustomers(customer), HttpStatus.CREATED);
     }
 

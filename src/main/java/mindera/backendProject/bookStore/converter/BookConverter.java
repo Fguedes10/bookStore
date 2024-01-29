@@ -1,4 +1,5 @@
 package mindera.backendProject.bookStore.converter;
+
 import mindera.backendProject.bookStore.dto.book.*;
 import mindera.backendProject.bookStore.model.*;
 
@@ -7,7 +8,7 @@ import java.util.List;
 
 public class BookConverter {
 
-    public static Book fromCreateDtoToModel(BookCreateDto bookCreateDto, Author author, Publisher publisher, List<Genre> genreList, List<Translation> translationList){
+    public static Book fromCreateDtoToModel(BookCreateDto bookCreateDto, Author author, Publisher publisher, List<Genre> genreList, List<Translation> translationList) {
         return Book.builder()
                 .title(bookCreateDto.title())
                 .isbn(bookCreateDto.isbn())
@@ -23,7 +24,7 @@ public class BookConverter {
 
 
     public static BookGetDto fromModelToBookGetDto(Book book) {
-       return new BookGetDto(
+        return new BookGetDto(
                 book.getTitle(),
                 AuthorConverter.fromModelToAuthorCreateDto(book.getAuthor()),
                 PublisherConverter.fromModelToPublisherCreateDto(book.getPublisher()),
@@ -37,26 +38,26 @@ public class BookConverter {
     }
 
 
-    public static BookUpdateEditionDto fromModelToBookUpdateEditionDto (Book book) {
+    public static BookUpdateEditionDto fromModelToBookUpdateEditionDto(Book book) {
         return new BookUpdateEditionDto(
                 book.getEdition()
         );
     }
 
-    public static Book fromUpdateEditionDtoToModel (BookUpdateEditionDto bookUpdateEditionDto){
+    public static Book fromUpdateEditionDtoToModel(BookUpdateEditionDto bookUpdateEditionDto) {
         return Book.builder()
                 .edition(bookUpdateEditionDto.edition())
                 .build();
     }
 
 
-    public static BookUpdatePriceDto fromModelToBookUpdatePriceDto (Book book) {
+    public static BookUpdatePriceDto fromModelToBookUpdatePriceDto(Book book) {
         return new BookUpdatePriceDto(
                 book.getPrice()
         );
     }
 
-    public static Book fromUpdatePriceDtoToModel (BookUpdatePriceDto bookUpdatePriceDto){
+    public static Book fromUpdatePriceDtoToModel(BookUpdatePriceDto bookUpdatePriceDto) {
         return Book.builder()
                 .price(bookUpdatePriceDto.price())
                 .build();

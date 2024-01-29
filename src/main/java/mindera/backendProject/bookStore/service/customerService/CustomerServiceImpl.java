@@ -1,13 +1,20 @@
 package mindera.backendProject.bookStore.service.customerService;
 
 import mindera.backendProject.bookStore.converter.CustomerConverter;
+import mindera.backendProject.bookStore.converter.GenreConverter;
+import mindera.backendProject.bookStore.dto.book.GenreCreateDto;
 import mindera.backendProject.bookStore.dto.customer.CustomerCreateDto;
+import mindera.backendProject.bookStore.dto.customer.CustomerFavoriteGenresDto;
+import mindera.backendProject.bookStore.dto.customer.CustomerGetDto;
 import mindera.backendProject.bookStore.dto.customer.CustomerPatchDto;
 import mindera.backendProject.bookStore.exception.CustomerAlreadyExistsException;
 import mindera.backendProject.bookStore.exception.CustomerNotFoundException;
 import mindera.backendProject.bookStore.exception.CustomerWithEmailAlreadyExists;
+import mindera.backendProject.bookStore.exception.GenreNotFoundException;
 import mindera.backendProject.bookStore.model.Customer;
+import mindera.backendProject.bookStore.model.Genre;
 import mindera.backendProject.bookStore.repository.customerRepository.CustomerRepository;
+import mindera.backendProject.bookStore.service.bookService.GenreServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,48 +29,50 @@ public class CustomerServiceImpl implements CustomerService{
 
     private final CustomerRepository customerRepository;
 
-    public CustomerServiceImpl(CustomerRepository customerRepository) {
+    private final GenreServiceImpl genreService;
+
+    public CustomerServiceImpl(CustomerRepository customerRepository, GenreServiceImpl genreService) {
         this.customerRepository = customerRepository;
+        this.genreService = genreService;
     }
 
 
     @Override
-    public List<CustomerCreateDto> getCustomers() {
+    public List<CustomerGetDto> getCustomers() {
         List<Customer> customersList = customerRepository.findAll();
-        return customersList.stream().map(CustomerConverter::fromEntitytoCustomerCreateDto).toList();
+        return customersList.stream().map(CustomerConverter::fromEntityToCustomerGetDto).toList();
     }
 
     @Override
-    public CustomerCreateDto getCustomer(Long customerId) throws CustomerNotFoundException {
-        Optional<Customer> customerOptional = customerRepository.findById(customerId);
-        if(customerOptional.isEmpty()){
-            throw new CustomerNotFoundException(CUSTOMER_WITH_ID + customerId + DOESNT_EXIST);
-        }
-        return CustomerConverter.fromEntitytoCustomerCreateDto(customerOptional.get());
+    public CustomerGetDto getCustomer(Long customerId) throws CustomerNotFoundException {
+        Optional<Customer> customerOptional = verifyCustomerExistsById(customerId);
+        return CustomerConverter.fromEntityToCustomerGetDto(customerOptional.get());
     }
-    public CustomerCreateDto getCustomerByUsername(String username) throws CustomerNotFoundException {
+    public CustomerGetDto getCustomerByUsername(String username) throws CustomerNotFoundException {
         Optional<Customer> customerOptional = customerRepository.findByUsername(username);
         if(customerOptional.isEmpty()){
             throw new CustomerNotFoundException(CUSTOMER_WITH_USERNAME + username + DOESNT_EXIST);
         }
-        return CustomerConverter.fromEntitytoCustomerCreateDto(customerOptional.get());
+        return CustomerConverter.fromEntityToCustomerGetDto(customerOptional.get());
     }
 
     @Override
-    public CustomerCreateDto createCustomer(CustomerCreateDto customerCreateDto) throws CustomerAlreadyExistsException {
+    public CustomerGetDto createCustomer(CustomerCreateDto customerCreateDto) throws CustomerAlreadyExistsException, GenreNotFoundException {
+        List<Genre> genreList = genreService.findByIds(customerCreateDto.favoriteGenresIds());
         verifyIfCustomerExists(customerCreateDto);
-        Customer customerToSave = CustomerConverter.fromCustomerCreateDtoToEntity(customerCreateDto);
+        Customer customerToSave = CustomerConverter.fromCustomerCreateDtoToEntity(customerCreateDto, genreList);
         customerRepository.save(customerToSave);
-        return customerCreateDto;
+        return CustomerConverter.fromEntityToCustomerGetDto(customerToSave);
     }
 
-    public List<CustomerCreateDto> createCustomers(List<CustomerCreateDto> customerCreateDto) throws CustomerAlreadyExistsException {
-        List<CustomerCreateDto> customersCreated = new ArrayList<>();
+    public List<CustomerGetDto> createCustomers(List<CustomerCreateDto> customerCreateDto) throws CustomerAlreadyExistsException, GenreNotFoundException {
+        List<CustomerGetDto> customersCreated = new ArrayList<>();
         for(CustomerCreateDto customerToCreate : customerCreateDto){
+            List<Genre> genreList = genreService.findByIds(customerToCreate.favoriteGenresIds());
             verifyIfCustomerExists(customerToCreate);
-            Customer customerToSave = CustomerConverter.fromCustomerCreateDtoToEntity(customerToCreate);
+            Customer customerToSave = CustomerConverter.fromCustomerCreateDtoToEntity(customerToCreate, genreList);
             customerRepository.save(customerToSave);
-            customersCreated.add(customerToCreate);
+            customersCreated.add(CustomerConverter.fromEntityToCustomerGetDto(customerToSave));
         }
         return customersCreated;
     }
@@ -85,10 +94,7 @@ public class CustomerServiceImpl implements CustomerService{
 
     @Override
     public CustomerPatchDto updateCustomer(Long customerId, CustomerPatchDto customerPatchDto) throws CustomerNotFoundException, CustomerWithEmailAlreadyExists {
-        Optional<Customer> customerOptional = customerRepository.findById(customerId);
-        if (customerOptional.isEmpty()){
-            throw new CustomerNotFoundException(CUSTOMER_WITH_ID + customerId + DOESNT_EXIST);
-        }
+        Optional<Customer> customerOptional = verifyCustomerExistsById(customerId);
         Customer customerToPatch = customerOptional.get();
         if(customerPatchDto.firstName() != null && !customerPatchDto.firstName().isEmpty() && !customerPatchDto.firstName().equals(customerToPatch.getFirstName())){
             customerToPatch.setFirstName(customerPatchDto.firstName());
@@ -111,10 +117,22 @@ public class CustomerServiceImpl implements CustomerService{
 
     @Override
     public void deleteCustomer(Long customerId) throws CustomerNotFoundException {
+        Optional<Customer> customerOptional = verifyCustomerExistsById(customerId);
+        customerRepository.delete(customerOptional.get());
+    }
+
+    private Optional<Customer> verifyCustomerExistsById(Long customerId) throws CustomerNotFoundException {
         Optional<Customer> customerOptional = customerRepository.findById(customerId);
         if(customerOptional.isEmpty()){
             throw new CustomerNotFoundException(CUSTOMER_WITH_ID + customerId + DOESNT_EXIST);
         }
-        customerRepository.delete(customerOptional.get());
+        return customerOptional;
+    }
+
+    public List<GenreCreateDto> getFavoriteById(Long customerId) throws CustomerNotFoundException {
+        Optional<Customer> customerOptional = verifyCustomerExistsById(customerId);
+        List<Genre> favoriteGenres = customerOptional.get().getFavoriteGenres();
+        return GenreConverter.fromEntityToCreateDto(favoriteGenres);
+
     }
 }

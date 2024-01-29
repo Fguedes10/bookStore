@@ -1,30 +1,24 @@
 package mindera.backendProject.bookStore.converter;
 
 import mindera.backendProject.bookStore.dto.customer.CustomerCreateDto;
+import mindera.backendProject.bookStore.dto.customer.CustomerFavoriteGenresDto;
 import mindera.backendProject.bookStore.dto.customer.CustomerGetDto;
 import mindera.backendProject.bookStore.dto.customer.CustomerPatchDto;
 import mindera.backendProject.bookStore.model.Customer;
+import mindera.backendProject.bookStore.model.Genre;
+
+import java.util.List;
 
 public class CustomerConverter {
 
 
-    public static CustomerCreateDto fromEntitytoCustomerCreateDto(Customer customer){
-        return new CustomerCreateDto(
-                customer.getUsername(),
-                customer.getFirstName(),
-                customer.getLastName(),
-                customer.getEmail(),
-                customer.getNif()
-
-        );
-    }
-
-    public static Customer fromCustomerCreateDtoToEntity(CustomerCreateDto customerCreateDto){
+    public static Customer fromCustomerCreateDtoToEntity(CustomerCreateDto customerCreateDto, List<Genre> genreList){
         return Customer.builder()
                 .firstName(customerCreateDto.firstName())
                 .lastName(customerCreateDto.lastName())
                 .email(customerCreateDto.email())
                 .nif(customerCreateDto.nif())
+                .favoriteGenres(genreList)
                 .build();
     }
 
@@ -33,7 +27,7 @@ public class CustomerConverter {
                 customer.getFirstName(),
                 customer.getLastName(),
                 customer.getEmail(),
-                customer.getFavoriteGenre()
+                customer.getFavoriteGenres().stream().map(GenreConverter::fromModelToGenreCreateDto).toList()
         );
     }
 
@@ -42,6 +36,12 @@ public class CustomerConverter {
                 customer.getFirstName(),
                 customer.getLastName(),
                 customer.getEmail()
+        );
+    }
+
+    public static CustomerFavoriteGenresDto fromEntityToCustomerFavoriteGenresDto(Customer customer){
+        return new CustomerFavoriteGenresDto(
+                GenreConverter.fromEntityToCreateDto(customer.getFavoriteGenres())
         );
     }
 

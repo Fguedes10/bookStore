@@ -2,6 +2,9 @@ package mindera.backendProject.bookStore.converter;
 import mindera.backendProject.bookStore.dto.book.GenreCreateDto;
 import mindera.backendProject.bookStore.model.Genre;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class GenreConverter {
 
     public static Genre fromCreateDtoToModel(GenreCreateDto genreCreateDto) {
@@ -14,5 +17,12 @@ public class GenreConverter {
     public static GenreCreateDto fromModelToGenreCreateDto(Genre genre) {
         return new GenreCreateDto(
                 genre.getName());
+    }
+
+
+
+    public static List<GenreCreateDto> fromEntityToCreateDto(List<Genre> genreList){
+        return genreList.stream().map(GenreConverter::fromModelToGenreCreateDto).toList();
+
     }
 }

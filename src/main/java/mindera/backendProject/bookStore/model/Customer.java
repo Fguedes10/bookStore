@@ -44,15 +44,15 @@ public class Customer {
     )
     private List<Genre> favoriteGenres;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "customer_favorite_books",
             joinColumns = @JoinColumn(name = "customer_id"),
             inverseJoinColumns = @JoinColumn(name = "book_id")
     )
-    private Set<Book> favoriteBooks;
+    private List<Book> favoriteBooks;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "customer_purchased_books",
             joinColumns = @JoinColumn(name = "customer_id"),

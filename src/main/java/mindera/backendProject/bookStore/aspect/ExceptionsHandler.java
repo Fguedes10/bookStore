@@ -30,7 +30,8 @@ public class ExceptionsHandler {
     }
     @ExceptionHandler(value = {CustomerAlreadyExistsException.class, AuthorAlreadyExistsException.class,
             BookAlreadyExistsException.class, GenreAlreadyExistsException.class,
-            TranslationAlreadyExistsException.class, CustomerWithEmailAlreadyExists.class})
+            TranslationAlreadyExistsException.class, CustomerWithEmailAlreadyExists.class,
+            CustomerRepeatedFavoriteBooks.class})
     public ResponseEntity<String> AlreadyExistsHandler (Exception exception){
         logger.error("Know exception: " + exception.getMessage());
         return  ResponseEntity.status(HttpStatus.CONFLICT).body(exception.getMessage());

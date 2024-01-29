@@ -1,15 +1,13 @@
 package mindera.backendProject.bookStore.controller;
 
 import jakarta.validation.Valid;
+import mindera.backendProject.bookStore.dto.book.BookGetDto;
+import mindera.backendProject.bookStore.dto.book.CustomerFavoriteDto;
 import mindera.backendProject.bookStore.dto.book.GenreCreateDto;
 import mindera.backendProject.bookStore.dto.customer.CustomerCreateDto;
-import mindera.backendProject.bookStore.dto.customer.CustomerFavoriteGenresDto;
 import mindera.backendProject.bookStore.dto.customer.CustomerGetDto;
 import mindera.backendProject.bookStore.dto.customer.CustomerPatchDto;
-import mindera.backendProject.bookStore.exception.CustomerAlreadyExistsException;
-import mindera.backendProject.bookStore.exception.CustomerNotFoundException;
-import mindera.backendProject.bookStore.exception.CustomerWithEmailAlreadyExists;
-import mindera.backendProject.bookStore.exception.GenreNotFoundException;
+import mindera.backendProject.bookStore.exception.*;
 import mindera.backendProject.bookStore.model.Customer;
 import mindera.backendProject.bookStore.service.customerService.CustomerServiceImpl;
 import org.springframework.http.HttpStatus;
@@ -17,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("api/v1/customers")
@@ -44,9 +43,14 @@ public class CustomerController {
         return new ResponseEntity<>(customerService.getCustomerByUsername(username), HttpStatus.OK);
     }
 
-    @GetMapping("/favorites/{customerId}")
-    public ResponseEntity<List<GenreCreateDto>> getFavoritesById(@PathVariable ("customerId") Long customerId) throws CustomerNotFoundException{
-    return new ResponseEntity<>(customerService.getFavoriteById(customerId), HttpStatus.OK);
+    @GetMapping("/favoriteGenres/{customerId}")
+    public ResponseEntity<List<GenreCreateDto>> getFavoriteGenresById(@PathVariable ("customerId") Long customerId) throws CustomerNotFoundException{
+    return new ResponseEntity<>(customerService.getFavoriteGenresById(customerId), HttpStatus.OK);
+    }
+
+    @GetMapping("/favoriteBooks/{customerId}")
+    public ResponseEntity<List<BookGetDto>> getFavoriteBooksById(@PathVariable ("customerId") Long customerId) throws CustomerNotFoundException{
+        return new ResponseEntity<>(customerService.getFavoriteBooksById(customerId),HttpStatus.OK );
     }
 
 
@@ -59,7 +63,11 @@ public class CustomerController {
         return new ResponseEntity<>(customerService.createCustomers(customer), HttpStatus.CREATED);
     }
 
-
+    @PostMapping("addToFavorites/{customerId}")
+    public ResponseEntity<List<BookGetDto>> addBooksToFavorites(@PathVariable ("customerId") Long customerId,
+                                                          @RequestBody CustomerFavoriteDto customerFavoriteDto) throws CustomerNotFoundException, BookNotFoundException, CustomerRepeatedFavoriteBooks {
+        return new ResponseEntity<>(customerService.addToFavorites(customerId, customerFavoriteDto), HttpStatus.OK);
+    }
 
     @PatchMapping("/id/{customerId}")
     public ResponseEntity<CustomerPatchDto> updateCustomer(@PathVariable ("customerId") Long customerId, @Valid @RequestBody CustomerPatchDto customerPatchDto) throws CustomerNotFoundException, CustomerWithEmailAlreadyExists {

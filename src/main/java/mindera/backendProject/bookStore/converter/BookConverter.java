@@ -5,6 +5,8 @@ import mindera.backendProject.bookStore.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class BookConverter {
 
@@ -61,6 +63,10 @@ public class BookConverter {
         return Book.builder()
                 .price(bookUpdatePriceDto.price())
                 .build();
+    }
+
+    public static List<BookGetDto> fromModelToBookGetFavoriteBooksDto(List<Book> bookList){
+        return bookList.stream().map(BookConverter::fromModelToBookGetDto).toList();
     }
 
 }

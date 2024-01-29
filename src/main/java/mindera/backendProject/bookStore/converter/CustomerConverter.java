@@ -1,7 +1,6 @@
 package mindera.backendProject.bookStore.converter;
 
 import mindera.backendProject.bookStore.dto.customer.CustomerCreateDto;
-import mindera.backendProject.bookStore.dto.customer.CustomerFavoriteGenresDto;
 import mindera.backendProject.bookStore.dto.customer.CustomerGetDto;
 import mindera.backendProject.bookStore.dto.customer.CustomerPatchDto;
 import mindera.backendProject.bookStore.model.Customer;
@@ -39,10 +38,5 @@ public class CustomerConverter {
         );
     }
 
-    public static CustomerFavoriteGenresDto fromEntityToCustomerFavoriteGenresDto(Customer customer){
-        return new CustomerFavoriteGenresDto(
-                GenreConverter.fromEntityToCreateDto(customer.getFavoriteGenres())
-        );
-    }
 
 }

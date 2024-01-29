@@ -91,6 +91,7 @@ public class Messages {
 
     // DELETE MESSAGE
     public static final String CANNOT_BE_DELETED = "Cannot de deleted because it is being used in another table";
+    public static final String TOP_RATED_BOOK_ADDED= "Top rated books had been added";
 
 
 

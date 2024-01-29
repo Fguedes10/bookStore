@@ -59,9 +59,9 @@ public class BookController {
         return new ResponseEntity<>(bookService.updatePrice(id, book), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable @Parameter(name= "id", description = "Book id", example = "1") Long id) throws BookNotFoundException {
-        bookService.delete(id);
+    @DeleteMapping("/id/{bookId}")
+    public ResponseEntity<String> delete(@PathVariable ("bookId") Long bookId) throws BookNotFoundException {
+        bookService.delete(bookId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

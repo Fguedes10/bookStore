@@ -1,5 +1,4 @@
-package mindera.backendProject.bookStore.model;
-
+package mindera.backendProject.bookStore.apiHandler;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -13,11 +12,25 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @Table
-public class Rating {
+public class RestApiModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private int value;
+    @Column
+    private String title;
+
+    @Column
+    private String author;
+
+    @Column
+    private String bookCoverUrl;
+
+    @Column
+    private double googleRating;
+
+    @Column
+    private int numberOfPages;
+
 }

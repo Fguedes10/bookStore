@@ -115,6 +115,7 @@ public class BookServiceImpl implements BookService{
         return BookConverter.fromModelToBookGetDto(bookOptional.get());
     }
 
+
     public List<Book> getBooksByIds(List<Long> books) throws BookNotFoundException {
         List<Book> bookList = bookRepository.findAllById(books);
         Set<Long> existingBookIds = bookList.stream().map(Book::getId).collect(Collectors.toSet());

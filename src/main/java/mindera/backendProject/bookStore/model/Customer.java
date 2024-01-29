@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.Set;
 
 
@@ -35,19 +36,23 @@ public class Customer {
     @Column(unique = true)
     private Long nif;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "customer_favorite_genres",
+            joinColumns = @JoinColumn(name = "customer_id"),
+            inverseJoinColumns = @JoinColumn(name = "genre_id")
+    )
+    private List<Genre> favoriteGenres;
 
-    private String favoriteGenre;
-
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "customer_favorite_books",
             joinColumns = @JoinColumn(name = "customer_id"),
             inverseJoinColumns = @JoinColumn(name = "book_id")
     )
+    private List<Book> favoriteBooks;
 
-    private Set<Book> favoriteBooks;
-
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "customer_purchased_books",
             joinColumns = @JoinColumn(name = "customer_id"),

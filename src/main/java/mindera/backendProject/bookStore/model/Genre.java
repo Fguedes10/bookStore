@@ -26,6 +26,9 @@ public class Genre {
     @ManyToMany(mappedBy = "genre", fetch = FetchType.EAGER)
     private List<Book> books;
 
+    @ManyToMany(mappedBy = "favoriteGenres", fetch = FetchType.EAGER)
+    private List<Customer> customerList;
+
 
 
 

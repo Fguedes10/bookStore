@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static mindera.backendProject.bookStore.util.Messages.*;
 
@@ -113,4 +115,14 @@ public class BookServiceImpl implements BookService{
         return BookConverter.fromModelToBookGetDto(bookOptional.get());
     }
 
+
+    public List<Book> getBooksByIds(List<Long> books) throws BookNotFoundException {
+        List<Book> bookList = bookRepository.findAllById(books);
+        Set<Long> existingBookIds = bookList.stream().map(Book::getId).collect(Collectors.toSet());
+        List<Long> nonExistingIds = books.stream().filter(id -> !existingBookIds.contains(id)).toList();
+        if(!nonExistingIds.isEmpty()){
+            throw new BookNotFoundException("Book with the id/s: " + nonExistingIds + " doesn't exist/s.");
+        }
+        return bookList;
+    }
 }

@@ -8,7 +8,7 @@ public class DownloadConverter {
     public static Download fromCreateDtoToModel(DownloadCreateDto downloadCreateDto, OrderModel orderModel) {
         return Download.builder()
                 .orderModel(orderModel)
-                .downloadDate(downloadCreateDto.downloadDate())
+                .downloadDate(downloadCreateDto.downloadDate().toLocalDate())
                 .build();
     }
 

@@ -1,13 +1,14 @@
 package mindera.backendProject.bookStore.service.bookService;
 
 import mindera.backendProject.bookStore.converter.book.BookConverter;
-import mindera.backendProject.bookStore.dto.book.BookCreateDto;
-import mindera.backendProject.bookStore.dto.book.BookGetDto;
-import mindera.backendProject.bookStore.dto.book.BookUpdateEditionDto;
-import mindera.backendProject.bookStore.dto.book.BookUpdatePriceDto;
+import mindera.backendProject.bookStore.converter.customer.CustomerConverter;
+import mindera.backendProject.bookStore.dto.book.*;
+import mindera.backendProject.bookStore.dto.customer.CustomerGetDto;
 import mindera.backendProject.bookStore.exception.book.*;
 import mindera.backendProject.bookStore.model.*;
 import mindera.backendProject.bookStore.repository.bookRepository.BookRepository;
+import mindera.backendProject.bookStore.repository.customerRepository.CustomerRepository;
+import mindera.backendProject.bookStore.service.customerService.CustomerServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,13 +28,18 @@ public class BookServiceImpl implements BookService{
     private final ReviewServiceImpl reviewServiceImpl;
     private final PublisherServiceImpl publisherServiceImpl;
 
-    public BookServiceImpl(BookRepository bookRepository, AuthorServiceImpl authorServiceImpl, GenreServiceImpl genreServiceImpl, TranslationServiceImpl translationServiceImpl, ReviewServiceImpl reviewServiceImpl, PublisherServiceImpl publisherServiceImpl){
+    private final CustomerRepository customerRepository;
+
+    public BookServiceImpl(BookRepository bookRepository, AuthorServiceImpl authorServiceImpl,
+                           GenreServiceImpl genreServiceImpl, TranslationServiceImpl translationServiceImpl,
+                           ReviewServiceImpl reviewServiceImpl, PublisherServiceImpl publisherServiceImpl, CustomerRepository customerRepository){
         this.bookRepository = bookRepository;
         this.authorServiceImpl = authorServiceImpl;
         this.genreServiceImpl = genreServiceImpl;
         this.translationServiceImpl = translationServiceImpl;
         this.reviewServiceImpl = reviewServiceImpl;
         this.publisherServiceImpl = publisherServiceImpl;
+        this.customerRepository = customerRepository;
     }
 
 
@@ -125,4 +131,14 @@ public class BookServiceImpl implements BookService{
         }
         return bookList;
     }
+
+    public List<CustomerGetDto> getCustomersWhoFavorited(Long bookId) throws BookNotFoundException {
+        Optional<Book> bookOptional = bookRepository.findById(bookId);
+        if(bookOptional.isEmpty()){
+            throw new BookNotFoundException(BOOK_WITH_ID  + bookId + DOESNT_EXIST);
+        }
+        return customerRepository.findCustomersByFavoriteBook(bookId)
+                .stream()
+                .map(CustomerConverter::fromEntityToCustomerGetDto)
+                .toList();}
 }

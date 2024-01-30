@@ -4,12 +4,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 
 import jakarta.validation.Valid;
-import mindera.backendProject.bookStore.dto.book.BookCreateDto;
-import mindera.backendProject.bookStore.dto.book.BookGetDto;
-import mindera.backendProject.bookStore.dto.book.BookUpdateEditionDto;
-import mindera.backendProject.bookStore.dto.book.BookUpdatePriceDto;
+import mindera.backendProject.bookStore.dto.book.*;
 
+import mindera.backendProject.bookStore.dto.customer.CustomerGetDto;
 import mindera.backendProject.bookStore.exception.book.*;
+import mindera.backendProject.bookStore.model.Author;
+import mindera.backendProject.bookStore.model.Customer;
 import mindera.backendProject.bookStore.service.bookService.BookServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -55,6 +55,13 @@ public class BookController {
     public ResponseEntity<BookGetDto> getBookByTitle(@PathVariable("title") @Parameter(name = "Book Title",
             description = "Book title", example = "The Lord of the Rings") String bookTittle) throws BookNotFoundException {
         return new ResponseEntity<>(bookService.getBookByTitle(bookTittle), HttpStatus.OK);
+    }
+    
+    @GetMapping("/whoFavorited/{bookId}")
+    public ResponseEntity<List<CustomerGetDto>> getCustomersWhoFavorited(@PathVariable("bookId") @Parameter(name = 
+            "Book Id",
+            description = "Book id", example = "1") Long bookId) throws BookNotFoundException {
+        return new ResponseEntity<>(bookService.getCustomersWhoFavorited(bookId), HttpStatus.OK);
     }
 
     @Operation(

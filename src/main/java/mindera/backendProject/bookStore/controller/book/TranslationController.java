@@ -70,7 +70,7 @@ public class TranslationController {
             summary = "Add multiple translations",
             description = "Add multiple translations"
     )
-    @PostMapping("/")
+    @PostMapping("/addMultipleTranslations")
     public ResponseEntity<List<TranslationCreateDto>> addMultipleTranslations(@Valid @RequestBody List<TranslationCreateDto> translations) throws TranslationAlreadyExistsException {
         return new ResponseEntity<>(translationService.addMultipleTranslations(translations), HttpStatus.CREATED);
     }

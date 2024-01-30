@@ -85,7 +85,5 @@ public class Customer {
     @Schema(description = "customer items purchased", example = "[1, 2, 3]")
     private Set<OrderModel> orderModels;
 
-
-
 }
 

@@ -1,34 +1,37 @@
 package mindera.backendProject.bookStore.service.orderService;
 
+import mindera.backendProject.bookStore.dto.order.InvoiceCreateDto;
+import mindera.backendProject.bookStore.dto.order.InvoiceGetDto;
 import mindera.backendProject.bookStore.model.OrderItem;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class InvoiceServiceImpl implements OrderItemService{
+public class InvoiceServiceImpl implements InvoiceService{
+
     @Override
     public List<OrderItem> getAll() {
         return null;
     }
 
     @Override
-    public OrderItem getOrderItem(Long orderItemId) {
+    public InvoiceCreateDto getInvoice(Long invoiceId) {
         return null;
     }
 
     @Override
-    public void deleteOrderItem(Long orderItemId) {
-
-    }
-
-    @Override
-    public OrderItem createOrderItem(OrderItem orderItem) {
+    public InvoiceGetDto createInvoice(InvoiceCreateDto invoice) {
         return null;
     }
 
     @Override
-    public List<OrderItem> createOrderItems(List<OrderItem> orderItems) {
+    public List<InvoiceGetDto> createInvoices(List<InvoiceCreateDto> invoice) {
         return null;
+    }
+
+    @Override
+    public void deleteInvoice(Long invoiceId) {
+
     }
 }

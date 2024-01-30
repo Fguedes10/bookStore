@@ -30,6 +30,8 @@ public class Download {
    @Schema(description = "Download date", example = "2023-01-30")
    private LocalDate downloadDate;
 
-    //Missing Download Link???
+     @Column(unique = true)
+     @Schema(description = "Download link", example = "https://yourdomain.com/download/unique-token")
+     private String downloadLink;
 
 }

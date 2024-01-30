@@ -57,12 +57,27 @@ public class BookController {
             description = "Book title", example = "The Lord of the Rings") String bookTittle) throws BookNotFoundException {
         return new ResponseEntity<>(bookService.getBookByTitle(bookTittle), HttpStatus.OK);
     }
-    
+
+
+    @Operation(
+            summary = "Get customers who favorited book",
+            description = "Get customers who favorited book"
+    )
     @GetMapping("/whoFavorited/{bookId}")
     public ResponseEntity<List<CustomerWhoFavoritedDto>> getCustomersWhoFavorited(@PathVariable("bookId") @Parameter(name =
             "Book Id",
             description = "Book id", example = "1") Long bookId) throws BookNotFoundException {
         return new ResponseEntity<>(bookService.getCustomersWhoFavorited(bookId), HttpStatus.OK);
+    }
+
+
+    @Operation(
+            summary = "Get books by year release",
+            description = "Get books by year release"
+    )
+    @GetMapping("/yearRelease/{releaseYear}")
+    public ResponseEntity<List<BookYearReleaseInfoDto>> getBooksByYearRelease(@PathVariable("releaseYear") int releaseYear) throws BookNotFoundException {
+        return new ResponseEntity<>(bookService.getBooksByYearRelease(releaseYear), HttpStatus.OK);
     }
 
     @Operation(
@@ -97,7 +112,7 @@ public class BookController {
             description = "Delete book by id"
     )
     @DeleteMapping("/id/{bookId}")
-    public ResponseEntity<String> delete(@PathVariable("bookId")@Parameter(name = "Book Id", description = "Book id", example = "1") Long bookId) throws BookNotFoundException {
+    public ResponseEntity<String> delete(@PathVariable("bookId") @Parameter(name = "Book Id", description = "Book id", example = "1") Long bookId) throws BookNotFoundException {
         bookService.delete(bookId);
         return new ResponseEntity<>(HttpStatus.OK);
     }

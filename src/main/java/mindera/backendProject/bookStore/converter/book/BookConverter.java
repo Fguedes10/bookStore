@@ -66,4 +66,17 @@ public class BookConverter {
         return bookList.stream().map(BookConverter::fromModelToBookGetDto).toList();
     }
 
+    public static BookYearReleaseInfoDto fromModelToBookYearReleaseInfoDto(Book book) {
+        return new BookYearReleaseInfoDto(
+                book.getId(),
+                book.getTitle(),
+                AuthorConverter.fromModelToAuthorCreateDto(book.getAuthor()),
+                PublisherConverter.fromModelToPublisherCreateDto(book.getPublisher()),
+                book.getEdition(),
+                GenreConverter.fromEntityToCreateDto(book.getGenre()),
+                TranslationConverter.fromModelToTranslationCreateDtoList(book.getTranslation()),
+                book.getPrice()
+        );
+    }
+
 }

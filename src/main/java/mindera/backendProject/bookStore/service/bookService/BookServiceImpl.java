@@ -142,4 +142,11 @@ public class BookServiceImpl implements BookService{
                 .stream()
                 .map(CustomerConverter::fromModelToCustomerWhoFavoritedDto)
                 .toList();}
+
+    public List<BookYearReleaseInfoDto> getBooksByYearRelease(int releaseYear) {
+        return bookRepository.findBooksByYearRelease(releaseYear)
+                .stream()
+                .map(BookConverter::fromModelToBookYearReleaseInfoDto)
+                .toList();
+    }
 }

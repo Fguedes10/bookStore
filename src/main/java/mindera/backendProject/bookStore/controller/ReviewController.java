@@ -1,5 +1,6 @@
 package mindera.backendProject.bookStore.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import mindera.backendProject.bookStore.dto.book.ReviewCreateDto;
 import mindera.backendProject.bookStore.exception.ReviewNotFoundException;
@@ -22,14 +23,22 @@ public class ReviewController {
     }
 
 
+    @Operation(
+            summary = "Get all existing reviews",
+            description = "Get all existing reviews"
+    )
     @GetMapping("/")
     public ResponseEntity<List<ReviewCreateDto>> getReviews(){
         return ResponseEntity.ok(reviewService.getAll());
     }
 
 
+    @Operation(
+            summary = "Get review by id",
+            description = "Get review by id"
+    )
     @GetMapping("/{reviewId}")
-    public ResponseEntity<ReviewCreateDto> getReview(@PathVariable("reviewId") Long reviewId) throws ReviewNotFoundException{
+    public ResponseEntity<ReviewCreateDto> getReview(@PathVariable("reviewId")@Parameter(name = "Review Id", description = "Review id", example = "1") Long reviewId) throws ReviewNotFoundException{
         return new ResponseEntity<>(reviewService.getReview(reviewId), HttpStatus.OK);
     }
 
@@ -41,8 +50,14 @@ public class ReviewController {
     }*/
 
 
+
+
+    @Operation(
+            summary = "Delete review by id",
+            description = "Delete review by id"
+    )
     @DeleteMapping("/{reviewId}")
-    public ResponseEntity<String> delete(@PathVariable (name="reviewId") Long reviewId) throws ReviewNotFoundException {
+    public ResponseEntity<String> delete(@PathVariable (name="reviewId")@Parameter(name = "Review Id", description = "Review id", example = "1") Long reviewId) throws ReviewNotFoundException {
         reviewService.delete(reviewId);
         return new ResponseEntity<>(HttpStatus.OK);
     }

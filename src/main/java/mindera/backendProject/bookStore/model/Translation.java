@@ -1,5 +1,6 @@
 package mindera.backendProject.bookStore.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,12 +19,15 @@ public class Translation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(description = "Translation id", example = "1")
     private Long id;
 
     @Column(unique=true)
+    @Schema(description = "Translation name", example = "Portuguese")
     private String name;
 
     @ManyToMany(mappedBy = "translation", fetch = FetchType.EAGER)
+    @Schema(description = "Translation's books", example = "[1, 2, 3]")
     private List<Book> books;
 
 }

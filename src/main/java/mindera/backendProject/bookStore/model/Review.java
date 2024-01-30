@@ -1,5 +1,6 @@
 package mindera.backendProject.bookStore.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,13 +20,17 @@ public class Review {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(description = "Review id", example = "1")
     private Long id;
 
+    @Schema(description = "Review comment", example = "I like this book, because ...")
     private String comment;
 
+    @Schema(description = "Review date", example = "2022-01-01")
     private LocalDate commentDate;
 
-   @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Schema(description = "Review rating", example = "5")
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Book book;
 
 

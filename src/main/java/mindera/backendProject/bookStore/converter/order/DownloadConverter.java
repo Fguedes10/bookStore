@@ -12,10 +12,10 @@ public class DownloadConverter {
                 .build();
     }
 
-    public static DownloadCreateDto fromModelToDownloadCreateDto(Download download){
+/*    public static DownloadCreateDto fromModelToDownloadCreateDto(Download download){
         return new DownloadCreateDto(
                 OrderConverter.fromModelToOrderCreateDto(download.getOrderModel()),
                 download.getDownloadDate()
         );
-    }
+    }*/
 }

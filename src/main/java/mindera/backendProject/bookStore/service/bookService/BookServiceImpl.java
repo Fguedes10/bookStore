@@ -4,6 +4,7 @@ import mindera.backendProject.bookStore.converter.book.BookConverter;
 import mindera.backendProject.bookStore.converter.customer.CustomerConverter;
 import mindera.backendProject.bookStore.dto.book.*;
 import mindera.backendProject.bookStore.dto.customer.CustomerGetDto;
+import mindera.backendProject.bookStore.dto.customer.CustomerWhoFavoritedDto;
 import mindera.backendProject.bookStore.exception.book.*;
 import mindera.backendProject.bookStore.model.*;
 import mindera.backendProject.bookStore.repository.bookRepository.BookRepository;
@@ -132,13 +133,13 @@ public class BookServiceImpl implements BookService{
         return bookList;
     }
 
-    public List<CustomerGetDto> getCustomersWhoFavorited(Long bookId) throws BookNotFoundException {
+    public List<CustomerWhoFavoritedDto> getCustomersWhoFavorited(Long bookId) throws BookNotFoundException {
         Optional<Book> bookOptional = bookRepository.findById(bookId);
         if(bookOptional.isEmpty()){
             throw new BookNotFoundException(BOOK_WITH_ID  + bookId + DOESNT_EXIST);
         }
         return customerRepository.findCustomersByFavoriteBook(bookId)
                 .stream()
-                .map(CustomerConverter::fromEntityToCustomerGetDto)
+                .map(CustomerConverter::fromModelToCustomerWhoFavoritedDto)
                 .toList();}
 }

@@ -20,7 +20,7 @@ public class InvoiceConverter {
                 .build();
     }
 
-    public static InvoiceCreateDto fromModelToInvoiceCreateDto(Invoice invoice) {
+/*    public static InvoiceCreateDto fromModelToInvoiceCreateDto(Invoice invoice) {
         return new InvoiceCreateDto(
                 CustomerConverter.fromEntityToCustomerGetDto(invoice.getCustomer()),
                 OrderConverter.fromModelToOrderCreateDto(invoice.getOrderModel()),
@@ -28,5 +28,5 @@ public class InvoiceConverter {
                 invoice.getTotalAmount(),
                 invoice.getVAT());
 
-    }
+    }*/
 }

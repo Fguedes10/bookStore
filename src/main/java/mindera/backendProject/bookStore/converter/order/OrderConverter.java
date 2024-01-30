@@ -23,7 +23,7 @@ public class OrderConverter {
                 .build();
     }
 
-    public static OrderCreateDto fromModelToOrderCreateDto(OrderModel orderModel){
+/*    public static OrderCreateDto fromModelToOrderCreateDto(OrderModel orderModel){
         return new OrderCreateDto(
                 orderModel.getOrderItems().stream().map(OrderITemConverter::fromModelToOrderItemsCreateDto).toList(),
                 CustomerConverter.fromEntityToCustomerGetDto(orderModel.getCustomer()),
@@ -32,5 +32,5 @@ public class OrderConverter {
                 orderModel.getBooks().stream().map(BookConverter::fromModelToBookGetDto).toList(),
                 orderModel.getPurchaseDate());
 
-    }
+    }*/
 }

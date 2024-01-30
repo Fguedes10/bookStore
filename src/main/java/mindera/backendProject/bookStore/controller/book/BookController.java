@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import mindera.backendProject.bookStore.dto.book.*;
 
 import mindera.backendProject.bookStore.dto.customer.CustomerGetDto;
+import mindera.backendProject.bookStore.dto.customer.CustomerWhoFavoritedDto;
 import mindera.backendProject.bookStore.exception.book.*;
 import mindera.backendProject.bookStore.model.Author;
 import mindera.backendProject.bookStore.model.Customer;
@@ -58,7 +59,7 @@ public class BookController {
     }
     
     @GetMapping("/whoFavorited/{bookId}")
-    public ResponseEntity<List<CustomerGetDto>> getCustomersWhoFavorited(@PathVariable("bookId") @Parameter(name = 
+    public ResponseEntity<List<CustomerWhoFavoritedDto>> getCustomersWhoFavorited(@PathVariable("bookId") @Parameter(name =
             "Book Id",
             description = "Book id", example = "1") Long bookId) throws BookNotFoundException {
         return new ResponseEntity<>(bookService.getCustomersWhoFavorited(bookId), HttpStatus.OK);

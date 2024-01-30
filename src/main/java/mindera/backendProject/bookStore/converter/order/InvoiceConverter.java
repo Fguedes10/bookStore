@@ -1,9 +1,14 @@
 package mindera.backendProject.bookStore.converter.order;
 
+import mindera.backendProject.bookStore.converter.book.*;
 import mindera.backendProject.bookStore.converter.customer.CustomerConverter;
 import mindera.backendProject.bookStore.dto.book.BookCreateDto;
 import mindera.backendProject.bookStore.dto.book.BookGetDto;
+import mindera.backendProject.bookStore.dto.customer.CustomerCreateDto;
+import mindera.backendProject.bookStore.dto.customer.CustomerGetDto;
 import mindera.backendProject.bookStore.dto.order.InvoiceCreateDto;
+import mindera.backendProject.bookStore.dto.order.InvoiceGetDto;
+import mindera.backendProject.bookStore.dto.order.OrderCreateDto;
 import mindera.backendProject.bookStore.model.*;
 
 import java.util.List;
@@ -20,13 +25,26 @@ public class InvoiceConverter {
                 .build();
     }
 
-/*    public static InvoiceCreateDto fromModelToInvoiceCreateDto(Invoice invoice) {
+    public static InvoiceCreateDto fromModelToInvoiceCreateDto(Invoice invoice) {
         return new InvoiceCreateDto(
-                CustomerConverter.fromEntityToCustomerGetDto(invoice.getCustomer()),
-                OrderConverter.fromModelToOrderCreateDto(invoice.getOrderModel()),
+                invoice.getCustomer().getId(),
+                invoice.getOrderModel().getId(),
                 invoice.getIssueDate(),
                 invoice.getTotalAmount(),
                 invoice.getVAT());
 
-    }*/
+    }
+
+
+    public static InvoiceGetDto fromModelToInvoiceGetDto(Invoice invoice) {
+        return new InvoiceGetDto(
+                CustomerConverter.fromEntityToCustomerGetDto(invoice.getCustomer()),
+                OrderConverter.fromModelToOrderCreateDto(invoice.getOrderModel()),
+                invoice.getIssueDate(),
+                invoice.getTotalAmount(),
+                invoice.getVAT()
+        );
+    }
+
+
 }

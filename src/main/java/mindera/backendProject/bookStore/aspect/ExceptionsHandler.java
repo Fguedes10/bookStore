@@ -27,7 +27,9 @@ public class ExceptionsHandler {
 
     @ExceptionHandler(value = {CustomerNotFoundException.class, AuthorNotFoundException.class,
             BookNotFoundException.class, GenreNotFoundException.class, RatingNotFoundException.class,
-            ReviewNotFoundException.class, TranslationNotFoundException.class})
+            ReviewNotFoundException.class, TranslationNotFoundException.class, DownloadNotFoundException.class,
+            InvoiceNotFoundException.class, OrderNotFoundException.class, OrderItemNotFoundException.class,
+            PaymentNotFoundException.class})
     public ResponseEntity<String> NotFoundHandler(Exception exception) {
         logger.error("Know exception: " + exception.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
@@ -37,6 +39,8 @@ public class ExceptionsHandler {
             BookAlreadyExistsException.class, GenreAlreadyExistsException.class,
             TranslationAlreadyExistsException.class, CustomerWithEmailAlreadyExists.class,
             CustomerRepeatedFavoriteBooks.class, IncorrectReleaseYearException.class})
+            CustomerRepeatedFavoriteBooks.class, DownloadAlreadyExistsException.class, InvoiceAlreadyExistsException.class,
+    OrderAlreadyExistsException.class, OrderAlreadyExistsException.class, PaymentAlreadyExistsException.class})
     public ResponseEntity<String> AlreadyExistsHandler(Exception exception) {
         logger.error("Know exception: " + exception.getMessage());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(exception.getMessage());

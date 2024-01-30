@@ -1,7 +1,5 @@
 package mindera.backendProject.bookStore.apiHandler;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
-import io.micrometer.common.util.StringUtils;
 import mindera.backendProject.bookStore.exception.RestApiModelNotFoundException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
@@ -10,7 +8,7 @@ import org.springframework.web.client.RestTemplate;
 import java.net.http.HttpResponse;
 import java.util.List;
 
-@Service
+/*@Service
 public class RestApiService {
 
     private final RestfulApiRepository restfulApiRepository;
@@ -86,4 +84,4 @@ public class RestApiService {
     public List<RestApiModel> getBooksById(List<Long> ids){
         return restfulApiRepository.findAllById(ids);
     }
-}
+}*/

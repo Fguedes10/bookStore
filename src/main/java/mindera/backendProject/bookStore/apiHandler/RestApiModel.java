@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Builder
+/*@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -33,4 +33,4 @@ public class RestApiModel {
     @Column
     private int numberOfPages;
 
-}
+}*/

@@ -1,11 +1,13 @@
 package mindera.backendProject.bookStore.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
  @Data
 @Builder
@@ -15,16 +17,18 @@ import java.time.LocalDateTime;
 @Table
 public class Download {
 
-   @Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(description = "Download id", example = "1")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "orderItem_id", nullable = false)
-    private OrderItem orderItem;
+   @ManyToOne(fetch = FetchType.EAGER)
+   @JoinColumn(name = "order_id")
+   @Schema(description = "Book's download", example = "1")
+   private OrderModel orderModel;
 
-    @Column(nullable = false)
-    private LocalDateTime downloadDate;
+   @Schema(description = "Download date", example = "2023-01-30")
+   private LocalDate downloadDate;
 
     //Missing Download Link???
 

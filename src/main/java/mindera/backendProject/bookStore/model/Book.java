@@ -4,11 +4,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 
 @Builder
@@ -71,6 +69,13 @@ public class Book {
     @Schema(description = "Book translation", example = "[1, 2, 3]")
     List<Translation> translation;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @Schema(description = "Book's orders", example = "[1, 2, 3]")
+    private List<OrderModel> orderModels;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @Schema(description = "Book's to purchase", example = "[1, 2, 3]")
+    private List<OrderItem> orderItems;
 
     public void addReview(Review review) {
         this.review.add(review);

@@ -68,16 +68,22 @@ public class Customer {
             joinColumns = @JoinColumn(name = "customer_id"),
             inverseJoinColumns = @JoinColumn(name = "book_id")
     )
+    @Schema(description = "purchased books", example = "[1, 2, 3]")
     private Set<Book> purchasedBooks;
 
 
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Schema(description = "customer total invoices", example = "[1, 2, 3]")
     private Set<Invoice> invoices;
 
 
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Schema(description = "customer items to purchase", example = "[1, 2, 3]")
     private Set<OrderItem> orderItems;
 
+    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Schema(description = "customer items purchased", example = "[1, 2, 3]")
+    private Set<OrderModel> orderModels;
 
 
 

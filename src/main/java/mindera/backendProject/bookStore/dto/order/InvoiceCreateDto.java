@@ -1,4 +1,15 @@
 package mindera.backendProject.bookStore.dto.order;
 
-public class InvoiceCreateDto {
+import java.time.LocalDate;
+
+public record InvoiceCreateDto(
+
+        Long customerId,
+        Long orderModelId,
+        LocalDate issueDate,
+        double totalAmount,
+        double VAT
+
+) {
+
 }

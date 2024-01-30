@@ -35,7 +35,7 @@ public class Invoice {
     private LocalDate issueDate;
 
     @Schema( description = "Total amount payed", example= "22.70")
-    private Double totalAmount;
+    private double totalAmount;
 
     @Schema(description = "Value Added Tax (VAT)", example = "0.06")
     private double VAT = 0.06;

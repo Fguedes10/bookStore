@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 public record DownloadCreateDto(
 
-        Long orderItemId,
+        Long orderModelId,
         LocalDateTime downloadDate
 
 ) {

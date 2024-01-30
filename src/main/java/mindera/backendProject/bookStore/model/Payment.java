@@ -23,7 +23,7 @@ public class Payment {
 
     @OneToOne
     @JoinColumn(name = "bookOrderItem_id", nullable = false, unique = true)
-    @Schema(description = "Payment for the items orderes", example = "1")
+    @Schema(description = "Payment for the items orders", example = "1")
     private OrderItem orderItem;
 
     @Column(nullable = false)

@@ -10,6 +10,7 @@ import mindera.backendProject.bookStore.repository.bookRepository.AuthorReposito
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,6 +48,18 @@ public class AuthorServiceImpl implements AuthorService{
         }
         authorRepository.save(AuthorConverter.fromCreateDtoToModel(author));
         return author;
+    }
+    public List<AuthorCreateDto> addMultipleAuthors(List<AuthorCreateDto> authors) throws AuthorAlreadyExistsException {
+        List<AuthorCreateDto> authorsCreated = new ArrayList<>();
+        for (AuthorCreateDto author : authors) {
+            Optional<Author> authorOptional = authorRepository.findByName(author.name());
+            if (authorOptional.isPresent()) {
+                throw new AuthorAlreadyExistsException(AUTHOR_ALREADY_EXISTS);
+            }
+            authorRepository.save(AuthorConverter.fromCreateDtoToModel(author));
+            authorsCreated.add(author);
+        }
+        return authorsCreated;
     }
 
     @Override

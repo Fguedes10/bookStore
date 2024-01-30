@@ -63,6 +63,15 @@ public class PublisherController {
         return new ResponseEntity<>(publisherService.add(publisher), HttpStatus.CREATED);
     }
 
+    @Operation(
+            summary = "Add multiple publishers",
+            description = "Add multiple publishers"
+    )
+    @PostMapping("/addMultiplePublishers")
+    public ResponseEntity<List<PublisherCreateDto>> addMultiplePublishers(@Valid @RequestBody List<PublisherCreateDto> publishers) throws PublisherAlreadyExistsException {
+        return new ResponseEntity<>(publisherService.addMultiplePublishers(publishers), HttpStatus.CREATED);
+    }
+
 
     @Operation(
             summary = "Delete publisher by id",

@@ -1,4 +1,12 @@
 package mindera.backendProject.bookStore.dto.order;
 
-public record DownloadCreateDto() {
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+public record DownloadCreateDto(
+
+        Long orderItemId,
+        LocalDateTime downloadDate
+
+) {
 }

@@ -1,11 +1,11 @@
 package mindera.backendProject.bookStore.service.bookService;
 
-import mindera.backendProject.bookStore.converter.BookConverter;
+import mindera.backendProject.bookStore.converter.book.BookConverter;
 import mindera.backendProject.bookStore.dto.book.BookCreateDto;
 import mindera.backendProject.bookStore.dto.book.BookGetDto;
 import mindera.backendProject.bookStore.dto.book.BookUpdateEditionDto;
 import mindera.backendProject.bookStore.dto.book.BookUpdatePriceDto;
-import mindera.backendProject.bookStore.exception.*;
+import mindera.backendProject.bookStore.exception.book.*;
 import mindera.backendProject.bookStore.model.*;
 import mindera.backendProject.bookStore.repository.bookRepository.BookRepository;
 import org.springframework.stereotype.Service;

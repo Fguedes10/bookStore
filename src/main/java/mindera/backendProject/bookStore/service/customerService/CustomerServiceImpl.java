@@ -1,15 +1,20 @@
 package mindera.backendProject.bookStore.service.customerService;
 
-import mindera.backendProject.bookStore.converter.BookConverter;
-import mindera.backendProject.bookStore.converter.CustomerConverter;
-import mindera.backendProject.bookStore.converter.GenreConverter;
+import mindera.backendProject.bookStore.converter.book.BookConverter;
+import mindera.backendProject.bookStore.converter.customer.CustomerConverter;
+import mindera.backendProject.bookStore.converter.book.GenreConverter;
 import mindera.backendProject.bookStore.dto.book.BookGetDto;
-import mindera.backendProject.bookStore.dto.book.CustomerFavoriteDto;
+import mindera.backendProject.bookStore.dto.customer.CustomerFavoriteDto;
 import mindera.backendProject.bookStore.dto.book.GenreCreateDto;
 import mindera.backendProject.bookStore.dto.customer.CustomerCreateDto;
 import mindera.backendProject.bookStore.dto.customer.CustomerGetDto;
 import mindera.backendProject.bookStore.dto.customer.CustomerPatchDto;
-import mindera.backendProject.bookStore.exception.*;
+import mindera.backendProject.bookStore.exception.book.BookNotFoundException;
+import mindera.backendProject.bookStore.exception.book.GenreNotFoundException;
+import mindera.backendProject.bookStore.exception.customer.CustomerAlreadyExistsException;
+import mindera.backendProject.bookStore.exception.customer.CustomerNotFoundException;
+import mindera.backendProject.bookStore.exception.customer.CustomerRepeatedFavoriteBooks;
+import mindera.backendProject.bookStore.exception.customer.CustomerWithEmailAlreadyExists;
 import mindera.backendProject.bookStore.model.Book;
 import mindera.backendProject.bookStore.model.Customer;
 import mindera.backendProject.bookStore.model.Genre;

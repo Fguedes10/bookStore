@@ -1,9 +1,9 @@
 package mindera.backendProject.bookStore.service.bookService;
 
 import mindera.backendProject.bookStore.dto.book.AuthorCreateDto;
-import mindera.backendProject.bookStore.exception.AuthorAlreadyExistsException;
-import mindera.backendProject.bookStore.exception.AuthorNotFoundException;
-import mindera.backendProject.bookStore.exception.CannotDeleteException;
+import mindera.backendProject.bookStore.exception.book.AuthorAlreadyExistsException;
+import mindera.backendProject.bookStore.exception.book.AuthorNotFoundException;
+import mindera.backendProject.bookStore.exception.book.CannotDeleteException;
 
 import java.util.List;
 

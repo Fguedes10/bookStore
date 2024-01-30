@@ -1,8 +1,8 @@
 package mindera.backendProject.bookStore.service.bookService;
 
 import mindera.backendProject.bookStore.dto.book.PublisherCreateDto;
-import mindera.backendProject.bookStore.exception.PublisherAlreadyExistsException;
-import mindera.backendProject.bookStore.exception.PublisherNotFoundException;
+import mindera.backendProject.bookStore.exception.book.PublisherAlreadyExistsException;
+import mindera.backendProject.bookStore.exception.book.PublisherNotFoundException;
 
 import java.util.List;
 

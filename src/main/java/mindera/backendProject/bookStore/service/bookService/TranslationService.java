@@ -1,8 +1,8 @@
 package mindera.backendProject.bookStore.service.bookService;
 
 import mindera.backendProject.bookStore.dto.book.TranslationCreateDto;
-import mindera.backendProject.bookStore.exception.TranslationAlreadyExistsException;
-import mindera.backendProject.bookStore.exception.TranslationNotFoundException;
+import mindera.backendProject.bookStore.exception.book.TranslationAlreadyExistsException;
+import mindera.backendProject.bookStore.exception.book.TranslationNotFoundException;
 
 import java.util.List;
 

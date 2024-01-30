@@ -4,8 +4,7 @@ import mindera.backendProject.bookStore.dto.book.BookCreateDto;
 import mindera.backendProject.bookStore.dto.book.BookGetDto;
 import mindera.backendProject.bookStore.dto.book.BookUpdateEditionDto;
 import mindera.backendProject.bookStore.dto.book.BookUpdatePriceDto;
-import mindera.backendProject.bookStore.exception.*;
-import org.springframework.http.HttpStatusCode;
+import mindera.backendProject.bookStore.exception.book.*;
 
 import java.util.List;
 

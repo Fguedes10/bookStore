@@ -1,9 +1,9 @@
 package mindera.backendProject.bookStore.service.bookService;
 
-import mindera.backendProject.bookStore.converter.TranslationConverter;
+import mindera.backendProject.bookStore.converter.book.TranslationConverter;
 import mindera.backendProject.bookStore.dto.book.TranslationCreateDto;
-import mindera.backendProject.bookStore.exception.TranslationAlreadyExistsException;
-import mindera.backendProject.bookStore.exception.TranslationNotFoundException;
+import mindera.backendProject.bookStore.exception.book.TranslationAlreadyExistsException;
+import mindera.backendProject.bookStore.exception.book.TranslationNotFoundException;
 import mindera.backendProject.bookStore.model.Translation;
 import mindera.backendProject.bookStore.repository.bookRepository.TranslationRepository;
 import org.springframework.stereotype.Service;

@@ -1,8 +1,8 @@
 package mindera.backendProject.bookStore.service.bookService;
 
-import mindera.backendProject.bookStore.converter.ReviewConverter;
+import mindera.backendProject.bookStore.converter.book.ReviewConverter;
 import mindera.backendProject.bookStore.dto.book.ReviewCreateDto;
-import mindera.backendProject.bookStore.exception.ReviewNotFoundException;
+import mindera.backendProject.bookStore.exception.book.ReviewNotFoundException;
 import mindera.backendProject.bookStore.model.Book;
 import mindera.backendProject.bookStore.model.Review;
 import mindera.backendProject.bookStore.repository.bookRepository.ReviewRepository;

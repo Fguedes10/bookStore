@@ -1,10 +1,10 @@
 package mindera.backendProject.bookStore.service.bookService;
 
 
-import mindera.backendProject.bookStore.converter.GenreConverter;
+import mindera.backendProject.bookStore.converter.book.GenreConverter;
 import mindera.backendProject.bookStore.dto.book.GenreCreateDto;
-import mindera.backendProject.bookStore.exception.GenreAlreadyExistsException;
-import mindera.backendProject.bookStore.exception.GenreNotFoundException;
+import mindera.backendProject.bookStore.exception.book.GenreAlreadyExistsException;
+import mindera.backendProject.bookStore.exception.book.GenreNotFoundException;
 import mindera.backendProject.bookStore.model.Genre;
 import mindera.backendProject.bookStore.repository.bookRepository.GenreRepository;
 import org.springframework.stereotype.Service;

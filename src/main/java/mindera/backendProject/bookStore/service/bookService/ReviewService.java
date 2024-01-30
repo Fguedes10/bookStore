@@ -1,8 +1,7 @@
 package mindera.backendProject.bookStore.service.bookService;
 
 import mindera.backendProject.bookStore.dto.book.ReviewCreateDto;
-import mindera.backendProject.bookStore.exception.ReviewNotFoundException;
-import mindera.backendProject.bookStore.model.Review;
+import mindera.backendProject.bookStore.exception.book.ReviewNotFoundException;
 
 import java.util.List;
 

@@ -1,6 +1,10 @@
 package mindera.backendProject.bookStore.aspect;
 
-import mindera.backendProject.bookStore.exception.*;
+import mindera.backendProject.bookStore.exception.book.*;
+import mindera.backendProject.bookStore.exception.customer.CustomerAlreadyExistsException;
+import mindera.backendProject.bookStore.exception.customer.CustomerNotFoundException;
+import mindera.backendProject.bookStore.exception.customer.CustomerRepeatedFavoriteBooks;
+import mindera.backendProject.bookStore.exception.customer.CustomerWithEmailAlreadyExists;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

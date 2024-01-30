@@ -1,9 +1,9 @@
 package mindera.backendProject.bookStore.service.bookService;
 
-import mindera.backendProject.bookStore.converter.PublisherConverter;
+import mindera.backendProject.bookStore.converter.book.PublisherConverter;
 import mindera.backendProject.bookStore.dto.book.PublisherCreateDto;
-import mindera.backendProject.bookStore.exception.PublisherAlreadyExistsException;
-import mindera.backendProject.bookStore.exception.PublisherNotFoundException;
+import mindera.backendProject.bookStore.exception.book.PublisherAlreadyExistsException;
+import mindera.backendProject.bookStore.exception.book.PublisherNotFoundException;
 import mindera.backendProject.bookStore.model.Publisher;
 import mindera.backendProject.bookStore.repository.bookRepository.PublisherRepository;
 import org.springframework.stereotype.Service;

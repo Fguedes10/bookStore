@@ -1,8 +1,8 @@
 package mindera.backendProject.bookStore.service.bookService;
 
 import mindera.backendProject.bookStore.dto.book.GenreCreateDto;
-import mindera.backendProject.bookStore.exception.GenreAlreadyExistsException;
-import mindera.backendProject.bookStore.exception.GenreNotFoundException;
+import mindera.backendProject.bookStore.exception.book.GenreAlreadyExistsException;
+import mindera.backendProject.bookStore.exception.book.GenreNotFoundException;
 
 import java.util.List;
 

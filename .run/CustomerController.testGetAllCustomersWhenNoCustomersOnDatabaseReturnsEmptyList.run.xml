@@ -8,7 +8,7 @@
       </pattern>
     </extension>
     <option name="PACKAGE_NAME" value="mindera.backendProject.bookStore.controller" />
-    <option name="MAIN_CLASS_NAME" value="mindera.backendProject.bookStore.controller.CustomerController" />
+    <option name="MAIN_CLASS_NAME" value="mindera.backendProject.bookStore.controller.customer.CustomerController" />
     <option name="METHOD_NAME" value="testGetAllCustomersWhenNoCustomersOnDatabaseReturnsEmptyList" />
     <option name="TEST_OBJECT" value="method" />
     <method v="2">

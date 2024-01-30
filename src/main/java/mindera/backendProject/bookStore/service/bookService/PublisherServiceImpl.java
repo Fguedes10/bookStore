@@ -8,6 +8,7 @@ import mindera.backendProject.bookStore.model.Publisher;
 import mindera.backendProject.bookStore.repository.bookRepository.PublisherRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,6 +45,19 @@ public class PublisherServiceImpl implements PublisherService{
         }
         publisherRepository.save(PublisherConverter.fromCreateDtoToModel(publisher));
         return publisher;
+    }
+
+    public List<PublisherCreateDto> addMultiplePublishers(List<PublisherCreateDto> publishers) throws PublisherAlreadyExistsException {
+        List<PublisherCreateDto> publisherCreated = new ArrayList<>();
+        for(PublisherCreateDto publisher : publishers){
+            Optional<Publisher> publisherOptional = publisherRepository.findByName(publisher.name());
+            if (publisherOptional.isPresent()) {
+                throw new PublisherAlreadyExistsException(PUBLISHER_ALREADY_EXISTS);
+            }
+            publisherRepository.save(PublisherConverter.fromCreateDtoToModel(publisher));
+            publisherCreated.add(publisher);
+        }
+        return publisherCreated;
     }
 
     @Override

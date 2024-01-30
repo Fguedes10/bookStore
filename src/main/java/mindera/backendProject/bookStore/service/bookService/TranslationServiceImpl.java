@@ -8,6 +8,7 @@ import mindera.backendProject.bookStore.model.Translation;
 import mindera.backendProject.bookStore.repository.bookRepository.TranslationRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -51,6 +52,19 @@ public class TranslationServiceImpl implements TranslationService{
        }
        translationRepository.save(TranslationConverter.fromCreateDtoToModel(translation));
        return translation;
+    }
+
+    public List<TranslationCreateDto> addMultipleTranslations(List<TranslationCreateDto> translations) throws TranslationAlreadyExistsException {
+        List<TranslationCreateDto> translationsCreated = new ArrayList<>();
+        for(TranslationCreateDto translation : translations){
+            Optional<Translation> translationOptional = translationRepository.findByName(translation.name());
+            if(translationOptional.isPresent()){
+                throw new TranslationAlreadyExistsException(TRANSLATION_ALREADY_EXISTS);
+            }
+            translationRepository.save(TranslationConverter.fromCreateDtoToModel(translation));
+            translationsCreated.add(translation);
+        }
+        return translationsCreated;
     }
 
     @Override

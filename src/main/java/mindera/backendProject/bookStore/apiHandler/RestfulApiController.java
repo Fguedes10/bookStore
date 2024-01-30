@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-/*@RestController
+@RestController
 @RequestMapping("/googleBooksApi")
 public class RestfulApiController {
 
@@ -39,7 +39,9 @@ public class RestfulApiController {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
-   /* @PostMapping("/")
+    }
+
+/*   @PostMapping("/")
     public ResponseEntity<RestApiModel> saveBookToDb (@PathVariable HttpResponse<String> response){
        return new ResponseEntity<>(restApiService.saveToDb(response, HttpStatus.CREATED);
     }
@@ -48,8 +50,8 @@ public class RestfulApiController {
     @PostMapping("/addTopRated/")
     public ResponseEntity<List<String>> requestTopRatedBooks(@RequestBody List<HttpResponse<String>> responseList){
         return new ResponseEntity<>(restApiService.saveTopRatedBooks(responseList, HttpStatus.CREATED);
-    }
+    }*/
 
 
 
-}*/
+

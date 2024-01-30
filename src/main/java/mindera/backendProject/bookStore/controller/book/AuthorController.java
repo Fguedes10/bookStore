@@ -68,6 +68,17 @@ public class AuthorController {
 
 
     @Operation(
+            summary = "Add multiple authors",
+            description = "Add multiple authors"
+    )
+    @PostMapping("/addMultipleAuthors")
+    public ResponseEntity<List<AuthorCreateDto>> addMultipleAuthors(@Valid @RequestBody List<AuthorCreateDto> authors) throws AuthorAlreadyExistsException {
+        return new ResponseEntity<>(authorService.addMultipleAuthors(authors), HttpStatus.CREATED);
+    }
+
+
+
+    @Operation(
             summary = "Delete author by id",
             description = "Delete author by id"
     )

@@ -6,7 +6,7 @@ import mindera.backendProject.bookStore.model.Payment;
 import java.time.LocalDate;
 import java.util.List;
 
-public record OrderItemsCreateDto(
+public record OrderItemCreateDto(
         Customer customer,
         List<Long> downloads,
         LocalDate requestDate,

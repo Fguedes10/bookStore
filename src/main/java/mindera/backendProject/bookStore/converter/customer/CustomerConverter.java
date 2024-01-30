@@ -4,6 +4,7 @@ import mindera.backendProject.bookStore.converter.book.GenreConverter;
 import mindera.backendProject.bookStore.dto.customer.CustomerCreateDto;
 import mindera.backendProject.bookStore.dto.customer.CustomerGetDto;
 import mindera.backendProject.bookStore.dto.customer.CustomerPatchDto;
+import mindera.backendProject.bookStore.dto.customer.CustomerWhoFavoritedDto;
 import mindera.backendProject.bookStore.model.Customer;
 import mindera.backendProject.bookStore.model.Genre;
 
@@ -36,6 +37,14 @@ public class CustomerConverter {
                 customer.getFirstName(),
                 customer.getLastName(),
                 customer.getEmail()
+        );
+    }
+
+    public static CustomerWhoFavoritedDto fromModelToCustomerWhoFavoritedDto (Customer customer){
+        return new CustomerWhoFavoritedDto(
+                customer.getId(),
+                customer.getFirstName(),
+                customer.getLastName()
         );
     }
 

@@ -9,8 +9,7 @@ import static mindera.backendProject.bookStore.util.Messages.*;
 public record PublisherCreateDto(
 
         @NotBlank(message = INVALID_PUBLISHER)
-        @Size(max = 25, message = MAX_CHAR_SIZE)
-        @Pattern(regexp = "[a-zA-Z_0-9!?#$]+",message = INVALID_PUBLISHER)
+        @Size(max = 50, message = MAX_CHAR_SIZE)
         String name
 ) {
 }

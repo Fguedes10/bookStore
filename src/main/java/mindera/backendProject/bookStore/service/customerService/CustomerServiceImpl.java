@@ -166,6 +166,7 @@ public class CustomerServiceImpl implements CustomerService {
         customerRepository.save(customerOptional.get());
         return BookConverter.fromModelToBookGetFavoriteBooksDto(customerOptional.get().getFavoriteBooks());
     }
+
 }
 
 

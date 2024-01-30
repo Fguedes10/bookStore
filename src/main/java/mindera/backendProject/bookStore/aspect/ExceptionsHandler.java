@@ -24,21 +24,24 @@ public class ExceptionsHandler {
     @ExceptionHandler(value = {CustomerNotFoundException.class, AuthorNotFoundException.class,
             BookNotFoundException.class, GenreNotFoundException.class, RatingNotFoundException.class,
             ReviewNotFoundException.class, TranslationNotFoundException.class})
-    public ResponseEntity<String> NotFoundHandler (Exception exception){
+    public ResponseEntity<String> NotFoundHandler(Exception exception) {
         logger.error("Know exception: " + exception.getMessage());
-        return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
     }
+
     @ExceptionHandler(value = {CustomerAlreadyExistsException.class, AuthorAlreadyExistsException.class,
             BookAlreadyExistsException.class, GenreAlreadyExistsException.class,
             TranslationAlreadyExistsException.class, CustomerWithEmailAlreadyExists.class,
             CustomerRepeatedFavoriteBooks.class})
-    public ResponseEntity<String> AlreadyExistsHandler (Exception exception){
+    public ResponseEntity<String> AlreadyExistsHandler(Exception exception) {
         logger.error("Know exception: " + exception.getMessage());
-        return  ResponseEntity.status(HttpStatus.CONFLICT).body(exception.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(exception.getMessage());
     }
+
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    protected ResponseEntity<Object> validationsHandlerNotValid(MethodArgumentNotValidException exception){
+    protected ResponseEntity<Object> validationsHandlerNotValid(MethodArgumentNotValidException exception) {
         Map<String, String> errors = new HashMap<>();
 
         exception.getBindingResult().getAllErrors().forEach(error -> {
@@ -48,7 +51,6 @@ public class ExceptionsHandler {
         });
         return ResponseEntity.badRequest().body(errors);
     }
-
 
 
 }

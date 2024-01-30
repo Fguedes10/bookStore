@@ -61,8 +61,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerGetDto createCustomer(CustomerCreateDto customerCreateDto) throws CustomerAlreadyExistsException, GenreNotFoundException {
-        List<Genre> genreList = genreService.findByIds(customerCreateDto.favoriteGenresIds());
         verifyIfCustomerExists(customerCreateDto);
+        List<Genre> genreList = genreService.findByIds(customerCreateDto.favoriteGenresIds());
         Customer customerToSave = CustomerConverter.fromCustomerCreateDtoToEntity(customerCreateDto, genreList);
         customerRepository.save(customerToSave);
         return CustomerConverter.fromEntityToCustomerGetDto(customerToSave);

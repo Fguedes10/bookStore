@@ -3,10 +3,7 @@ package mindera.backendProject.bookStore.service.customerService;
 import mindera.backendProject.bookStore.dto.customer.CustomerCreateDto;
 import mindera.backendProject.bookStore.dto.customer.CustomerGetDto;
 import mindera.backendProject.bookStore.dto.customer.CustomerPatchDto;
-import mindera.backendProject.bookStore.exception.CustomerAlreadyExistsException;
-import mindera.backendProject.bookStore.exception.CustomerNotFoundException;
-import mindera.backendProject.bookStore.exception.CustomerWithEmailAlreadyExists;
-import mindera.backendProject.bookStore.exception.GenreNotFoundException;
+import mindera.backendProject.bookStore.exception.*;
 
 import java.util.List;
 

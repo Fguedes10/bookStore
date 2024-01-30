@@ -76,7 +76,7 @@ public class Customer {
 
 
     @OneToMany(mappedBy = "customer")
-    private Set<BookOrder> bookOrders;
+    private Set<OrderItem> orderItems;
 
 
 

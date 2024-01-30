@@ -25,7 +25,7 @@ public class Invoice {
 
     @ManyToOne
     @JoinColumn(name = "bookOrder_id", nullable = false)
-    private BookOrder bookOrder;
+    private OrderItem orderItem;
 
     @Column(nullable = false)
     private LocalDateTime issueDate;

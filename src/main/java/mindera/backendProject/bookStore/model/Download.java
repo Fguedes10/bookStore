@@ -20,8 +20,8 @@ public class Download {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "bookOrder_id", nullable = false)
-    private BookOrder bookOrder;
+    @JoinColumn(name = "orderItem_id", nullable = false)
+    private OrderItem orderItem;
 
     @Column(nullable = false)
     private LocalDateTime downloadDate;

@@ -3,5 +3,5 @@ package mindera.backendProject.bookStore.service.orderService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class DownloadServiceImpl {
+public class DownloadServiceImpl implements DownloadService {
 }

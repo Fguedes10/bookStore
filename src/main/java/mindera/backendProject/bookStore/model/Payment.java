@@ -21,7 +21,7 @@ public class Payment {
 
     @OneToOne
     @JoinColumn(name = "bookOrder_id", nullable = false, unique = true)
-    private BookOrder bookOrder;
+    private OrderItem orderItem;
 
     @Column(nullable = false)
     private LocalDateTime paymentDate;

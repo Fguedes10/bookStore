@@ -9,6 +9,7 @@ import mindera.backendProject.bookStore.model.Genre;
 import mindera.backendProject.bookStore.repository.bookRepository.GenreRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -52,6 +53,22 @@ public class GenreServiceImpl implements GenreService{
         genreRepository.save(newGenre);
         return genre;
     }
+
+    public List<GenreCreateDto> addMultipleGenres(List<GenreCreateDto> genres) throws GenreAlreadyExistsException {
+        List<GenreCreateDto> genresCreated = new ArrayList<>();
+        for (GenreCreateDto genre : genres) {
+            Optional<Genre> genreOptional = genreRepository.findByName(genre.name());
+            if(genreOptional.isPresent()){
+                throw new GenreAlreadyExistsException(GENRE_ALREADY_EXISTS);
+            }
+            Genre newGenre =  GenreConverter.fromCreateDtoToModel(genre);
+            genreRepository.save(newGenre);
+            genresCreated.add(genre);
+        }
+        return genresCreated;
+    }
+
+
 
     @Override
     public void delete(Long genreId) throws GenreNotFoundException {

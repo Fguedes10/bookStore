@@ -8,7 +8,7 @@ import org.springframework.web.client.RestTemplate;
 import java.net.http.HttpResponse;
 import java.util.List;
 
-/*@Service
+@Service
 public class RestApiService {
 
     private final RestfulApiRepository restfulApiRepository;
@@ -84,4 +84,4 @@ public class RestApiService {
     public List<RestApiModel> getBooksById(List<Long> ids){
         return restfulApiRepository.findAllById(ids);
     }
-}*/
+}

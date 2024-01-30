@@ -67,6 +67,19 @@ public class GenreController {
         return new ResponseEntity<>(genreService.add(genre), HttpStatus.CREATED);
     }
 
+
+    @Operation(
+            summary = "Add multiple genres",
+            description = "Add multiple genres"
+    )
+    @PostMapping("/addMultipleGenres")
+    public ResponseEntity<List<GenreCreateDto>> addMultipleGenres(@Valid @RequestBody List<GenreCreateDto> genres) throws GenreAlreadyExistsException {
+        return new ResponseEntity<>(genreService.addMultipleGenres(genres), HttpStatus.CREATED);
+    }
+
+
+
+
     @Operation(
             summary = "Delete genre by id",
             description = "Delete genre by id"

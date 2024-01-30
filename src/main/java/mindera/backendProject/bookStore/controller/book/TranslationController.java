@@ -65,6 +65,17 @@ public class TranslationController {
     }
 
 
+
+    @Operation(
+            summary = "Add multiple translations",
+            description = "Add multiple translations"
+    )
+    @PostMapping("/addMultipleTranslations")
+    public ResponseEntity<List<TranslationCreateDto>> addMultipleTranslations(@Valid @RequestBody List<TranslationCreateDto> translations) throws TranslationAlreadyExistsException {
+        return new ResponseEntity<>(translationService.addMultipleTranslations(translations), HttpStatus.CREATED);
+    }
+
+
     @Operation(
             summary = "Delete translation by id",
             description = "Delete translation by id"

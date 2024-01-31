@@ -1,7 +1,6 @@
 package mindera.backendProject.bookStore.service.bookService;
 
 import mindera.backendProject.bookStore.converter.book.BookConverter;
-import mindera.backendProject.bookStore.converter.book.TranslationConverter;
 import mindera.backendProject.bookStore.converter.customer.CustomerConverter;
 import mindera.backendProject.bookStore.dto.book.*;
 import mindera.backendProject.bookStore.dto.customer.CustomerGetDto;
@@ -9,7 +8,6 @@ import mindera.backendProject.bookStore.dto.customer.CustomerWhoFavoritedDto;
 import mindera.backendProject.bookStore.exception.book.*;
 import mindera.backendProject.bookStore.model.*;
 import mindera.backendProject.bookStore.repository.bookRepository.BookRepository;
-import mindera.backendProject.bookStore.repository.bookRepository.TranslationRepository;
 import mindera.backendProject.bookStore.repository.customerRepository.CustomerRepository;
 import mindera.backendProject.bookStore.service.customerService.CustomerServiceImpl;
 import org.springframework.stereotype.Service;
@@ -178,4 +176,6 @@ public class BookServiceImpl implements BookService{
                 .map(BookConverter::fromModelToBookGetByTranslationDto)
                 .toList();
     }
+
+
 }

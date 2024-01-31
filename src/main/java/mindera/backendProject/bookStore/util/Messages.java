@@ -109,4 +109,8 @@ public class Messages {
     public static final String INVOICE_ALREADY_EXISTS = "Invoice already exists.";
 
 
+    //PAYMENT
+
+    public static final String PAYMENT_WITH_ID = "Payment with id: ";
+    public static final String PAYMENT_ALREADY_EXISTS = "Payment already exists.";
 }

@@ -31,6 +31,7 @@ public class RestApiService{
         System.out.println(responseBody);
 
 
+            //Extrai a informação que pretendemos
             String title = responseBody.getJSONObject("title").getString("title");
             String author = responseBody.getJSONObject("author").getString("author");
             String bookCoverUrl = responseBody.getJSONObject("title").getJSONObject("cover").getString("url");
@@ -38,6 +39,7 @@ public class RestApiService{
             int numberOfPages = responseBody.getJSONObject("pages").getInt("pages");
 
 
+            //Cria uma instancia de um livro da Api para o nosso RestApiModel
             RestApiModel book = RestApiModel.builder()
                     .title(title)
                     .author(author)

@@ -33,4 +33,6 @@ public class Payment {
     @Column(nullable = false)
     @Schema(description = "price of the purchase", example = "5.99")
     private Double amount;
+
+
 }

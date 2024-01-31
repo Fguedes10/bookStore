@@ -11,23 +11,15 @@ import java.util.List;
 public class OrderConverter {
 
 
-    public static OrderModel fromCreateDtoToModel(OrderCreateDto orderCreateDto, Customer customer, Invoice invoice, List<Book> book) {
+    public static OrderModel fromCreateDtoToModel(OrderCreateDto orderCreateDto, Customer customer, Invoice invoice, List<Book> books) {
         return OrderModel.builder()
                 .customer(customer)
                 .invoice(invoice)
-                .books(book)
+                .books(books)
                 .purchaseDate(orderCreateDto.purchaseDate())
                 .build();
     }
 
-    public static OrderCreateDto fromModelToOrderCreateDto(OrderModel orderModel) {
-        return new OrderCreateDto(
-                orderModel.getCustomer().getId(),
-                orderModel.getInvoice().getId(),
-                orderModel.getBooks(),
-                orderModel.getPurchaseDate()
-        );
-    }
 
     public static OrderGetDto fromModelToOrderGetDto(OrderModel orderModel) {
         return new OrderGetDto(

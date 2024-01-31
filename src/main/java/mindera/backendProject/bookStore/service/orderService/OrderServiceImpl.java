@@ -8,12 +8,14 @@ import mindera.backendProject.bookStore.exception.customer.CustomerNotFoundExcep
 import mindera.backendProject.bookStore.exception.order.InvoiceNotFoundException;
 import mindera.backendProject.bookStore.exception.order.OrderAlreadyExistsException;
 import mindera.backendProject.bookStore.exception.order.OrderNotFoundException;
+import mindera.backendProject.bookStore.model.Book;
 import mindera.backendProject.bookStore.model.Customer;
 import mindera.backendProject.bookStore.model.Invoice;
 import mindera.backendProject.bookStore.model.OrderModel;
 import mindera.backendProject.bookStore.repository.orderRepository.OrderRepository;
 import mindera.backendProject.bookStore.service.bookService.BookServiceImpl;
 import mindera.backendProject.bookStore.service.customerService.CustomerServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -30,8 +32,9 @@ public class OrderServiceImpl implements OrderService {
     private final InvoiceServiceImpl invoiceService;
 
 
-    public OrderServiceImpl(OrderRepository orderRepository, BookServiceImpl bookService, CustomerServiceImpl customerService,
-                            InvoiceServiceImpl invoiceService) {
+
+    @Autowired
+    public OrderServiceImpl(OrderRepository orderRepository, BookServiceImpl bookService, CustomerServiceImpl customerService, InvoiceServiceImpl invoiceService) {
         this.orderRepository = orderRepository;
         this.bookService = bookService;
         this.customerService = customerService;
@@ -59,41 +62,38 @@ public class OrderServiceImpl implements OrderService {
         return orderModelOptional;
     }
 
-    @Override
+  @Override
     public OrderGetDto createOrder(OrderCreateDto orderCreateDto, Long orderId) throws CustomerNotFoundException,
             OrderAlreadyExistsException, InvoiceNotFoundException, BookNotFoundException {
-        verifyIfOrderExists(orderCreateDto, orderId);
+        Optional<OrderModel> orderModelFindById = orderRepository.findById(orderId);
         Customer customer = customerService.findById(orderCreateDto.customerId());
         Invoice invoice = invoiceService.findById(orderCreateDto.invoiceId());
-        //List<Book> bookList = bookService.getBooksByIds(orderCreateDto.book());
-        // OrderModel newOrderModel = OrderConverter.fromCreateDtoToModel(orderCreateDto, customer, invoice, bookList);
-        //orderRepository.save(newOrderModel);
-        //return OrderConverter.fromModelToOrderGetDto(newOrderModel);
-        return null;
-    }
+        List<Book> bookList = bookService.getBooksByIds(orderCreateDto.books());
 
-    private void verifyIfOrderExists(OrderCreateDto orderToCreate, Long orderId) throws OrderAlreadyExistsException {
-        Optional<OrderModel> orderModelFindById = orderRepository.findById(orderId);
-        if(orderModelFindById.isPresent()){
+        if (orderModelFindById.isPresent()) {
             throw new OrderAlreadyExistsException(ORDERMODEL_WITH_ID + orderId + ALREADY_EXISTS);
         }
+        OrderModel newOrderModel = OrderConverter.fromCreateDtoToModel(orderCreateDto, customer, invoice, bookList);
+        orderRepository.save(newOrderModel);
+        return OrderConverter.fromModelToOrderGetDto(newOrderModel);
     }
 
 
     @Override
-    public List<OrderGetDto> createOrders(List<OrderCreateDto> orderCreateDto) throws CustomerNotFoundException, InvoiceNotFoundException {
+    public List<OrderGetDto> createOrders(List<OrderCreateDto> orderCreateDto, Long orderID) throws CustomerNotFoundException, InvoiceNotFoundException, BookNotFoundException, OrderAlreadyExistsException, OrderNotFoundException {
         List<OrderGetDto> ordersCreated = new ArrayList<>();
-        for(OrderCreateDto orderToCreate : orderCreateDto){
+        for (OrderCreateDto orderToCreate : orderCreateDto) {
             Customer customer = customerService.findById(orderToCreate.customerId());
-            Invoice invoice = invoiceService.findById(orderToCreate .invoiceId());
-           // List<Book> bookList = bookService.getBooksByIds(orderToCreate.book());
-           // verifyIfOrderExists(orderToCreate);
-            //OrderModel orderToSave = OrderConverter.fromCreateDtoToModel(orderToCreate, customer, invoice, bookList);
-            //orderRepository.save(orderToSave);
-            //ordersCreated.add(OrderConverter.fromModelToOrderGetDto(orderToSave));
+            Invoice invoice = invoiceService.findById(orderToCreate.invoiceId());
+            List<Book> bookList = bookService.getBooksByIds(orderToCreate.books());
+            verifyOrderExistsById(orderID);
+            OrderModel orderToSave = OrderConverter.fromCreateDtoToModel(orderToCreate, customer, invoice, bookList);
+            orderRepository.save(orderToSave);
+            ordersCreated.add(OrderConverter.fromModelToOrderGetDto(orderToSave));
         }
         return ordersCreated;
     }
+
 
     @Override
     public void deleteOrder(Long orderId) throws OrderNotFoundException {
@@ -101,4 +101,11 @@ public class OrderServiceImpl implements OrderService {
         orderRepository.delete(orderOptional.get());
     }
 
+    public OrderModel findById(Long orderModelId) throws OrderNotFoundException {
+        Optional<OrderModel> orderOptional = orderRepository.findById(orderModelId);
+        if (orderOptional.isEmpty()) {
+            throw new OrderNotFoundException(ORDERMODEL_WITH_ID + orderModelId + DOESNT_EXIST);
+        }
+        return orderOptional.get();
+    }
 }

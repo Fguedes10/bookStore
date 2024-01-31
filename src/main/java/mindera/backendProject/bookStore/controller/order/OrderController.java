@@ -66,13 +66,13 @@ public class OrderController {
     }
 
 
-    @Operation(
+   @Operation(
             summary = "Add a list of new orders",
             description = "Add a list of new orders"
     )
-    @PostMapping("/addMultipleOrders")
-    public ResponseEntity<List<OrderGetDto>> addNewOrders(@Valid @RequestBody List<OrderCreateDto> order) throws OrderAlreadyExistsException, InvoiceNotFoundException, CustomerNotFoundException {
-        return new ResponseEntity<>(orderService.createOrders(order), HttpStatus.CREATED);
+   @PostMapping("/addMultipleOrders")
+    public ResponseEntity<List<OrderGetDto>> addNewOrders(@Valid @RequestBody List<OrderCreateDto> orderCreateDto, Long orderId) throws OrderAlreadyExistsException, InvoiceNotFoundException, CustomerNotFoundException, BookNotFoundException, OrderNotFoundException {
+        return new ResponseEntity<>(orderService.createOrders(orderCreateDto, orderId), HttpStatus.CREATED);
     }
 
 

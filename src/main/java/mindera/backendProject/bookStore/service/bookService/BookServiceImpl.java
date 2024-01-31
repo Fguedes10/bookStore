@@ -66,7 +66,6 @@ public class BookServiceImpl implements BookService{
             throw new BookAlreadyExistsException(BOOK_ALREADY_EXISTS);
         }
         Book newBook = BookConverter.fromCreateDtoToModel(book, author, publisher, genreList, translationList);
-        reviewServiceImpl.addFirstReview(newBook);
         bookRepository.save(newBook);
         return BookConverter.fromModelToBookGetDto(newBook);
     }

@@ -1,35 +1,45 @@
 package mindera.backendProject.bookStore.service.bookService;
 
 import mindera.backendProject.bookStore.converter.book.ReviewConverter;
+import mindera.backendProject.bookStore.dto.book.ReviewAddNewDto;
 import mindera.backendProject.bookStore.dto.book.ReviewCreateDto;
+import mindera.backendProject.bookStore.dto.book.ReviewGetDto;
+import mindera.backendProject.bookStore.exception.book.BookNotFoundException;
 import mindera.backendProject.bookStore.exception.book.ReviewNotFoundException;
 import mindera.backendProject.bookStore.model.Book;
 import mindera.backendProject.bookStore.model.Review;
+import mindera.backendProject.bookStore.repository.bookRepository.BookRepository;
 import mindera.backendProject.bookStore.repository.bookRepository.ReviewRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Optional;
 
-import static mindera.backendProject.bookStore.util.Messages.DOESNT_EXIST;
-import static mindera.backendProject.bookStore.util.Messages.REVIEW_WITH_ID;
+import static mindera.backendProject.bookStore.util.Messages.*;
 
 @Service
 public class ReviewServiceImpl implements ReviewService {
 
     private final ReviewRepository reviewRepository;
 
-    public ReviewServiceImpl(ReviewRepository reviewRepository) {
+    private final BookRepository bookRepository;
+
+    public ReviewServiceImpl(ReviewRepository reviewRepository, BookRepository bookRepository) {
         this.reviewRepository = reviewRepository;
+        this.bookRepository = bookRepository;
     }
 
     @Override
-    public List<ReviewCreateDto> getAll() {
-        List<Review> reviewList = reviewRepository.findAll();
-        return reviewList.stream().map(ReviewConverter::fromModelToReviewCreateDto).toList();
+    public List<ReviewCreateDto> getAll(int page, int size, String searchTerm) {
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.ASC, searchTerm);
+        Page<Review> reviews = reviewRepository.findAll(pageRequest);
+        return reviews.stream().map(ReviewConverter::fromModelToReviewCreateDto).toList();
     }
+
 
     @Override
     public ReviewCreateDto getReview(Long reviewId) throws ReviewNotFoundException {
@@ -40,16 +50,15 @@ public class ReviewServiceImpl implements ReviewService {
         return ReviewConverter.fromModelToReviewCreateDto(reviewOptional.get());
     }
 
-    public void addFirstReview(Book book) {
-        Review noReviewsYet = new Review("This book doesn't have any reviews");
-        noReviewsYet.setBook(book);
-        noReviewsYet.setCommentDate(LocalDate.now());
 
-        if(book.getReview() == null){
-            book.setReview(new ArrayList<>());
+    public ReviewGetDto addReview(ReviewAddNewDto reviewAddNewDto) throws BookNotFoundException {
+        Optional<Book> checkIfBookExists = bookRepository.findById(reviewAddNewDto.bookId());
+        if(checkIfBookExists.isEmpty()){
+            throw new BookNotFoundException(BOOK_WITH_ID  + reviewAddNewDto.bookId() + DOESNT_EXIST);
         }
-        book.addReview(noReviewsYet);
-        reviewRepository.save(noReviewsYet);
+        Review reviewToSave = ReviewConverter.fromReviewAddNewDtoToModel(reviewAddNewDto, checkIfBookExists.get());
+        reviewRepository.save(reviewToSave);
+        return ReviewConverter.fromModelToReviewGetDto(reviewToSave);
     }
 
     @Override

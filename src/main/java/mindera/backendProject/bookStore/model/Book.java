@@ -53,7 +53,7 @@ public class Book {
     @Schema(description = "Book genre", example = "[1, 2, 3]")
     List<Genre> genre;
 
-    @OneToMany(mappedBy = "book", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "book", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     List<Review> review = new ArrayList<>();
 
     @Schema(description = "Book edition", example = "1")
@@ -79,6 +79,25 @@ public class Book {
 
     public void addReview(Review review) {
         this.review.add(review);
+    }
+
+    public Book(String title, Long isbn, Author author, Publisher publisher, List<Genre> genre, Integer edition, int yearRelease, double price, List<Translation> translation) {
+        this.title = title;
+        this.isbn = isbn;
+        this.author = author;
+        this.publisher = publisher;
+        this.genre = genre;
+        this.edition = edition;
+        this.yearRelease = yearRelease;
+        this.price = price;
+        this.translation = translation;
+        defaultReviewMessage();
+    }
+
+    public void defaultReviewMessage() {
+        if(this.review.isEmpty()) {
+            this.review.add(Review.builder().comment("No reviews yet").build());
+        }
     }
 
 

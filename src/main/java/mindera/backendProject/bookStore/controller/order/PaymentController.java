@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import mindera.backendProject.bookStore.dto.order.PaymentCreateDto;
 import mindera.backendProject.bookStore.dto.order.PaymentGetDto;
 import mindera.backendProject.bookStore.exception.order.PaymentAlreadyExistsException;
 import mindera.backendProject.bookStore.exception.order.PaymentNotFoundException;
@@ -41,7 +42,6 @@ public class PaymentController {
     }
 
 
-
     @Operation(
             summary = "Get payment by id",
             description = "Get payment by id"
@@ -56,18 +56,8 @@ public class PaymentController {
             description = "Add new payment"
     )
     @PostMapping("/")
-    public ResponseEntity<PaymentGetDto> addNewPayment(@Valid @RequestBody Payment payment) throws PaymentAlreadyExistsException {
-        return new ResponseEntity<>(paymentService.createPayment(payment), HttpStatus.CREATED);
-    }
-
-
-    @Operation(
-            summary = "Add a list of new payments",
-            description = "Add a list of new payments"
-    )
-    @PostMapping("/addMultiplePayments")
-    public ResponseEntity<List<Payment>> addNewPayments(@Valid @RequestBody List<Payment> payment) throws PaymentAlreadyExistsException{
-        return new ResponseEntity<>(paymentService.createPayments(payment), HttpStatus.CREATED);
+    public ResponseEntity<PaymentGetDto> addNewPayment(@Valid @RequestBody PaymentCreateDto payment, Long paymentId) throws PaymentAlreadyExistsException {
+        return new ResponseEntity<>(paymentService.createPayment(payment, paymentId), HttpStatus.CREATED);
     }
 
 

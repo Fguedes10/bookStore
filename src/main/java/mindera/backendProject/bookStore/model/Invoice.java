@@ -26,9 +26,8 @@ public class Invoice {
     @Schema(description = "Customer invoice", example = "1")
     private Customer customer;
 
-    @ManyToOne (fetch = FetchType.EAGER)
-    @JoinColumn(name = "order_id")
-    @Schema(description = "Order items associated with this invoice", example = "[1}")
+    @OneToOne
+    @Schema(description = "Order associated with this invoice", example = "[1}")
     private OrderModel orderModel;
 
     @Schema(description = "invoice release date", example = "2023-01-30")

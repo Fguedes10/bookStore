@@ -11,10 +11,9 @@ import java.util.List;
 public class OrderConverter {
 
 
-    public static OrderModel fromCreateDtoToModel(OrderCreateDto orderCreateDto, Customer customer, Invoice invoice, List<Book> books) {
+    public static OrderModel fromCreateDtoToModel(OrderCreateDto orderCreateDto, Customer customer, List<Book> books) {
         return OrderModel.builder()
                 .customer(customer)
-                .invoice(invoice)
                 .books(books)
                 .purchaseDate(orderCreateDto.purchaseDate())
                 .build();
@@ -24,7 +23,6 @@ public class OrderConverter {
     public static OrderGetDto fromModelToOrderGetDto(OrderModel orderModel) {
         return new OrderGetDto(
                 CustomerConverter.fromEntityToCustomerGetDto(orderModel.getCustomer()),
-                InvoiceConverter.fromModelToInvoiceCreateDto(orderModel.getInvoice()),
                 orderModel.getBooks().stream().map(BookConverter::fromModelToBookGetDto).toList(),
                 orderModel.getPurchaseDate());
     }

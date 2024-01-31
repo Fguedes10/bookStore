@@ -7,8 +7,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
 
 @Data
 @Builder
@@ -31,11 +33,6 @@ public class OrderItem {
     @Schema(description = "Payment for the order item")
     private Payment payment;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "order_id", nullable = false)
-    @Schema(description = "Order associated with the order item", example = "5")
-    private OrderModel orderModel;
-
     @ManyToMany
     @JoinTable(
             name = "orderItem_book",
@@ -45,5 +42,24 @@ public class OrderItem {
     @Schema(description = "Set of books to purchase", example= "[1, 2, 3]")
     private Set<Book> booksToPurchase;
 
+    @Schema( description = "Total amount to pay", example= "22.70")
+    private double amountToPay;
 
+    @Schema(description = "Value Added Tax (VAT)", example = "0.06")
+    private static final double TAX_RATE = 0.06;
+
+    @Schema(description = "Ordered or not")
+    private boolean ordered;
+
+
+
+    public void calculateAmountToPay() {
+        List<Book> booksToPurchase = new ArrayList<>(getBooksToPurchase());
+
+        double sumOfBookPrices = booksToPurchase.stream()
+                .mapToDouble(Book::getPrice)
+                .sum();
+
+        amountToPay = sumOfBookPrices * (1 + TAX_RATE);
+    }
 }

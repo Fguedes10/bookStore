@@ -1,7 +1,6 @@
 package mindera.backendProject.bookStore.service.bookService;
 
 import mindera.backendProject.bookStore.converter.book.BookConverter;
-import mindera.backendProject.bookStore.converter.book.TranslationConverter;
 import mindera.backendProject.bookStore.converter.customer.CustomerConverter;
 import mindera.backendProject.bookStore.dto.book.*;
 import mindera.backendProject.bookStore.dto.customer.CustomerGetDto;
@@ -178,4 +177,5 @@ public class BookServiceImpl implements BookService{
                 .map(BookConverter::fromModelToBookGetByTranslationDto)
                 .toList();
     }
+
 }

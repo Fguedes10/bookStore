@@ -23,9 +23,9 @@ public class OrderModel {
     @Schema(description = "OrderModel id", example = "1")
     private Long id;
 
-    @OneToMany(mappedBy = "orderModel", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @Schema(description = "Order items associated with the order", example = "[1, 2, 3]")
-    private List<OrderItem> orderItems;
+    @OneToOne
+    @Schema(description = "Items associated with this Order", example = "[1, 2, 3]")
+    private OrderItem orderItems;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @Schema(description = "Customer order", example = "[1, 2, 3]")
@@ -35,9 +35,6 @@ public class OrderModel {
     @Schema(description = "Orders downloaded", example = "[1, 2, 3]")
     private List<Download> downloads;
 
-    @OneToOne
-    @Schema(description = "Order Invoice", example = "101")
-    private Invoice invoice;
 
     @ManyToMany
     @JoinTable(

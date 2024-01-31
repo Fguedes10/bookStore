@@ -26,9 +26,8 @@ public class Invoice {
     @Schema(description = "Customer invoice", example = "1")
     private Customer customer;
 
-    @ManyToOne (fetch = FetchType.EAGER)
-    @JoinColumn(name = "order_id")
-    @Schema(description = "Order items associated with this invoice", example = "[1}")
+    @OneToOne
+    @Schema(description = "Order associated with this invoice", example = "[1}")
     private OrderModel orderModel;
 
     @Schema(description = "invoice release date", example = "2023-01-30")
@@ -37,7 +36,11 @@ public class Invoice {
     @Schema( description = "Total amount payed", example= "22.70")
     private double totalAmount;
 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(description = "Invoice number", example = "1")
+    @Column(unique = true)
+    private int invoiceNumber = 1000;
+
     @Schema(description = "Value Added Tax (VAT)", example = "0.06")
     private double VAT = 0.06;
-    //Missing VAT identification number
 }

@@ -89,13 +89,28 @@ public class Messages {
     public static final String TRANSLATION_ALREADY_EXISTS = "Translation already exists.";
 
 
+
+
     // DELETE MESSAGE
     public static final String CANNOT_BE_DELETED = "Cannot de deleted because it is being used in another table";
     public static final String TOP_RATED_BOOK_ADDED= "Top rated books had been added";
 
 
 
-    //STORE
+    //ORDER
+    public static final String ORDERMODEL_WITH_ID = "Order with id: ";
+    public static final String ORDERMODEL_ALREADY_EXISTS = "Book already exists.";
+
 
     //INVOICE
+
+    public static final String INVOICE_WITH_ID = "Invoice with id: ";
+    public static final String INVOICE_WITH_INVOICE_NUMBER = "Invoice with invoice number: ";
+    public static final String INVOICE_ALREADY_EXISTS = "Invoice already exists.";
+
+
+    //PAYMENT
+
+    public static final String PAYMENT_WITH_ID = "Payment with id: ";
+    public static final String PAYMENT_ALREADY_EXISTS = "Payment already exists.";
 }

@@ -5,6 +5,7 @@ import mindera.backendProject.bookStore.exception.customer.CustomerAlreadyExists
 import mindera.backendProject.bookStore.exception.customer.CustomerNotFoundException;
 import mindera.backendProject.bookStore.exception.customer.CustomerRepeatedFavoriteBooks;
 import mindera.backendProject.bookStore.exception.customer.CustomerWithEmailAlreadyExists;
+import mindera.backendProject.bookStore.exception.order.*;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,16 +28,25 @@ public class ExceptionsHandler {
 
     @ExceptionHandler(value = {CustomerNotFoundException.class, AuthorNotFoundException.class,
             BookNotFoundException.class, GenreNotFoundException.class, RatingNotFoundException.class,
-            ReviewNotFoundException.class, TranslationNotFoundException.class})
+            ReviewNotFoundException.class, TranslationNotFoundException.class, DownloadNotFoundException.class,
+            InvoiceNotFoundException.class, OrderNotFoundException.class, OrderItemNotFoundException.class,
+            PaymentNotFoundException.class})
     public ResponseEntity<String> NotFoundHandler(Exception exception) {
         logger.error("Know exception: " + exception.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
     }
 
-    @ExceptionHandler(value = {CustomerAlreadyExistsException.class, AuthorAlreadyExistsException.class,
-            BookAlreadyExistsException.class, GenreAlreadyExistsException.class,
+
+    @ExceptionHandler(value = {CustomerAlreadyExistsException.class, AuthorAlreadyExistsException.class, BookAlreadyExistsException.class, GenreAlreadyExistsException.class,
             TranslationAlreadyExistsException.class, CustomerWithEmailAlreadyExists.class,
-            CustomerRepeatedFavoriteBooks.class, IncorrectReleaseYearException.class})
+<<<<<<< HEAD
+            CustomerRepeatedFavoriteBooks.class, IncorrectReleaseYearException.class,
+            CustomerRepeatedFavoriteBooks.class, DownloadAlreadyExistsException.class, InvoiceAlreadyExistsException.class,
+    OrderAlreadyExistsException.class, PaymentAlreadyExistsException.class})
+=======
+            CustomerRepeatedFavoriteBooks.class, DownloadAlreadyExistsException.class, InvoiceAlreadyExistsException.class,
+    OrderAlreadyExistsException.class, OrderAlreadyExistsException.class, PaymentAlreadyExistsException.class})
+>>>>>>> origin/MelissaOrders
     public ResponseEntity<String> AlreadyExistsHandler(Exception exception) {
         logger.error("Know exception: " + exception.getMessage());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(exception.getMessage());
@@ -55,5 +65,4 @@ public class ExceptionsHandler {
         return ResponseEntity.badRequest().body(errors);
     }
 
-
-}
+    }

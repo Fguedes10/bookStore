@@ -44,7 +44,7 @@ public class CustomerController {
             description = "Get all customers"
     )
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Get all customers")})
-            @GetMapping("/")
+    @GetMapping("/")
     public ResponseEntity<List<CustomerGetDto>> getCustomers() {
         return new ResponseEntity<>(customerService.getCustomers(), HttpStatus.OK);
     }

@@ -1,22 +1,20 @@
 package mindera.backendProject.bookStore.apiHandler;
 
-import org.json.JSONArray;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.http.HttpResponse;
-import java.util.ArrayList;
 import java.util.List;
-
 
 @RestController
 @RequestMapping("/googleBooksApi")
-public class RestfulApiController {
+public class RestApiController {
+
 
     private final RestApiService restApiService;
 
-    public RestfulApiController(RestApiService restApiService){
+    public RestApiController(RestApiService restApiService){
         this.restApiService = restApiService;
     }
 
@@ -39,8 +37,6 @@ public class RestfulApiController {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
-    }
-
 /*   @PostMapping("/")
     public ResponseEntity<RestApiModel> saveBookToDb (@PathVariable HttpResponse<String> response){
        return new ResponseEntity<>(restApiService.saveToDb(response, HttpStatus.CREATED);
@@ -54,4 +50,4 @@ public class RestfulApiController {
 
 
 
-
+}

@@ -2,11 +2,8 @@ package mindera.backendProject.bookStore.dto.order;
 
 import java.time.LocalDate;
 
-public record PaymentCreateDto(
-
-        Long orderItemId,
+public record PaymentGetDto(
         LocalDate paymentDate,
         double amount
 ) {
-
 }

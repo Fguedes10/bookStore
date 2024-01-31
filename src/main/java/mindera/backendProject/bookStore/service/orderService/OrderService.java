@@ -16,9 +16,9 @@ public interface OrderService {
     OrderGetDto getOrder(Long orderId) throws OrderNotFoundException;
 
 
-    OrderGetDto createOrder(OrderCreateDto orderCreateDto, Long orderId) throws CustomerNotFoundException, OrderAlreadyExistsException, InvoiceNotFoundException, BookNotFoundException;
+  OrderGetDto createOrder(OrderCreateDto orderCreateDto, Long orderId) throws CustomerNotFoundException, OrderAlreadyExistsException, InvoiceNotFoundException, BookNotFoundException;
 
-    List<OrderGetDto> createOrders(List<OrderCreateDto> order) throws CustomerNotFoundException, InvoiceNotFoundException;
+  List<OrderGetDto> createOrders(List<OrderCreateDto> orderCreateDto, Long orderID) throws CustomerNotFoundException, InvoiceNotFoundException, BookNotFoundException, OrderAlreadyExistsException, OrderNotFoundException;
 
     void deleteOrder(Long orderId) throws OrderNotFoundException;
 

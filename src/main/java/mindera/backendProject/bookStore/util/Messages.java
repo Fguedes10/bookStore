@@ -105,6 +105,7 @@ public class Messages {
     //INVOICE
 
     public static final String INVOICE_WITH_ID = "Invoice with id: ";
+    public static final String INVOICE_WITH_INVOICE_NUMBER = "Invoice with invoice number: ";
     public static final String INVOICE_ALREADY_EXISTS = "Invoice already exists.";
 
 

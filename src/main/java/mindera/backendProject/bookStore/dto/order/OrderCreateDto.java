@@ -9,7 +9,7 @@ import java.util.List;
 public record OrderCreateDto (
         Long customerId,
         Long invoiceId,
-        List<Book> book,
+        List<Long> books,
         LocalDate purchaseDate
 ) {
 }

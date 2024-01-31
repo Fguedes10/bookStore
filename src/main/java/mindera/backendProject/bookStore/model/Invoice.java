@@ -37,7 +37,11 @@ public class Invoice {
     @Schema( description = "Total amount payed", example= "22.70")
     private double totalAmount;
 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(description = "Invoice number", example = "1")
+    @Column(unique = true)
+    private int invoiceNumber = 1000;
+
     @Schema(description = "Value Added Tax (VAT)", example = "0.06")
     private double VAT = 0.06;
-    //Missing VAT identification number
 }

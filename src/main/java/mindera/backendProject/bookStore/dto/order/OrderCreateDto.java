@@ -8,7 +8,6 @@ import java.util.List;
 
 public record OrderCreateDto (
         Long customerId,
-        Long invoiceId,
         List<Long> books,
         LocalDate purchaseDate
 ) {

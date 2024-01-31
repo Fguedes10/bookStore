@@ -5,12 +5,10 @@ import mindera.backendProject.bookStore.dto.order.OrderCreateDto;
 import mindera.backendProject.bookStore.dto.order.OrderGetDto;
 import mindera.backendProject.bookStore.exception.book.BookNotFoundException;
 import mindera.backendProject.bookStore.exception.customer.CustomerNotFoundException;
-import mindera.backendProject.bookStore.exception.order.InvoiceNotFoundException;
 import mindera.backendProject.bookStore.exception.order.OrderAlreadyExistsException;
 import mindera.backendProject.bookStore.exception.order.OrderNotFoundException;
 import mindera.backendProject.bookStore.model.Book;
 import mindera.backendProject.bookStore.model.Customer;
-import mindera.backendProject.bookStore.model.Invoice;
 import mindera.backendProject.bookStore.model.OrderModel;
 import mindera.backendProject.bookStore.repository.orderRepository.OrderRepository;
 import mindera.backendProject.bookStore.service.bookService.BookServiceImpl;
@@ -24,21 +22,20 @@ import java.util.Optional;
 
 import static mindera.backendProject.bookStore.util.Messages.*;
 
+
 @Service
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final BookServiceImpl bookService;
     private final CustomerServiceImpl customerService;
-    private final InvoiceServiceImpl invoiceService;
 
 
 
     @Autowired
-    public OrderServiceImpl(OrderRepository orderRepository, BookServiceImpl bookService, CustomerServiceImpl customerService, InvoiceServiceImpl invoiceService) {
+    public OrderServiceImpl(OrderRepository orderRepository, BookServiceImpl bookService, CustomerServiceImpl customerService) {
         this.orderRepository = orderRepository;
         this.bookService = bookService;
         this.customerService = customerService;
-        this.invoiceService = invoiceService;
     }
 
     @Override
@@ -64,30 +61,28 @@ public class OrderServiceImpl implements OrderService {
 
   @Override
     public OrderGetDto createOrder(OrderCreateDto orderCreateDto, Long orderId) throws CustomerNotFoundException,
-            OrderAlreadyExistsException, InvoiceNotFoundException, BookNotFoundException {
+            OrderAlreadyExistsException, BookNotFoundException {
         Optional<OrderModel> orderModelFindById = orderRepository.findById(orderId);
         Customer customer = customerService.findById(orderCreateDto.customerId());
-        Invoice invoice = invoiceService.findById(orderCreateDto.invoiceId());
         List<Book> bookList = bookService.getBooksByIds(orderCreateDto.books());
 
         if (orderModelFindById.isPresent()) {
             throw new OrderAlreadyExistsException(ORDERMODEL_WITH_ID + orderId + ALREADY_EXISTS);
         }
-        OrderModel newOrderModel = OrderConverter.fromCreateDtoToModel(orderCreateDto, customer, invoice, bookList);
+        OrderModel newOrderModel = OrderConverter.fromCreateDtoToModel(orderCreateDto, customer, bookList);
         orderRepository.save(newOrderModel);
         return OrderConverter.fromModelToOrderGetDto(newOrderModel);
     }
 
 
     @Override
-    public List<OrderGetDto> createOrders(List<OrderCreateDto> orderCreateDto, Long orderID) throws CustomerNotFoundException, InvoiceNotFoundException, BookNotFoundException, OrderAlreadyExistsException, OrderNotFoundException {
+    public List<OrderGetDto> createOrders(List<OrderCreateDto> orderCreateDto, Long orderID) throws CustomerNotFoundException, BookNotFoundException,  OrderNotFoundException {
         List<OrderGetDto> ordersCreated = new ArrayList<>();
         for (OrderCreateDto orderToCreate : orderCreateDto) {
             Customer customer = customerService.findById(orderToCreate.customerId());
-            Invoice invoice = invoiceService.findById(orderToCreate.invoiceId());
             List<Book> bookList = bookService.getBooksByIds(orderToCreate.books());
             verifyOrderExistsById(orderID);
-            OrderModel orderToSave = OrderConverter.fromCreateDtoToModel(orderToCreate, customer, invoice, bookList);
+            OrderModel orderToSave = OrderConverter.fromCreateDtoToModel(orderToCreate, customer, bookList);
             orderRepository.save(orderToSave);
             ordersCreated.add(OrderConverter.fromModelToOrderGetDto(orderToSave));
         }

@@ -6,7 +6,7 @@ import mindera.backendProject.bookStore.exception.book.ReviewNotFoundException;
 import java.util.List;
 
 public interface ReviewService {
-    List<ReviewCreateDto> getAll();
+    List<ReviewCreateDto> getAll(int page, int size, String searchTerm);
 
     ReviewCreateDto getReview(Long reviewId) throws ReviewNotFoundException;
 

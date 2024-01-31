@@ -2,19 +2,25 @@ package mindera.backendProject.bookStore.service.orderService;
 
 import mindera.backendProject.bookStore.dto.order.OrderCreateDto;
 import mindera.backendProject.bookStore.dto.order.OrderGetDto;
+import mindera.backendProject.bookStore.exception.book.BookNotFoundException;
+import mindera.backendProject.bookStore.exception.customer.CustomerNotFoundException;
+import mindera.backendProject.bookStore.exception.order.InvoiceNotFoundException;
+import mindera.backendProject.bookStore.exception.order.OrderAlreadyExistsException;
+import mindera.backendProject.bookStore.exception.order.OrderNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public interface OrderService {
-    OrderCreateDto getOrder(Long orderId);
+    OrderGetDto getOrder(Long orderId) throws OrderNotFoundException;
 
-    OrderGetDto createOrder(OrderCreateDto order);
 
-    List<OrderGetDto> createOrders(List<OrderCreateDto> order);
+    OrderGetDto createOrder(OrderCreateDto orderCreateDto, Long orderId) throws CustomerNotFoundException, OrderAlreadyExistsException, InvoiceNotFoundException, BookNotFoundException;
 
-    void deleteOrder(Long orderId);
+    List<OrderGetDto> createOrders(List<OrderCreateDto> order) throws CustomerNotFoundException, InvoiceNotFoundException;
 
-    List<OrderCreateDto> getAll();
+    void deleteOrder(Long orderId) throws OrderNotFoundException;
+
+    List<OrderGetDto> getOrders();
 }

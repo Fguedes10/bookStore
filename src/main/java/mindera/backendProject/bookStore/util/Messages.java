@@ -97,7 +97,15 @@ public class Messages {
 
 
 
-    //STORE
+    //ORDER
+    public static final String ORDERMODEL_WITH_ID = "Order with id: ";
+    public static final String ORDERMODEL_ALREADY_EXISTS = "Book already exists.";
+
 
     //INVOICE
+
+    public static final String INVOICE_WITH_ID = "Invoice with id: ";
+    public static final String INVOICE_ALREADY_EXISTS = "Invoice already exists.";
+
+
 }

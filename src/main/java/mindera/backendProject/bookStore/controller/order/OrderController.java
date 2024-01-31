@@ -8,6 +8,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import mindera.backendProject.bookStore.dto.order.OrderCreateDto;
 import mindera.backendProject.bookStore.dto.order.OrderGetDto;
+import mindera.backendProject.bookStore.exception.book.BookNotFoundException;
+import mindera.backendProject.bookStore.exception.customer.CustomerNotFoundException;
+import mindera.backendProject.bookStore.exception.order.InvoiceNotFoundException;
 import mindera.backendProject.bookStore.exception.order.OrderAlreadyExistsException;
 import mindera.backendProject.bookStore.exception.order.OrderNotFoundException;
 import mindera.backendProject.bookStore.model.OrderModel;
@@ -36,8 +39,8 @@ public class OrderController {
     )
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Get all orders")})
     @GetMapping("/")
-    public ResponseEntity<List<OrderCreateDto>> getOrders(){
-        return ResponseEntity.ok(orderService.getAll());
+    public ResponseEntity<List<OrderGetDto>> getOrders(){
+        return ResponseEntity.ok(orderService.getOrders());
     }
 
 
@@ -46,8 +49,10 @@ public class OrderController {
             summary = "Get order by id",
             description = "Get order by id"
     )
+
     @GetMapping("/id/{orderId}")
-    public ResponseEntity<OrderCreateDto> getOrder(@PathVariable("orderId")@Parameter(name = "Order Id", description = "Order id", example = "1" ) Long orderId) throws OrderNotFoundException {
+    public ResponseEntity<OrderGetDto> getOrder(@PathVariable("orderId")@Parameter(name = "Order Id", description = "Order id",
+            example = "1" ) Long orderId) throws OrderNotFoundException {
         return new ResponseEntity<>(orderService.getOrder(orderId), HttpStatus.OK);
     }
 
@@ -56,8 +61,8 @@ public class OrderController {
             description = "Add new order"
     )
     @PostMapping("/")
-    public ResponseEntity<OrderGetDto> addNewOrder(@Valid @RequestBody OrderCreateDto order) throws OrderAlreadyExistsException {
-        return new ResponseEntity<>(orderService.createOrder(order), HttpStatus.CREATED);
+    public ResponseEntity<OrderGetDto> addNewOrder(@Valid @RequestBody OrderCreateDto order, Long orderId) throws OrderAlreadyExistsException, CustomerNotFoundException, InvoiceNotFoundException, BookNotFoundException {
+        return new ResponseEntity<>(orderService.createOrder(order, orderId), HttpStatus.CREATED);
     }
 
 
@@ -66,7 +71,7 @@ public class OrderController {
             description = "Add a list of new orders"
     )
     @PostMapping("/addMultipleOrders")
-    public ResponseEntity<List<OrderGetDto>> addNewOrders(@Valid @RequestBody List<OrderCreateDto> order) throws OrderAlreadyExistsException{
+    public ResponseEntity<List<OrderGetDto>> addNewOrders(@Valid @RequestBody List<OrderCreateDto> order) throws OrderAlreadyExistsException, InvoiceNotFoundException, CustomerNotFoundException {
         return new ResponseEntity<>(orderService.createOrders(order), HttpStatus.CREATED);
     }
 

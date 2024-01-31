@@ -9,12 +9,14 @@ import mindera.backendProject.bookStore.dto.book.GenreCreateDto;
 import mindera.backendProject.bookStore.dto.customer.CustomerCreateDto;
 import mindera.backendProject.bookStore.dto.customer.CustomerGetDto;
 import mindera.backendProject.bookStore.dto.customer.CustomerPatchDto;
+import mindera.backendProject.bookStore.exception.book.AuthorNotFoundException;
 import mindera.backendProject.bookStore.exception.book.BookNotFoundException;
 import mindera.backendProject.bookStore.exception.book.GenreNotFoundException;
 import mindera.backendProject.bookStore.exception.customer.CustomerAlreadyExistsException;
 import mindera.backendProject.bookStore.exception.customer.CustomerNotFoundException;
 import mindera.backendProject.bookStore.exception.customer.CustomerRepeatedFavoriteBooks;
 import mindera.backendProject.bookStore.exception.customer.CustomerWithEmailAlreadyExists;
+import mindera.backendProject.bookStore.model.Author;
 import mindera.backendProject.bookStore.model.Book;
 import mindera.backendProject.bookStore.model.Customer;
 import mindera.backendProject.bookStore.model.Genre;
@@ -165,6 +167,14 @@ public class CustomerServiceImpl implements CustomerService {
         }
         customerRepository.save(customerOptional.get());
         return BookConverter.fromModelToBookGetFavoriteBooksDto(customerOptional.get().getFavoriteBooks());
+    }
+
+    public Customer findById(Long customerId) throws CustomerNotFoundException {
+        Optional<Customer> customerOptional = customerRepository.findById(customerId);
+        if(customerOptional.isEmpty()){
+            throw new CustomerNotFoundException(CUSTOMER_WITH_ID + customerId + DOESNT_EXIST);
+        }
+        return customerOptional.get();
     }
 
 }

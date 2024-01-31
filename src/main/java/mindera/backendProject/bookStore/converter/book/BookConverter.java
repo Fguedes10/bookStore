@@ -62,7 +62,7 @@ public class BookConverter {
                 .build();
     }
 
-    public static List<BookGetDto> fromModelToBookGetFavoriteBooksDto(List<Book> bookList){
+    public static List<BookGetDto> fromModelToBookGetFavoriteBooksDto(List<Book> bookList) {
         return bookList.stream().map(BookConverter::fromModelToBookGetDto).toList();
     }
 
@@ -75,6 +75,16 @@ public class BookConverter {
                 book.getEdition(),
                 GenreConverter.fromEntityToCreateDto(book.getGenre()),
                 TranslationConverter.fromModelToTranslationCreateDtoList(book.getTranslation()),
+                book.getPrice()
+        );
+    }
+
+    public static BookGetByTranslationDto fromModelToBookGetByTranslationDto(Book book) {
+        return new BookGetByTranslationDto(
+                book.getId(),
+                book.getTitle(),
+                book.getAuthor().getName(),
+                book.getPublisher().getName(),
                 book.getPrice()
         );
     }

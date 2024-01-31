@@ -76,8 +76,17 @@ public class BookController {
             description = "Get books by year release"
     )
     @GetMapping("/yearRelease/{releaseYear}")
-    public ResponseEntity<List<BookYearReleaseInfoDto>> getBooksByYearRelease(@PathVariable("releaseYear") int releaseYear) throws BookNotFoundException {
+    public ResponseEntity<List<BookYearReleaseInfoDto>> getBooksByYearRelease(@PathVariable("releaseYear") int releaseYear) throws IncorrectReleaseYearException {
         return new ResponseEntity<>(bookService.getBooksByYearRelease(releaseYear), HttpStatus.OK);
+    }
+
+    @Operation(
+            summary = "Get books by translation",
+            description = "Get books by translation"
+    )
+    @GetMapping("/booksByTranslation/{translationId}")
+    public ResponseEntity<List<BookGetByTranslationDto>> getBooksByTranslation(@PathVariable("translationId") Long translationId) throws TranslationNotFoundException {
+        return new ResponseEntity<>(bookService.getBooksByTranslation(translationId), HttpStatus.OK);
     }
 
     @Operation(

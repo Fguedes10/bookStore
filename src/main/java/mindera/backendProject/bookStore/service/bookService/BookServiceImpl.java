@@ -1,6 +1,7 @@
 package mindera.backendProject.bookStore.service.bookService;
 
 import mindera.backendProject.bookStore.converter.book.BookConverter;
+import mindera.backendProject.bookStore.converter.book.TranslationConverter;
 import mindera.backendProject.bookStore.converter.customer.CustomerConverter;
 import mindera.backendProject.bookStore.dto.book.*;
 import mindera.backendProject.bookStore.dto.customer.CustomerGetDto;
@@ -8,6 +9,7 @@ import mindera.backendProject.bookStore.dto.customer.CustomerWhoFavoritedDto;
 import mindera.backendProject.bookStore.exception.book.*;
 import mindera.backendProject.bookStore.model.*;
 import mindera.backendProject.bookStore.repository.bookRepository.BookRepository;
+import mindera.backendProject.bookStore.repository.bookRepository.TranslationRepository;
 import mindera.backendProject.bookStore.repository.customerRepository.CustomerRepository;
 import mindera.backendProject.bookStore.service.customerService.CustomerServiceImpl;
 import org.springframework.stereotype.Service;
@@ -28,18 +30,20 @@ public class BookServiceImpl implements BookService{
     private final TranslationServiceImpl translationServiceImpl;
     private final ReviewServiceImpl reviewServiceImpl;
     private final PublisherServiceImpl publisherServiceImpl;
+    private final TranslationRepository translationRepository;
 
     private final CustomerRepository customerRepository;
 
     public BookServiceImpl(BookRepository bookRepository, AuthorServiceImpl authorServiceImpl,
                            GenreServiceImpl genreServiceImpl, TranslationServiceImpl translationServiceImpl,
-                           ReviewServiceImpl reviewServiceImpl, PublisherServiceImpl publisherServiceImpl, CustomerRepository customerRepository){
+                           ReviewServiceImpl reviewServiceImpl, PublisherServiceImpl publisherServiceImpl, TranslationRepository translationRepository, CustomerRepository customerRepository){
         this.bookRepository = bookRepository;
         this.authorServiceImpl = authorServiceImpl;
         this.genreServiceImpl = genreServiceImpl;
         this.translationServiceImpl = translationServiceImpl;
         this.reviewServiceImpl = reviewServiceImpl;
         this.publisherServiceImpl = publisherServiceImpl;
+        this.translationRepository = translationRepository;
         this.customerRepository = customerRepository;
     }
 
@@ -143,10 +147,36 @@ public class BookServiceImpl implements BookService{
                 .map(CustomerConverter::fromModelToCustomerWhoFavoritedDto)
                 .toList();}
 
-    public List<BookYearReleaseInfoDto> getBooksByYearRelease(int releaseYear) {
-        return bookRepository.findBooksByYearRelease(releaseYear)
+    public List<BookYearReleaseInfoDto> getBooksByYearRelease(int releaseYear) throws IncorrectReleaseYearException {
+        if(releaseYear <= 0){
+            throw new IncorrectReleaseYearException("Incorrect release year: " + releaseYear);
+        }
+        List<BookYearReleaseInfoDto> findedBooks = bookRepository.findBooksByYearRelease(releaseYear)
                 .stream()
                 .map(BookConverter::fromModelToBookYearReleaseInfoDto)
+                .toList();
+        if(findedBooks.isEmpty()){
+            throw new IncorrectReleaseYearException("No books with release year: " + releaseYear);
+        }
+        return findedBooks;
+    }
+
+    public List<BookGetByTranslationDto> getBooksByTranslation(Long translationId) throws TranslationNotFoundException {
+        if(translationId <= 0){
+            throw new TranslationNotFoundException(TRANSLATION_WITH_ID + translationId + DOESNT_EXIST);
+        }
+        Optional<Translation> getTranslation = translationRepository.findById(translationId);
+        if(getTranslation.isEmpty()){
+            throw new TranslationNotFoundException(TRANSLATION_WITH_ID + translationId + DOESNT_EXIST);
+        }
+
+        List<Book> findedBooks = bookRepository.findBooksByTranslation(translationId);
+        if(findedBooks.isEmpty()){
+            throw new TranslationNotFoundException("No books with translation: " + translationId);
+        }
+        return bookRepository.findBooksByTranslation(translationId)
+                .stream()
+                .map(BookConverter::fromModelToBookGetByTranslationDto)
                 .toList();
     }
 }

@@ -27,12 +27,12 @@ public class Payment {
     private OrderItem orderItem;
 
     @Column(nullable = false)
-    @Schema(description = "date of payment", example = "2023-01-30")
+    @Schema(description = "Date of payment", example = "2023-01-30")
     private LocalDate paymentDate;
 
     @Column(nullable = false)
-    @Schema(description = "price of the purchase", example = "5.99")
-    private Double amount;
+    @Schema(description = "Price of the purchase", example = "5.99")
+    private double amount;
 
 
 }

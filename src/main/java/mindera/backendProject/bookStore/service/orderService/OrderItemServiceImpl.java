@@ -34,4 +34,8 @@ public class OrderItemServiceImpl implements OrderItemService {
     public void deleteOrderItem(Long orderItemId) {
 
     }
+
+    public OrderItem findById(Long orderId) {
+        return null;
+    }
 }

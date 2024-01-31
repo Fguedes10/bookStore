@@ -8,6 +8,7 @@ import mindera.backendProject.bookStore.dto.customer.CustomerWhoFavoritedDto;
 import mindera.backendProject.bookStore.exception.book.*;
 import mindera.backendProject.bookStore.model.*;
 import mindera.backendProject.bookStore.repository.bookRepository.BookRepository;
+import mindera.backendProject.bookStore.repository.bookRepository.TranslationRepository;
 import mindera.backendProject.bookStore.repository.customerRepository.CustomerRepository;
 import mindera.backendProject.bookStore.service.customerService.CustomerServiceImpl;
 import org.springframework.stereotype.Service;

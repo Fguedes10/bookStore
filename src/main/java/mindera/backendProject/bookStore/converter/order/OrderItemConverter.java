@@ -26,7 +26,7 @@ public class OrderItemConverter {
     }
 
 
-    public static OrderItemGetDto fromCreateDtoToModel(OrderItem orderItem) {
+    public static OrderItemGetDto fromModelToOrderITemGetDto(OrderItem orderItem) {
         return new OrderItemGetDto(
                 orderItem.getCustomer().getFirstName()+ " " + orderItem.getCustomer().getLastName(),
                 orderItem.getBooksToPurchase().stream().map(BookConverter::fromModelToBookGetDto).collect(Collectors.toSet()),

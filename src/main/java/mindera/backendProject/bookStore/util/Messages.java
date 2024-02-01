@@ -99,7 +99,16 @@ public class Messages {
 
     //ORDER
     public static final String ORDERMODEL_WITH_ID = "Order with id: ";
-    public static final String ORDERMODEL_ALREADY_EXISTS = "Book already exists.";
+    public static final String ORDERMODEL_ALREADY_EXISTS = "Order already exists.";
+
+
+
+    //ORDERITEM
+
+    public static final String ORDERITEM_WITH_ID = "Order item with id: ";
+    public static final String ORDERITEM_ALREADY_EXISTS = "Order item already exists.";
+
+
 
 
     //INVOICE

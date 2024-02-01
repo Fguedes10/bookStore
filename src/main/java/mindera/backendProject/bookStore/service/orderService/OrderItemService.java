@@ -1,16 +1,15 @@
 package mindera.backendProject.bookStore.service.orderService;
 
-import mindera.backendProject.bookStore.dto.order.InvoiceCreateDto;
-import mindera.backendProject.bookStore.dto.order.InvoiceGetDto;
+import mindera.backendProject.bookStore.dto.order.OrderItemGetDto;
 import mindera.backendProject.bookStore.model.OrderItem;
 
 import java.util.List;
 
 public interface OrderItemService {
 
-    List<OrderItem> getAll();
+    List<OrderItemGetDto> getOrderItems();
 
-    OrderItem getOrderItem(Long orderItemId);
+    OrderItemGetDto getOrderItem(Long orderItemId);
 
     OrderItem createOrderItem(OrderItem orderItem);
 

@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import mindera.backendProject.bookStore.dto.order.OrderItemGetDto;
 import mindera.backendProject.bookStore.exception.order.OrderItemAlreadyExistsException;
 import mindera.backendProject.bookStore.exception.order.OrderItemNotFoundException;
 import mindera.backendProject.bookStore.model.OrderItem;
@@ -35,8 +36,8 @@ public class OrderItemController {
     )
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Get all orderItems")})
     @GetMapping("/")
-    public ResponseEntity<List<OrderItem>> getOrderItems(){
-        return ResponseEntity.ok(orderItemService.getAll());
+    public ResponseEntity<List<OrderItemGetDto>> getOrderItems(){
+        return ResponseEntity.ok(orderItemService.getOrderItems());
     }
 
 
@@ -46,7 +47,7 @@ public class OrderItemController {
             description = "Get orderItem by id"
     )
     @GetMapping("/id/{orderItemId}")
-    public ResponseEntity<OrderItem> getOrderItem(@PathVariable("orderItemId")@Parameter(name = "OrderItem Id", description = "OrderItem id", example = "1" ) Long orderItemId) throws OrderItemNotFoundException {
+    public ResponseEntity<OrderItemGetDto> getOrderItem(@PathVariable("orderItemId")@Parameter(name = "OrderItem Id", description = "OrderItem id", example = "1" ) Long orderItemId) throws OrderItemNotFoundException {
         return new ResponseEntity<>(orderItemService.getOrderItem(orderItemId), HttpStatus.OK);
     }
 

@@ -32,6 +32,8 @@ public class BookConverter {
                 book.getEdition(),
                 book.getYearRelease(),
                 book.getPrice(),
+                book.getRating(),
+                book.getPageCount(),
                 book.getReview().stream().map(ReviewConverter::fromModelToReviewCreateDto).toList()
         );
     }

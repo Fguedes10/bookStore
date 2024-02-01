@@ -77,6 +77,10 @@ public class Book {
     @Schema(description = "Book's to purchase", example = "[1, 2, 3]")
     private List<OrderItem> orderItems;
 
+    private Double rating;
+
+    private Integer pageCount;
+
     public void addReview(Review review) {
         this.review.add(review);
     }

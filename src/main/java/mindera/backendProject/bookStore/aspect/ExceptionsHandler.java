@@ -39,14 +39,9 @@ public class ExceptionsHandler {
 
     @ExceptionHandler(value = {CustomerAlreadyExistsException.class, AuthorAlreadyExistsException.class, BookAlreadyExistsException.class, GenreAlreadyExistsException.class,
             TranslationAlreadyExistsException.class, CustomerWithEmailAlreadyExists.class,
-<<<<<<< HEAD
             CustomerRepeatedFavoriteBooks.class, IncorrectReleaseYearException.class,
             CustomerRepeatedFavoriteBooks.class, DownloadAlreadyExistsException.class, InvoiceAlreadyExistsException.class,
-    OrderAlreadyExistsException.class, PaymentAlreadyExistsException.class})
-=======
-            CustomerRepeatedFavoriteBooks.class, DownloadAlreadyExistsException.class, InvoiceAlreadyExistsException.class,
-    OrderAlreadyExistsException.class, OrderAlreadyExistsException.class, PaymentAlreadyExistsException.class})
->>>>>>> origin/MelissaOrders
+            OrderAlreadyExistsException.class, PaymentAlreadyExistsException.class})
     public ResponseEntity<String> AlreadyExistsHandler(Exception exception) {
         logger.error("Know exception: " + exception.getMessage());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(exception.getMessage());
@@ -65,4 +60,4 @@ public class ExceptionsHandler {
         return ResponseEntity.badRequest().body(errors);
     }
 
-    }
+}

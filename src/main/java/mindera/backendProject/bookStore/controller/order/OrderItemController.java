@@ -6,7 +6,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import mindera.backendProject.bookStore.dto.order.OrderItemCreateDto;
 import mindera.backendProject.bookStore.dto.order.OrderItemGetDto;
+import mindera.backendProject.bookStore.exception.customer.CustomerNotFoundException;
 import mindera.backendProject.bookStore.exception.order.OrderItemAlreadyExistsException;
 import mindera.backendProject.bookStore.exception.order.OrderItemNotFoundException;
 import mindera.backendProject.bookStore.model.OrderItem;
@@ -56,8 +58,8 @@ public class OrderItemController {
             description = "Add new orderItem"
     )
     @PostMapping("/")
-    public ResponseEntity<OrderItem> addNewOrderItem(@Valid @RequestBody OrderItem orderItem) throws OrderItemAlreadyExistsException {
-        return new ResponseEntity<>(orderItemService.createOrderItem(orderItem), HttpStatus.CREATED);
+    public ResponseEntity<OrderItemGetDto> addNewOrderItem(@Valid @RequestBody OrderItemCreateDto orderItemCreateDto, Long orderItemId) throws OrderItemAlreadyExistsException, CustomerNotFoundException {
+        return new ResponseEntity<>(orderItemService.createOrderItem(orderItemCreateDto, orderItemId), HttpStatus.CREATED);
     }
 
 
@@ -66,8 +68,8 @@ public class OrderItemController {
             description = "Add a list of new orderItems"
     )
     @PostMapping("/addMultipleOrderItems")
-    public ResponseEntity<List<OrderItem>> addNewOrderItem(@Valid @RequestBody List<OrderItem> orderItems) throws OrderItemAlreadyExistsException{
-        return new ResponseEntity<>(orderItemService.createOrderItems(orderItems), HttpStatus.CREATED);
+    public ResponseEntity<List<OrderItemGetDto>> addNewOrderItems(@Valid @RequestBody List<OrderItemCreateDto> orderItemCreateDto, Long orderItemId) throws OrderItemAlreadyExistsException, OrderItemNotFoundException, CustomerNotFoundException {
+        return new ResponseEntity<>(orderItemService.createOrderItems(orderItemCreateDto, orderItemId), HttpStatus.CREATED);
     }
 
     @Operation(

@@ -84,12 +84,12 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public List<OrderGetDto> createOrders(List<OrderCreateDto> orderCreateDto, Long orderID) throws CustomerNotFoundException, BookNotFoundException,  OrderNotFoundException {
+    public List<OrderGetDto> createOrders(List<OrderCreateDto> orderCreateDto, Long orderId) throws CustomerNotFoundException, BookNotFoundException,  OrderNotFoundException {
         List<OrderGetDto> ordersCreated = new ArrayList<>();
         for (OrderCreateDto orderToCreate : orderCreateDto) {
             Customer customer = customerService.findById(orderToCreate.customerId());
             List<Book> bookList = bookService.getBooksByIds(orderToCreate.books());
-            verifyOrderExistsById(orderID);
+            verifyOrderExistsById(orderId);
             OrderModel orderToSave = OrderConverter.fromCreateDtoToModel(orderToCreate, customer, bookList);
             orderRepository.save(orderToSave);
             ordersCreated.add(OrderConverter.fromModelToOrderGetDto(orderToSave));

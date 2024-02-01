@@ -6,7 +6,8 @@ public record PaymentCreateDto(
 
         Long orderItemId,
         LocalDate paymentDate,
-        double amount
+        double amount,
+        boolean isSuccessful
 ) {
 
 }

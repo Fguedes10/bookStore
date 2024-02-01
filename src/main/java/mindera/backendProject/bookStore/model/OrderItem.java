@@ -46,10 +46,10 @@ public class OrderItem {
     private double amountToPay;
 
     @Schema(description = "Value Added Tax (VAT)", example = "0.06")
-    private static final double TAX_RATE = 0.06;
+    private double taxRate = 0.06;
 
-    @Schema(description = "Ordered or not")
-    private boolean ordered;
+    @Schema(description = "Indicates whether the eBooks were purchased", example = "true")
+    private boolean isOrdered;
 
 
 
@@ -60,6 +60,6 @@ public class OrderItem {
                 .mapToDouble(Book::getPrice)
                 .sum();
 
-        amountToPay = sumOfBookPrices * (1 + TAX_RATE);
+        amountToPay = sumOfBookPrices * (1 + taxRate);
     }
 }

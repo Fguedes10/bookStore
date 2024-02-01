@@ -3,7 +3,7 @@ import mindera.backendProject.bookStore.dto.customer.CustomerCreateDto;
 import java.time.LocalDate;
 
 public record InvoiceGetDto (
-        Long customerId,
+        String customerName,
         Long orderModelId,
         LocalDate issueDate,
         double totalAmount,

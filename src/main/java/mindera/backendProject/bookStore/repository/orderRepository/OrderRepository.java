@@ -12,4 +12,7 @@ import java.util.Optional;
 public interface OrderRepository extends JpaRepository<OrderModel, Long> {
     Optional<OrderModel> findByPurchaseDate(LocalDate localDate);
 
+    List<OrderModel> findOrderByCustomer(Long customerId);
+
+    List<OrderModel> findOrderByBook(Long bookId);
 }

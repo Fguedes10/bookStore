@@ -7,6 +7,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import mindera.backendProject.bookStore.dto.order.OrderCreateDto;
+import mindera.backendProject.bookStore.dto.order.OrderGetByBookDto;
+import mindera.backendProject.bookStore.dto.order.OrderGetByCustomerDto;
 import mindera.backendProject.bookStore.dto.order.OrderGetDto;
 import mindera.backendProject.bookStore.exception.book.BookNotFoundException;
 import mindera.backendProject.bookStore.exception.customer.CustomerNotFoundException;
@@ -55,6 +57,29 @@ public class OrderController {
             example = "1" ) Long orderId) throws OrderNotFoundException {
         return new ResponseEntity<>(orderService.getOrder(orderId), HttpStatus.OK);
     }
+
+    @Operation(
+            summary = "Get order by customer",
+            description = "Get order by customer"
+    )
+
+    @GetMapping("/orderByCustomer/{customerId}")
+    public ResponseEntity<List<OrderGetByCustomerDto>> getOrderByCustomer(@PathVariable("customerId")@Parameter(name = "Customer Id", description = "Customer id",
+            example = "1" ) Long customerId) throws OrderNotFoundException, CustomerNotFoundException {
+        return new ResponseEntity<>(orderService.getOrderByCostumer(customerId), HttpStatus.OK);
+    }
+
+    @Operation(
+            summary = "Get order by book",
+            description = "Get order by book"
+    )
+
+    @GetMapping("/orderByBook/{bookId}")
+    public ResponseEntity<List<OrderGetByBookDto>> getOrderByBook(@PathVariable("bookId")@Parameter(name = "Book Id", description = "Book id",
+            example = "1" ) Long bookId) throws OrderNotFoundException, BookNotFoundException {
+        return new ResponseEntity<>(orderService.getOrderByBook(bookId), HttpStatus.OK);
+    }
+
 
     @Operation(
             summary = "Add new order",

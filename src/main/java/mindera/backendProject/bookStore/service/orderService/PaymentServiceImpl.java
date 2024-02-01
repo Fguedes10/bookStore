@@ -29,13 +29,13 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public List<PaymentGetDto> getAllPayments() {
         List<Payment> paymentList = paymentRepository.findAll();
-        return paymentList.stream().map(PaymentConverter::fromModelToPAymentGetDto).toList();
+        return paymentList.stream().map(PaymentConverter::fromModelToPaymentGetDto).toList();
     }
 
     @Override
     public PaymentGetDto getPayment(Long paymentId) throws PaymentNotFoundException {
         Optional<Payment> paymentOptional = verifyPaymentExistsById(paymentId);
-        return PaymentConverter.fromModelToPAymentGetDto(paymentOptional.get());
+        return PaymentConverter.fromModelToPaymentGetDto(paymentOptional.get());
     }
 
     private Optional<Payment> verifyPaymentExistsById(Long paymentId) throws PaymentNotFoundException {
@@ -52,7 +52,7 @@ public class PaymentServiceImpl implements PaymentService {
         OrderItem orderItem = orderItemService.findById(payment.orderItemId());
         Payment paymentToSave = PaymentConverter.fromPaymentCreateDtoToModel(payment, orderItem);
         paymentRepository.save(paymentToSave);
-        return PaymentConverter.fromModelToPAymentGetDto(paymentToSave);
+        return PaymentConverter.fromModelToPaymentGetDto(paymentToSave);
     }
 
 

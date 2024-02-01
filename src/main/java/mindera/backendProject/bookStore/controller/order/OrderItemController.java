@@ -70,11 +70,11 @@ public class OrderItemController {
     }
 
     @Operation(
-            summary = "Delete orderItem",
-            description = "Delete orderItem"
+            summary = "Delete orderItem by id",
+            description = "Delete orderItem by id"
     )
     @DeleteMapping("/id/{orderItemId}")
-    public ResponseEntity<OrderItem> deleteOrderItemById(@PathVariable ("orderItemId")@Parameter(name = "OrderItem Id",
+    public ResponseEntity<OrderItem> delete(@PathVariable ("orderItemId")@Parameter(name = "OrderItem Id",
             description =  "OrderItem id", example = "1") Long orderItemId) throws OrderItemNotFoundException {
         orderItemService.deleteOrderItem(orderItemId);
         return new ResponseEntity<>(HttpStatus.OK);

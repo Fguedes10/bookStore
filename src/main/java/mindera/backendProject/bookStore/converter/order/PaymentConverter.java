@@ -15,20 +15,23 @@ public class PaymentConverter {
                 .orderItem(orderItem)
                 .paymentDate(paymentCreateDto.paymentDate())
                 .amount(paymentCreateDto.amount())
+                .isSuccessful(paymentCreateDto.isSuccessful())
                 .build();
     }
 
-    public static Payment fromPaymentGetDtoToModel(PaymentGetDto paymentCreateDto){
+    public static Payment fromPaymentGetDtoToModel(PaymentGetDto paymentGetDto){
         return Payment.builder()
-                .paymentDate(paymentCreateDto.paymentDate())
-                .amount(paymentCreateDto.amount())
+                .paymentDate(paymentGetDto.paymentDate())
+                .amount(paymentGetDto.amount())
+                .isSuccessful(paymentGetDto.isSuccessful())
                 .build();
     }
 
-    public static PaymentGetDto fromModelToPAymentGetDto(Payment payment){
+    public static PaymentGetDto fromModelToPaymentGetDto(Payment payment){
         return new PaymentGetDto(
                 payment.getPaymentDate(),
-                payment.getAmount());
+                payment.getAmount(),
+                payment.isSuccessful());
     }
 
 }

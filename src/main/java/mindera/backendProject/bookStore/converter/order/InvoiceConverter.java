@@ -38,7 +38,7 @@ public class InvoiceConverter {
 
     public static InvoiceGetDto fromModelToInvoiceGetDto(Invoice invoice) {
         return new InvoiceGetDto(
-                invoice.getCustomer().getId(),
+                invoice.getCustomer().getFirstName()+ " " + invoice.getCustomer().getLastName(),
                 invoice.getOrderModel().getId(),
                 invoice.getIssueDate(),
                 invoice.getTotalAmount(),

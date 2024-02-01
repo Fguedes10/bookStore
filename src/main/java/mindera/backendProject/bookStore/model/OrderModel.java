@@ -35,7 +35,6 @@ public class OrderModel {
     @Schema(description = "Orders downloaded", example = "[1, 2, 3]")
     private List<Download> downloads;
 
-
     @ManyToMany
     @JoinTable(
             name = "orderModel_book",

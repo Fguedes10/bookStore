@@ -34,5 +34,8 @@ public class Payment {
     @Schema(description = "Price of the purchase", example = "5.99")
     private double amount;
 
+    @Schema(description = "Indicates whether the payment was successful", example = "true")
+    private boolean isSuccessful;
+
 
 }

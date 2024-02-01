@@ -52,8 +52,8 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
    @Override
-    public InvoiceGetDto createInvoice(InvoiceCreateDto invoice) throws InvoiceAlreadyExistsException, CustomerNotFoundException, OrderNotFoundException {
-        verifyInvoiceExists(invoice);
+    public InvoiceGetDto createInvoice(InvoiceCreateDto invoice, int invoiceNumber) throws InvoiceAlreadyExistsException, CustomerNotFoundException, OrderNotFoundException {
+        verifyInvoiceExists(invoiceNumber);
         Customer customer = customerService.findById(invoice.customerId());
         OrderModel orderModel = orderServiceImpl.findById(invoice.orderModelId());
         Invoice invoiceToSave = InvoiceConverter.fromCreateDtoToModel(invoice, customer, orderModel);
@@ -63,12 +63,12 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public List<InvoiceGetDto> createInvoices(List<InvoiceCreateDto> invoiceCreateDto) throws CustomerNotFoundException, OrderNotFoundException, InvoiceAlreadyExistsException {
+    public List<InvoiceGetDto> createInvoices(List<InvoiceCreateDto> invoiceCreateDto, int invoiceNumber) throws CustomerNotFoundException, OrderNotFoundException, InvoiceAlreadyExistsException {
         List<InvoiceGetDto> invoicesCreated = new ArrayList<>();
         for (InvoiceCreateDto invoiceToCreate : invoiceCreateDto) {
             Customer customer = customerService.findById(invoiceToCreate.customerId());
             OrderModel orderModel = orderServiceImpl.findById(invoiceToCreate.orderModelId());
-            verifyInvoiceExists(invoiceToCreate);
+            verifyInvoiceExists(invoiceNumber);
             Invoice invoiceTSave = InvoiceConverter.fromCreateDtoToModel(invoiceToCreate, customer, orderModel);
             invoiceRepository.save(invoiceTSave);
             invoicesCreated.add(InvoiceConverter.fromModelToInvoiceGetDto(invoiceTSave));
@@ -90,10 +90,10 @@ public class InvoiceServiceImpl implements InvoiceService {
         return invoiceOptional;
     }
 
-    private void verifyInvoiceExists(InvoiceCreateDto invoiceToCreate) throws InvoiceAlreadyExistsException {
-        Optional<Invoice> invoiceFoundByInvoiceNumber = invoiceRepository.findByInvoiceNumber(invoiceToCreate.invoiceNumber());
+    private void verifyInvoiceExists(int invoiceNumber) throws InvoiceAlreadyExistsException {
+        Optional<Invoice> invoiceFoundByInvoiceNumber = invoiceRepository.findByInvoiceNumber(invoiceNumber);
         if (invoiceFoundByInvoiceNumber.isPresent()) {
-            throw new InvoiceAlreadyExistsException(INVOICE_WITH_INVOICE_NUMBER + invoiceToCreate + ALREADY_EXISTS);
+            throw new InvoiceAlreadyExistsException(INVOICE_WITH_INVOICE_NUMBER + invoiceNumber + ALREADY_EXISTS);
         }
     }
 

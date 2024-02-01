@@ -21,7 +21,6 @@ public class InvoiceConverter {
                 .orderModel(orderModel)
                 .issueDate(invoiceCreateDto.issueDate())
                 .totalAmount(invoiceCreateDto.totalAmount())
-                .invoiceNumber(invoiceCreateDto.invoiceNumber())
                 .VAT(invoiceCreateDto.VAT())
                 .build();
     }
@@ -32,7 +31,6 @@ public class InvoiceConverter {
                 invoice.getOrderModel().getId(),
                 invoice.getIssueDate(),
                 invoice.getTotalAmount(),
-                invoice.getInvoiceNumber(),
                 invoice.getVAT());
 
     }
@@ -40,9 +38,10 @@ public class InvoiceConverter {
 
     public static InvoiceGetDto fromModelToInvoiceGetDto(Invoice invoice) {
         return new InvoiceGetDto(
+                invoice.getCustomer().getId(),
+                invoice.getOrderModel().getId(),
                 invoice.getIssueDate(),
                 invoice.getTotalAmount(),
-                invoice.getInvoiceNumber(),
                 invoice.getVAT());
     }
 }

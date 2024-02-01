@@ -58,8 +58,8 @@ public class InvoiceController {
             description = "Add new invoice"
     )
     @PostMapping("/")
-    public ResponseEntity<InvoiceGetDto> addNewInvoice(@Valid @RequestBody InvoiceCreateDto invoice) throws InvoiceAlreadyExistsException, OrderNotFoundException, CustomerNotFoundException, InvoiceNotFoundException {
-        return new ResponseEntity<>(invoiceService.createInvoice(invoice), HttpStatus.CREATED);
+    public ResponseEntity<InvoiceGetDto> addNewInvoice(@Valid @RequestBody InvoiceCreateDto invoice, int invoiceNumber) throws InvoiceAlreadyExistsException, OrderNotFoundException, CustomerNotFoundException, InvoiceNotFoundException {
+        return new ResponseEntity<>(invoiceService.createInvoice(invoice, invoiceNumber), HttpStatus.CREATED);
     }
 
 
@@ -68,8 +68,8 @@ public class InvoiceController {
             description = "Add a list of new invoices"
     )
     @PostMapping("/addMultipleInvoices")
-    public ResponseEntity<List<InvoiceGetDto>> addNewInvoices(@Valid @RequestBody List<InvoiceCreateDto> invoice) throws InvoiceAlreadyExistsException, OrderNotFoundException, CustomerNotFoundException, InvoiceNotFoundException {
-        return new ResponseEntity<>(invoiceService.createInvoices(invoice), HttpStatus.CREATED);
+    public ResponseEntity<List<InvoiceGetDto>> addNewInvoices(@Valid @RequestBody List<InvoiceCreateDto> invoice, int invoiceNumber) throws InvoiceAlreadyExistsException, OrderNotFoundException, CustomerNotFoundException, InvoiceNotFoundException {
+        return new ResponseEntity<>(invoiceService.createInvoices(invoice, invoiceNumber), HttpStatus.CREATED);
     }
 
 

@@ -8,7 +8,6 @@ public record InvoiceCreateDto(
         Long orderModelId,
         LocalDate issueDate,
         double totalAmount,
-        int invoiceNumber,
         double VAT
 
 ) {

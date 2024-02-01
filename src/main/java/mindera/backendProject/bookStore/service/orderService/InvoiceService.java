@@ -16,9 +16,9 @@ public interface InvoiceService {
 
     InvoiceGetDto getInvoice(Long invoiceId) throws InvoiceNotFoundException;
 
-    InvoiceGetDto createInvoice(InvoiceCreateDto invoice) throws InvoiceAlreadyExistsException, CustomerNotFoundException, OrderNotFoundException, InvoiceNotFoundException;
+    InvoiceGetDto createInvoice(InvoiceCreateDto invoice, int invoiceNumber) throws InvoiceAlreadyExistsException, CustomerNotFoundException, OrderNotFoundException;
 
-   List<InvoiceGetDto> createInvoices(List<InvoiceCreateDto> invoice) throws CustomerNotFoundException, OrderNotFoundException, InvoiceNotFoundException, InvoiceAlreadyExistsException;
+   List<InvoiceGetDto> createInvoices(List<InvoiceCreateDto> invoice, int invoiceNumber) throws CustomerNotFoundException, OrderNotFoundException, InvoiceNotFoundException, InvoiceAlreadyExistsException;
 
     void deleteInvoice(Long invoiceId) throws InvoiceNotFoundException;
 }

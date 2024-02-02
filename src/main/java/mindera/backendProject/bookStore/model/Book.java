@@ -81,10 +81,6 @@ public class Book {
 
     private Integer pageCount;
 
-    public void addReview(Review review) {
-        this.review.add(review);
-    }
-
     public Book(String title, Long isbn, Author author, Publisher publisher, List<Genre> genre, Integer edition, int yearRelease, double price, List<Translation> translation) {
         this.title = title;
         this.isbn = isbn;
@@ -95,14 +91,9 @@ public class Book {
         this.yearRelease = yearRelease;
         this.price = price;
         this.translation = translation;
-        defaultReviewMessage();
+        this.review.add(new Review("No reviews yet"));
     }
 
-    public void defaultReviewMessage() {
-        if(this.review.isEmpty()) {
-            this.review.add(Review.builder().comment("No reviews yet").build());
-        }
-    }
 
 
     @Override

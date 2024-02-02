@@ -49,7 +49,7 @@ public class BookController {
             summary = "Get book by id",
             description = "Get book by id"
     )
-    @GetMapping("/search/{bookId}")
+    @GetMapping("/search/id/{bookId}")
     public ResponseEntity<BookGetDto> getBook(@PathVariable("bookId") @Parameter(name = "Book Id", description = "Book id", example = "1") Long bookId) throws BookNotFoundException {
         return new ResponseEntity<>(bookService.getBook(bookId), HttpStatus.OK);
     }
@@ -58,7 +58,7 @@ public class BookController {
             summary = "Get book by title",
             description = "Get book by title"
     )
-    @GetMapping("/search/{title}")
+    @GetMapping("/search/title/{title}")
     public ResponseEntity<BookGetDto> getBookByTitle(@PathVariable("title") @Parameter(name = "Book Title",
             description = "Book title", example = "The Lord of the Rings") String bookTittle) throws BookNotFoundException {
         return new ResponseEntity<>(bookService.getBookByTitle(bookTittle), HttpStatus.OK);
@@ -69,7 +69,7 @@ public class BookController {
             summary = "Get customers who favorited book",
             description = "Get customers who favorited book"
     )
-    @GetMapping("/whoFavorited/{bookId}")
+    @GetMapping("/search/whoFavorited/{bookId}")
     public ResponseEntity<List<CustomerWhoFavoritedDto>> getCustomersWhoFavorited(@PathVariable("bookId") @Parameter(name =
             "Book Id",
             description = "Book id", example = "1") Long bookId) throws BookNotFoundException {
@@ -81,7 +81,7 @@ public class BookController {
             summary = "Get books by year release",
             description = "Get books by year release"
     )
-    @GetMapping("/yearRelease/{releaseYear}")
+    @GetMapping("/search/yearRelease/{releaseYear}")
     public ResponseEntity<List<BookYearReleaseInfoDto>> getBooksByYearRelease(@PathVariable("releaseYear") int releaseYear) throws IncorrectReleaseYearException {
         return new ResponseEntity<>(bookService.getBooksByYearRelease(releaseYear), HttpStatus.OK);
     }
@@ -90,7 +90,7 @@ public class BookController {
             summary = "Get books by translation",
             description = "Get books by translation"
     )
-    @GetMapping("/booksByTranslation/{translationId}")
+    @GetMapping("/search/booksByTranslation/{translationId}")
     public ResponseEntity<List<BookGetByTranslationDto>> getBooksByTranslation(@PathVariable("translationId") Long translationId) throws TranslationNotFoundException {
         return new ResponseEntity<>(bookService.getBooksByTranslation(translationId), HttpStatus.OK);
     }

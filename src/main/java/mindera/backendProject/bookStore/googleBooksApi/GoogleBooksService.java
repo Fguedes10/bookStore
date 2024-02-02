@@ -23,33 +23,33 @@ public class GoogleBooksService {
     public GoogleBookInfoDto getBookInfo(String title) {
         String apiUrl = GOOGLE_BOOKS_API_URL + "?q=title:" + title + "&key=" + googleBooksConfig.getApiKey();
 
-        // Log the raw API response
         String rawApiResponse = restTemplate.getForObject(apiUrl, String.class);
+        System.out.println(rawApiResponse);
 
-        // Your mapping logic here
         GoogleBookInfoDto googleBookInfoDto = mapToGoogleBookInfo(rawApiResponse);
 
-        // Return the GoogleBookInfo object
         return googleBookInfoDto;
     }
 
     private GoogleBookInfoDto mapToGoogleBookInfo(String rawApiResponse) {
-        // Parse JSON using org.json library
         JSONObject root = new JSONObject(rawApiResponse);
         JSONArray items = root.getJSONArray("items");
 
-        if (items.length() > 0) {
+        if (!items.isEmpty()) {
             JSONObject volumeInfo = items.getJSONObject(0).getJSONObject("volumeInfo");
-
-            // Extract fields from volumeInfo
             GoogleBookInfoDto googleBookInfoDto = new GoogleBookInfoDto();
-            googleBookInfoDto.setTitle(volumeInfo.getString("title"));
+            if(!volumeInfo.has("averageRating")) {
+                googleBookInfoDto.setAverageRating(0.0);
+            }
             googleBookInfoDto.setAverageRating(volumeInfo.getDouble("averageRating"));
+            if (!volumeInfo.has("pageCount")) {
+                googleBookInfoDto.setPageCount(0);
+            }
             googleBookInfoDto.setPageCount(volumeInfo.getInt("pageCount"));
-
+            googleBookInfoDto.setTitle(volumeInfo.getString("title"));
             return googleBookInfoDto;
         }
 
-        return null; // Handle the case when no book information is found
+        return null;
     }
 }

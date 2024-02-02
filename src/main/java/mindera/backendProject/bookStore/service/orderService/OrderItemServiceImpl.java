@@ -1,21 +1,15 @@
 package mindera.backendProject.bookStore.service.orderService;
 
-import mindera.backendProject.bookStore.converter.order.OrderConverter;
 import mindera.backendProject.bookStore.converter.order.OrderItemConverter;
-import mindera.backendProject.bookStore.dto.order.OrderCreateDto;
-import mindera.backendProject.bookStore.dto.order.OrderGetDto;
 import mindera.backendProject.bookStore.dto.order.OrderItemCreateDto;
 import mindera.backendProject.bookStore.dto.order.OrderItemGetDto;
 import mindera.backendProject.bookStore.exception.book.BookNotFoundException;
 import mindera.backendProject.bookStore.exception.customer.CustomerNotFoundException;
-import mindera.backendProject.bookStore.exception.order.OrderAlreadyExistsException;
 import mindera.backendProject.bookStore.exception.order.OrderItemAlreadyExistsException;
 import mindera.backendProject.bookStore.exception.order.OrderItemNotFoundException;
-import mindera.backendProject.bookStore.exception.order.OrderNotFoundException;
 import mindera.backendProject.bookStore.model.Book;
 import mindera.backendProject.bookStore.model.Customer;
 import mindera.backendProject.bookStore.model.OrderItem;
-import mindera.backendProject.bookStore.model.OrderModel;
 import mindera.backendProject.bookStore.repository.orderRepository.OrderItemRepository;
 import mindera.backendProject.bookStore.service.bookService.BookServiceImpl;
 import mindera.backendProject.bookStore.service.customerService.CustomerServiceImpl;
@@ -24,7 +18,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import static mindera.backendProject.bookStore.util.Messages.*;
 
@@ -53,7 +46,6 @@ public class OrderItemServiceImpl implements OrderItemService {
     }
 
 
-
     private Optional<OrderItem> verifyOrderItemExistsById(Long orderItemId) throws OrderItemNotFoundException {
         Optional<OrderItem> orderItemOptional = orderItemRepository.findById(orderItemId);
         if (orderItemOptional.isEmpty()) {
@@ -62,26 +54,26 @@ public class OrderItemServiceImpl implements OrderItemService {
         return orderItemOptional;
     }
 
- /*  @Override
-    public OrderItemGetDto createOrderItem(OrderItemCreateDto orderItemCreateDto, Long orderItemId) throws CustomerNotFoundException, OrderItemAlreadyExistsException {
-            Optional<OrderItem> orderItemFindById = orderItemRepository.findById(orderItemId);
-            Customer customer = customerService.findById(orderItemCreateDto.customerId());
-            Set<Long> bookList = bookService.getBooksByIds(orderItemCreateDto.books());
+    @Override
+    public OrderItemGetDto createOrderItem(OrderItemCreateDto orderItemCreateDto, Long orderItemId) throws CustomerNotFoundException, OrderItemAlreadyExistsException, BookNotFoundException {
+        Optional<OrderItem> orderItemFindById = orderItemRepository.findById(orderItemId);
+        Customer customer = customerService.findById(orderItemCreateDto.customerId());
+        List<Book> bookList = bookService.getBooksByIds(orderItemCreateDto.books());
 
-            if (orderItemFindById.isPresent()) {
-                throw new OrderItemAlreadyExistsException(ORDERITEM_WITH_ID + orderItemId + ALREADY_EXISTS);
-            }
-            OrderItem newOrderItem = OrderItemConverter.fromCreateDtoToModel(orderItemCreateDto, customer, bookList);
-            orderItemRepository.save(newOrderItem);
-            return OrderItemConverter.fromModelToOrderITemGetDto(newOrderItem);
+        if (orderItemFindById.isPresent()) {
+            throw new OrderItemAlreadyExistsException(ORDERITEM_WITH_ID + orderItemId + ALREADY_EXISTS);
+        }
+        OrderItem newOrderItem = OrderItemConverter.fromCreateDtoToModel(orderItemCreateDto, customer, bookList);
+        orderItemRepository.save(newOrderItem);
+        return OrderItemConverter.fromModelToOrderITemGetDto(newOrderItem);
     }
 
     @Override
-    public List<OrderItemGetDto> createOrderItems(List<OrderItemCreateDto> orderItemCreateDto, Long orderItemId) throws CustomerNotFoundException, OrderItemNotFoundException {
+    public List<OrderItemGetDto> createOrderItems(List<OrderItemCreateDto> orderItemCreateDto, Long orderItemId) throws CustomerNotFoundException, OrderItemNotFoundException, BookNotFoundException {
         List<OrderItemGetDto> orderItemsCreated = new ArrayList<>();
         for (OrderItemCreateDto orderItemToCreate : orderItemCreateDto) {
             Customer customer = customerService.findById(orderItemToCreate.customerId());
-            Set<Long> bookList = bookService.getBooksByIds(orderItemToCreate.books());
+            List<Book> bookList = bookService.getBooksByIds(orderItemToCreate.books());
             verifyOrderItemExistsById(orderItemId);
             OrderItem orderItemToSave = OrderItemConverter.fromCreateDtoToModel(orderItemToCreate, customer, bookList);
             orderItemRepository.save(orderItemToSave);
@@ -89,7 +81,7 @@ public class OrderItemServiceImpl implements OrderItemService {
         }
         return orderItemsCreated;
 
-    }*/
+    }
 
     @Override
     public void deleteOrderItem(Long orderItemId) throws OrderItemNotFoundException {
@@ -99,7 +91,7 @@ public class OrderItemServiceImpl implements OrderItemService {
 
     public OrderItem findById(Long orderItemId) throws OrderItemAlreadyExistsException {
         Optional<OrderItem> orderItemOptional = orderItemRepository.findById(orderItemId);
-        if(orderItemOptional.isEmpty()){
+        if (orderItemOptional.isEmpty()) {
             throw new OrderItemAlreadyExistsException(ORDERITEM_WITH_ID + orderItemId + DOESNT_EXIST);
         }
         return orderItemOptional.get();

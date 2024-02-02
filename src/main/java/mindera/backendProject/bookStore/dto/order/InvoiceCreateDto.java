@@ -16,7 +16,6 @@ public record InvoiceCreateDto(
         LocalDate issueDate,
         @NotNull(message = INVALID_AMOUNT)
         double totalAmount,
-
        @NotNull(message = INVALID_VAT)
         double VAT
 

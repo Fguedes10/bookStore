@@ -20,8 +20,9 @@ import static mindera.backendProject.bookStore.util.Messages.PAYMENT_WITH_ID;
 public class PaymentServiceImpl implements PaymentService {
 
 
-   private final PaymentRepository paymentRepository;
-   private final OrderItemServiceImpl orderItemService;
+    private final PaymentRepository paymentRepository;
+    private final OrderItemServiceImpl orderItemService;
+
     public PaymentServiceImpl(PaymentRepository paymentRepository, OrderItemServiceImpl orderItemService) {
         this.paymentRepository = paymentRepository;
         this.orderItemService = orderItemService;
@@ -41,7 +42,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     private Optional<Payment> verifyPaymentExistsById(Long paymentId) throws PaymentNotFoundException {
         Optional<Payment> paymentOptional = paymentRepository.findById(paymentId);
-        if(paymentOptional.isEmpty()){
+        if (paymentOptional.isEmpty()) {
             throw new PaymentNotFoundException(PAYMENT_WITH_ID + paymentId + DOESNT_EXIST);
         }
         return paymentOptional;
@@ -60,7 +61,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public Payment deletePayment(Long paymentId) throws PaymentNotFoundException {
         Optional<Payment> paymentOptional = verifyPaymentExistsById(paymentId);
-        if(paymentOptional.isEmpty()){
+        if (paymentOptional.isEmpty()) {
             throw new PaymentNotFoundException(PAYMENT_WITH_ID + paymentId + DOESNT_EXIST);
         }
         return paymentOptional.get();

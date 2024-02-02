@@ -17,7 +17,6 @@ import mindera.backendProject.bookStore.repository.customerRepository.CustomerRe
 import mindera.backendProject.bookStore.repository.orderRepository.OrderRepository;
 import mindera.backendProject.bookStore.service.bookService.BookServiceImpl;
 import mindera.backendProject.bookStore.service.customerService.CustomerServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -35,9 +34,6 @@ public class OrderServiceImpl implements OrderService {
     private final CustomerRepository customerRepository;
     private final BookRepository bookRepository;
 
-
-
-    @Autowired
     public OrderServiceImpl(OrderRepository orderRepository, BookServiceImpl bookService, CustomerServiceImpl customerService, CustomerRepository customerRepository, BookRepository bookRepository) {
         this.orderRepository = orderRepository;
         this.bookService = bookService;
@@ -59,16 +55,16 @@ public class OrderServiceImpl implements OrderService {
     }
 
     public List<OrderGetByCustomerDto> getOrderByCostumer(Long customerId) throws CustomerNotFoundException {
-        if(customerId <=0){
+        if (customerId <= 0) {
             throw new CustomerNotFoundException(CUSTOMER_WITH_ID + customerId + DOESNT_EXIST);
         }
         Optional<Customer> getCustomer = customerRepository.findById(customerId);
-        if(getCustomer.isEmpty()){
+        if (getCustomer.isEmpty()) {
             throw new CustomerNotFoundException(CUSTOMER_WITH_ID + customerId + DOESNT_EXIST);
         }
         List<OrderModel> findedOrders = orderRepository.findOrderByCustomer(customerId);
-        if(findedOrders.isEmpty()){
-            throw new CustomerNotFoundException("No orders with customer: " + customerId);
+        if (findedOrders.isEmpty()) {
+            throw new CustomerNotFoundException(NO_ORDER_WITH_CUSTOMER + customerId);
         }
         return orderRepository.findOrderByCustomer(customerId)
                 .stream()
@@ -77,16 +73,16 @@ public class OrderServiceImpl implements OrderService {
     }
 
     public List<OrderGetByBookDto> getOrderByBook(Long bookId) throws BookNotFoundException {
-        if(bookId <=0){
+        if (bookId <= 0) {
             throw new BookNotFoundException(BOOK_WITH_ID + bookId + DOESNT_EXIST);
         }
         Optional<Book> getBook = bookRepository.findById(bookId);
-        if(getBook.isEmpty()){
+        if (getBook.isEmpty()) {
             throw new BookNotFoundException(BOOK_WITH_ID + bookId + DOESNT_EXIST);
         }
         List<OrderModel> findedOrders = orderRepository.findOrderByBook(bookId);
-        if(findedOrders.isEmpty()){
-            throw new BookNotFoundException("No orders with book: " + bookId);
+        if (findedOrders.isEmpty()) {
+            throw new BookNotFoundException(NO_ORDER_WITH_BOOK + bookId);
         }
         return orderRepository.findOrderByBook(bookId)
                 .stream()
@@ -102,7 +98,7 @@ public class OrderServiceImpl implements OrderService {
         return orderModelOptional;
     }
 
-  @Override
+    @Override
     public OrderGetDto createOrder(OrderCreateDto orderCreateDto, Long orderId) throws CustomerNotFoundException,
             OrderAlreadyExistsException, BookNotFoundException {
         Optional<OrderModel> orderModelFindById = orderRepository.findById(orderId);
@@ -119,7 +115,7 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public List<OrderGetDto> createOrders(List<OrderCreateDto> orderCreateDto, Long orderId) throws CustomerNotFoundException, BookNotFoundException,  OrderNotFoundException {
+    public List<OrderGetDto> createOrders(List<OrderCreateDto> orderCreateDto, Long orderId) throws CustomerNotFoundException, BookNotFoundException, OrderNotFoundException {
         List<OrderGetDto> ordersCreated = new ArrayList<>();
         for (OrderCreateDto orderToCreate : orderCreateDto) {
             Customer customer = customerService.findById(orderToCreate.customerId());
@@ -148,4 +144,4 @@ public class OrderServiceImpl implements OrderService {
     }
 
 
-    }
+}

@@ -40,7 +40,7 @@ public class OrderItem {
             inverseJoinColumns = @JoinColumn(name = "book_id")
     )
     @Schema(description = "Set of books to purchase", example= "[1, 2, 3]")
-    private Set<Book> booksToPurchase;
+    private List<Book> booksToPurchase;
 
     @Schema( description = "Total amount to pay", example= "22.70")
     private double amountToPay;

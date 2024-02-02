@@ -6,12 +6,14 @@ import mindera.backendProject.bookStore.dto.order.OrderItemGetDto;
 import mindera.backendProject.bookStore.model.Book;
 import mindera.backendProject.bookStore.model.Customer;
 import mindera.backendProject.bookStore.model.OrderItem;
+
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class OrderItemConverter {
 
-    public static OrderItem fromCreateDtoToModel(OrderItemCreateDto orderItemCreateDto, Customer customer, Set<Book> books) {
+    public static OrderItem fromCreateDtoToModel(OrderItemCreateDto orderItemCreateDto, Customer customer, List<Book> books) {
         return OrderItem.builder()
                 .customer(customer)
                 .booksToPurchase(books)

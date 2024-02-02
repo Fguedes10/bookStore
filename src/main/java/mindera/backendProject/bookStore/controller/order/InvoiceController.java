@@ -23,15 +23,15 @@ import java.util.List;
 
 @Tag(name = "Invoice", description = "Invoice endpoints")
 @RestController
-@RequestMapping("/api/v1/Controller")
+@RequestMapping("/api/v1/invoices")
 public class InvoiceController {
+
 
     private final InvoiceServiceImpl invoiceService;
 
-    public InvoiceController(InvoiceServiceImpl invoiceService){
+    public InvoiceController(InvoiceServiceImpl invoiceService) {
         this.invoiceService = invoiceService;
     }
-
 
     @Operation(
             summary = "Get all existing invoices",
@@ -39,10 +39,9 @@ public class InvoiceController {
     )
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Get all invoices")})
     @GetMapping("/")
-    public ResponseEntity<List<InvoiceGetDto>> getInvoices(){
+    public ResponseEntity<List<InvoiceGetDto>> getInvoices() {
         return ResponseEntity.ok(invoiceService.getInvoices());
     }
-
 
 
     @Operation(
@@ -50,7 +49,7 @@ public class InvoiceController {
             description = "Get invoice by id"
     )
     @GetMapping("/id/{invoiceId}")
-    public ResponseEntity<InvoiceGetDto> getInvoice(@PathVariable("invoiceId")@Parameter(name = "Invoice Id", description = "Invoice id", example = "1" ) Long invoiceId) throws InvoiceNotFoundException {
+    public ResponseEntity<InvoiceGetDto> getInvoice(@PathVariable("invoiceId") @Parameter(name = "Invoice Id", description = "Invoice id", example = "1") Long invoiceId) throws InvoiceNotFoundException {
         return new ResponseEntity<>(invoiceService.getInvoice(invoiceId), HttpStatus.OK);
     }
 
@@ -60,7 +59,7 @@ public class InvoiceController {
             description = "Get all customer invoices"
     )
     @GetMapping("/invoiceByCustomer/{customerId}")
-    public ResponseEntity<List<InvoiceGetByCustomerDto>> getInvoiceByCustomer(@PathVariable("customerId")@Parameter(name = "Customer Id", description = "Customer id", example = "1" ) Long customerId) throws InvoiceNotFoundException, CustomerNotFoundException {
+    public ResponseEntity<List<InvoiceGetByCustomerDto>> getInvoiceByCustomer(@PathVariable("customerId") @Parameter(name = "Customer Id", description = "Customer id", example = "1") Long customerId) throws InvoiceNotFoundException, CustomerNotFoundException {
         return new ResponseEntity<>(invoiceService.getInvoiceByCustomer(customerId), HttpStatus.OK);
     }
 
@@ -89,8 +88,8 @@ public class InvoiceController {
             description = "Delete invoice"
     )
     @DeleteMapping("/id/{invoiceId}")
-    public ResponseEntity<Invoice> deleteInvoiceById(@PathVariable ("invoiceId")@Parameter(name = "Invoice Id",
-            description =  "Invoice id", example = "1") Long invoiceId) throws InvoiceNotFoundException {
+    public ResponseEntity<Invoice> deleteInvoiceById(@PathVariable("invoiceId") @Parameter(name = "Invoice Id",
+            description = "Invoice id", example = "1") Long invoiceId) throws InvoiceNotFoundException {
         invoiceService.deleteInvoice(invoiceId);
         return new ResponseEntity<>(HttpStatus.OK);
     }

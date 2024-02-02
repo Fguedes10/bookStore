@@ -50,7 +50,7 @@ public class DownloadController {
     }
 
 
-  /*  @Operation(
+    @Operation(
             summary = "Get downloads by order",
             description = "Get downloads by order"
     )
@@ -59,7 +59,7 @@ public class DownloadController {
     public ResponseEntity<List<DownloadGetDto>> getDownloadsByOrder(@PathVariable("orderModelId") @Parameter(name = "OrderModel Id", description = "OrderModel id",
             example = "1") Long orderModelId) throws OrderNotFoundException, DownloadNotFoundException {
         return new ResponseEntity<>(downloadService.getDownloadsByOrder(orderModelId), HttpStatus.OK);
-    }*/
+    }
 
 
     @Operation(

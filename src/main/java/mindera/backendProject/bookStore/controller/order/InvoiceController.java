@@ -1,5 +1,6 @@
 package mindera.backendProject.bookStore.controller.order;
 
+import com.itextpdf.text.DocumentException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -19,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 @Tag(name = "Invoice", description = "Invoice endpoints")
@@ -68,7 +70,7 @@ public class InvoiceController {
             description = "Add new invoice"
     )
     @PostMapping("/")
-    public ResponseEntity<InvoiceGetDto> addNewInvoice(@Valid @RequestBody InvoiceCreateDto invoice, int invoiceNumber) throws InvoiceAlreadyExistsException, OrderNotFoundException, CustomerNotFoundException, InvoiceNotFoundException {
+    public ResponseEntity<InvoiceGetDto> addNewInvoice(@Valid @RequestBody InvoiceCreateDto invoice, int invoiceNumber) throws InvoiceAlreadyExistsException, OrderNotFoundException, CustomerNotFoundException, InvoiceNotFoundException, DocumentException, FileNotFoundException {
         return new ResponseEntity<>(invoiceService.createInvoice(invoice, invoiceNumber), HttpStatus.CREATED);
     }
 
@@ -77,7 +79,7 @@ public class InvoiceController {
             summary = "Add a list of new invoices",
             description = "Add a list of new invoices"
     )
-    @PostMapping("/addMultipleInvoices")
+    @PostMapping("/addMany")
     public ResponseEntity<List<InvoiceGetDto>> addNewInvoices(@Valid @RequestBody List<InvoiceCreateDto> invoice, int invoiceNumber) throws InvoiceAlreadyExistsException, OrderNotFoundException, CustomerNotFoundException, InvoiceNotFoundException {
         return new ResponseEntity<>(invoiceService.createInvoices(invoice, invoiceNumber), HttpStatus.CREATED);
     }

@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 
 @Data
@@ -29,9 +28,6 @@ public class OrderItem {
     @Schema(description = "Customer items to purchase", example = "[1, 2, 3] ")
     private Customer customer;
 
-    @OneToOne
-    @Schema(description = "Payment for the order item")
-    private Payment payment;
 
     @ManyToMany
     @JoinTable(
@@ -39,10 +35,10 @@ public class OrderItem {
             joinColumns = @JoinColumn(name = "orderItem_id"),
             inverseJoinColumns = @JoinColumn(name = "book_id")
     )
-    @Schema(description = "Set of books to purchase", example= "[1, 2, 3]")
+    @Schema(description = "Set of books to purchase", example = "[1, 2, 3]")
     private List<Book> booksToPurchase;
 
-    @Schema( description = "Total amount to pay", example= "22.70")
+    @Schema(description = "Total amount to pay", example = "22.70")
     private double amountToPay;
 
     @Schema(description = "Value Added Tax (VAT)", example = "0.06")
@@ -50,7 +46,6 @@ public class OrderItem {
 
     @Schema(description = "Indicates whether the eBooks were purchased", example = "true")
     private boolean isOrdered;
-
 
 
     public void calculateAmountToPay() {

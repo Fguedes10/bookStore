@@ -16,7 +16,7 @@ public class EmailServiceImpl {
     private JavaMailSender emailSender;
 
 
-    public void sendemailWithAttachment(Customer customer) throws MessagingException {
+    public void sendEmailWithAttachment(Customer customer) throws MessagingException {
 
 
         MimeMessage message = emailSender.createMimeMessage();

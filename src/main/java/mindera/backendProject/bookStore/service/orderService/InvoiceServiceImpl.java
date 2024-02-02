@@ -1,5 +1,6 @@
 package mindera.backendProject.bookStore.service.orderService;
 
+import com.itextpdf.text.DocumentException;
 import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 import mindera.backendProject.bookStore.apiHandler.EmailServiceImpl;
@@ -21,6 +22,7 @@ import mindera.backendProject.bookStore.repository.orderRepository.InvoiceReposi
 import mindera.backendProject.bookStore.service.customerService.CustomerServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -81,7 +83,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Override
     @Transactional
-    public InvoiceGetDto createInvoice(InvoiceCreateDto invoice, int invoiceNumber) throws InvoiceAlreadyExistsException, CustomerNotFoundException, OrderNotFoundException {
+    public InvoiceGetDto createInvoice(InvoiceCreateDto invoice, int invoiceNumber) throws InvoiceAlreadyExistsException, CustomerNotFoundException, OrderNotFoundException, DocumentException, FileNotFoundException {
         verifyInvoiceExists(invoiceNumber);
         Customer customer = customerService.findById(invoice.customerId());
         OrderModel orderModel = orderServiceImpl.findById(invoice.orderModelId());
@@ -111,7 +113,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         //insert download here
 
         try {
-            emailService.sendemailWithAttachment(invoiceToSave.getCustomer());
+            emailService.sendEmailWithAttachment(invoiceToSave.getCustomer());
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }

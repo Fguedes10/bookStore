@@ -30,7 +30,7 @@ public class OrderController {
 
     private final OrderServiceImpl orderService;
 
-    public OrderController(OrderServiceImpl orderService){
+    public OrderController(OrderServiceImpl orderService) {
         this.orderService = orderService;
     }
 
@@ -41,10 +41,9 @@ public class OrderController {
     )
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Get all orders")})
     @GetMapping("/")
-    public ResponseEntity<List<OrderGetDto>> getOrders(){
+    public ResponseEntity<List<OrderGetDto>> getOrders() {
         return ResponseEntity.ok(orderService.getOrders());
     }
-
 
 
     @Operation(
@@ -53,8 +52,8 @@ public class OrderController {
     )
 
     @GetMapping("/id/{orderId}")
-    public ResponseEntity<OrderGetDto> getOrder(@PathVariable("orderId")@Parameter(name = "Order Id", description = "Order id",
-            example = "1" ) Long orderId) throws OrderNotFoundException {
+    public ResponseEntity<OrderGetDto> getOrder(@PathVariable("orderId") @Parameter(name = "Order Id", description = "Order id",
+            example = "1") Long orderId) throws OrderNotFoundException {
         return new ResponseEntity<>(orderService.getOrder(orderId), HttpStatus.OK);
     }
 
@@ -64,8 +63,8 @@ public class OrderController {
     )
 
     @GetMapping("/orderByCustomer/{customerId}")
-    public ResponseEntity<List<OrderGetByCustomerDto>> getOrderByCustomer(@PathVariable("customerId")@Parameter(name = "Customer Id", description = "Customer id",
-            example = "1" ) Long customerId) throws OrderNotFoundException, CustomerNotFoundException {
+    public ResponseEntity<List<OrderGetByCustomerDto>> getOrderByCustomer(@PathVariable("customerId") @Parameter(name = "Customer Id", description = "Customer id",
+            example = "1") Long customerId) throws OrderNotFoundException, CustomerNotFoundException {
         return new ResponseEntity<>(orderService.getOrderByCostumer(customerId), HttpStatus.OK);
     }
 
@@ -75,8 +74,8 @@ public class OrderController {
     )
 
     @GetMapping("/orderByBook/{bookId}")
-    public ResponseEntity<List<OrderGetByBookDto>> getOrderByBook(@PathVariable("bookId")@Parameter(name = "Book Id", description = "Book id",
-            example = "1" ) Long bookId) throws OrderNotFoundException, BookNotFoundException {
+    public ResponseEntity<List<OrderGetByBookDto>> getOrderByBook(@PathVariable("bookId") @Parameter(name = "Book Id", description = "Book id",
+            example = "1") Long bookId) throws OrderNotFoundException, BookNotFoundException {
         return new ResponseEntity<>(orderService.getOrderByBook(bookId), HttpStatus.OK);
     }
 
@@ -91,11 +90,11 @@ public class OrderController {
     }
 
 
-   @Operation(
+    @Operation(
             summary = "Add a list of new orders",
             description = "Add a list of new orders"
     )
-   @PostMapping("/addMultipleOrders")
+    @PostMapping("/addManny")
     public ResponseEntity<List<OrderGetDto>> addNewOrders(@Valid @RequestBody List<OrderCreateDto> orderCreateDto, Long orderId) throws OrderAlreadyExistsException, InvoiceNotFoundException, CustomerNotFoundException, BookNotFoundException, OrderNotFoundException {
         return new ResponseEntity<>(orderService.createOrders(orderCreateDto, orderId), HttpStatus.CREATED);
     }
@@ -106,8 +105,8 @@ public class OrderController {
             description = "Delete order"
     )
     @DeleteMapping("/id/{orderId}")
-    public ResponseEntity<OrderModel> deleteOrderById(@PathVariable ("orderId")@Parameter(name = "Order Id",
-            description =  "Order id", example = "1") Long orderId) throws OrderNotFoundException {
+    public ResponseEntity<OrderModel> deleteOrderById(@PathVariable("orderId") @Parameter(name = "Order Id",
+            description = "Order id", example = "1") Long orderId) throws OrderNotFoundException {
         orderService.deleteOrder(orderId);
         return new ResponseEntity<>(HttpStatus.OK);
     }

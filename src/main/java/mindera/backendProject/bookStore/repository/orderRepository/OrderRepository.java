@@ -14,10 +14,10 @@ import java.util.Optional;
 public interface OrderRepository extends JpaRepository<OrderModel, Long> {
     Optional<OrderModel> findByPurchaseDate(LocalDate localDate);
 
-
+    @Query("SELECT j FROM OrderModel j JOIN j.customer c WHERE c.id = :customerId")
     List<OrderModel> findOrderByCustomer(Long customerId);
 
-    @Query("select j from OrderModel j where j.book.id = :bookId")
-    List<OrderModel> findOrderByBook(@Param("bookId") Long bookId);
+    @Query("SELECT j FROM OrderModel j JOIN j.books b WHERE b.id = :bookId")
+    List<OrderModel> getOrderModelsByBookId(@Param("bookId") Long bookId);
 }
 

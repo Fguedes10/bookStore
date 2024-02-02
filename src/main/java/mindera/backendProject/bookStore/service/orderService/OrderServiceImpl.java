@@ -80,11 +80,11 @@ public class OrderServiceImpl implements OrderService {
         if (getBook.isEmpty()) {
             throw new BookNotFoundException(BOOK_WITH_ID + bookId + DOESNT_EXIST);
         }
-        List<OrderModel> findedOrders = orderRepository.findOrderByBook(bookId);
+        List<OrderModel> findedOrders = orderRepository.getOrderModelsByBookId(bookId);
         if (findedOrders.isEmpty()) {
             throw new BookNotFoundException(NO_ORDER_WITH_BOOK + bookId);
         }
-        return orderRepository.findOrderByBook(bookId)
+        return orderRepository.getOrderModelsByBookId(bookId)
                 .stream()
                 .map(OrderConverter::fromModelToOderGetByBookDto)
                 .toList();

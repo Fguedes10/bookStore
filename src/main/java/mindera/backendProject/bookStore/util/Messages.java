@@ -108,6 +108,11 @@ public class Messages {
     public static final String PAYMENT_WITH_ID = "Payment with id: ";
     public static final String PAYMENT_ALREADY_EXISTS = "Payment already exists.";
 
+    // DOWNLOAD
+    public static final String DOWNLOAD_WITH_ID = "Download with id: ";
+    public static final String DOWNLOAD_ALREADY_EXISTS = "Download already exists.";
+    public static final String NO_DOWNLOAD_WITH_ORDER = "No downloads with order: ";
+
 
     //ORDER RELATED DTO
     public static final String INVALID_CUSTOMER_ID = "Please input a valid customer Id";

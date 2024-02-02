@@ -1,19 +1,19 @@
 package mindera.backendProject.bookStore.service.orderService;
 
-import mindera.backendProject.bookStore.model.Download;
-import org.springframework.stereotype.Service;
+import mindera.backendProject.bookStore.dto.order.DownloadCreateDto;
+import mindera.backendProject.bookStore.dto.order.DownloadGetDto;
+import mindera.backendProject.bookStore.exception.order.DownloadNotFoundException;
+import mindera.backendProject.bookStore.exception.order.OrderNotFoundException;
 
 import java.util.List;
 
 
 public interface DownloadService {
-    List<Download> getAll();
 
-    Download getDownload(Long downloadId);
+    List<DownloadGetDto> getAllDownloads();
 
-    Download createDownload(Download download);
+    DownloadGetDto getDownload(Long downloadId) throws DownloadNotFoundException;
 
-    List<Download> createDownloads(List<Download> download);
+    DownloadGetDto createDownload(DownloadCreateDto downloadCreateDto) throws DownloadNotFoundException, OrderNotFoundException;
 
-    void deleteDownload(Long downloadId);
 }

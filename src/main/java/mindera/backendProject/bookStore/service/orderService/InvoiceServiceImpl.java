@@ -1,5 +1,9 @@
 package mindera.backendProject.bookStore.service.orderService;
 
+import jakarta.mail.MessagingException;
+import jakarta.transaction.Transactional;
+import mindera.backendProject.bookStore.apiHandler.EmailServiceImpl;
+import mindera.backendProject.bookStore.apiHandler.PdfCreator;
 import mindera.backendProject.bookStore.converter.order.InvoiceConverter;
 import mindera.backendProject.bookStore.dto.order.InvoiceCreateDto;
 import mindera.backendProject.bookStore.dto.order.InvoiceGetByCustomerDto;
@@ -8,6 +12,7 @@ import mindera.backendProject.bookStore.exception.customer.CustomerNotFoundExcep
 import mindera.backendProject.bookStore.exception.order.InvoiceAlreadyExistsException;
 import mindera.backendProject.bookStore.exception.order.InvoiceNotFoundException;
 import mindera.backendProject.bookStore.exception.order.OrderNotFoundException;
+import mindera.backendProject.bookStore.model.Book;
 import mindera.backendProject.bookStore.model.Customer;
 import mindera.backendProject.bookStore.model.Invoice;
 import mindera.backendProject.bookStore.model.OrderModel;
@@ -16,6 +21,7 @@ import mindera.backendProject.bookStore.repository.orderRepository.InvoiceReposi
 import mindera.backendProject.bookStore.service.customerService.CustomerServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -30,12 +36,16 @@ public class InvoiceServiceImpl implements InvoiceService {
     private final CustomerServiceImpl customerService;
     private final OrderServiceImpl orderServiceImpl;
     private final CustomerRepository customerRepository;
+    private final PdfCreator pdfCreator;
+    private final EmailServiceImpl emailService;
 
-    public InvoiceServiceImpl(InvoiceRepository invoiceRepository, CustomerServiceImpl customerService, OrderServiceImpl orderServiceImpl, CustomerRepository customerRepository) {
+    public InvoiceServiceImpl(InvoiceRepository invoiceRepository, CustomerServiceImpl customerService, OrderServiceImpl orderServiceImpl, CustomerRepository customerRepository, PdfCreator pdfCreator, EmailServiceImpl emailService) {
         this.invoiceRepository = invoiceRepository;
         this.customerService = customerService;
         this.orderServiceImpl = orderServiceImpl;
         this.customerRepository = customerRepository;
+        this.pdfCreator = pdfCreator;
+        this.emailService = emailService;
     }
 
     @Override
@@ -70,13 +80,43 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
+    @Transactional
     public InvoiceGetDto createInvoice(InvoiceCreateDto invoice, int invoiceNumber) throws InvoiceAlreadyExistsException, CustomerNotFoundException, OrderNotFoundException {
         verifyInvoiceExists(invoiceNumber);
         Customer customer = customerService.findById(invoice.customerId());
         OrderModel orderModel = orderServiceImpl.findById(invoice.orderModelId());
         Invoice invoiceToSave = InvoiceConverter.fromCreateDtoToModel(invoice, customer, orderModel);
 
+
+        double totalPrice = 0;
+
+        for (Book book : orderModel.getBooks()) {
+            totalPrice += book.getPrice();
+        }
+
+        invoiceToSave.setOrderModel(orderModel);
+        invoiceToSave.setIssueDate(LocalDate.now());
+        invoiceToSave.setInvoiceNumber(invoiceNumber);
+        invoiceToSave.setTotalAmount(totalPrice);
+        invoiceToSave.getVAT();
+
+
         invoiceRepository.save(invoiceToSave);
+        String invoiceId = invoiceToSave.getId().toString();
+        System.out.println(invoiceId);
+
+
+        pdfCreator.createPdf("InvoicePDF".concat(invoiceToSave.getId().toString()).concat(".pdf"), invoiceToSave);
+
+        //insert download here
+
+        try {
+            emailService.sendemailWithAttachment(invoiceToSave.getCustomer());
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+
+
         return InvoiceConverter.fromModelToInvoiceGetDto(invoiceToSave);
     }
 

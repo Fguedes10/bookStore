@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import mindera.backendProject.bookStore.dto.order.PaymentCreateDto;
 import mindera.backendProject.bookStore.dto.order.PaymentGetDto;
+import mindera.backendProject.bookStore.exception.order.OrderItemAlreadyExistsException;
 import mindera.backendProject.bookStore.exception.order.PaymentAlreadyExistsException;
 import mindera.backendProject.bookStore.exception.order.PaymentNotFoundException;
 import mindera.backendProject.bookStore.model.Payment;
@@ -56,7 +57,7 @@ public class PaymentController {
             description = "Add new payment"
     )
     @PostMapping("/")
-    public ResponseEntity<PaymentGetDto> addNewPayment(@Valid @RequestBody PaymentCreateDto payment, Long paymentId) throws PaymentAlreadyExistsException {
+    public ResponseEntity<PaymentGetDto> addNewPayment(@Valid @RequestBody PaymentCreateDto payment, Long paymentId) throws OrderItemAlreadyExistsException {
         return new ResponseEntity<>(paymentService.createPayment(payment, paymentId), HttpStatus.CREATED);
     }
 

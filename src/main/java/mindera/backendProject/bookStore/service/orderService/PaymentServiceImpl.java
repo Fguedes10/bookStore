@@ -3,6 +3,7 @@ package mindera.backendProject.bookStore.service.orderService;
 import mindera.backendProject.bookStore.converter.order.PaymentConverter;
 import mindera.backendProject.bookStore.dto.order.PaymentCreateDto;
 import mindera.backendProject.bookStore.dto.order.PaymentGetDto;
+import mindera.backendProject.bookStore.exception.order.OrderItemAlreadyExistsException;
 import mindera.backendProject.bookStore.exception.order.PaymentNotFoundException;
 import mindera.backendProject.bookStore.model.OrderItem;
 import mindera.backendProject.bookStore.model.Payment;
@@ -47,7 +48,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public PaymentGetDto createPayment(PaymentCreateDto payment, Long paymentId) {
+    public PaymentGetDto createPayment(PaymentCreateDto payment, Long paymentId) throws OrderItemAlreadyExistsException {
         Optional<Payment> paymentFindById = paymentRepository.findById(paymentId);
         OrderItem orderItem = orderItemService.findById(payment.orderItemId());
         Payment paymentToSave = PaymentConverter.fromPaymentCreateDtoToModel(payment, orderItem);

@@ -1,7 +1,9 @@
 package mindera.backendProject.bookStore.service.orderService;
 
 import mindera.backendProject.bookStore.converter.order.InvoiceConverter;
+import mindera.backendProject.bookStore.converter.order.OrderConverter;
 import mindera.backendProject.bookStore.dto.order.InvoiceCreateDto;
+import mindera.backendProject.bookStore.dto.order.InvoiceGetByCustomerDto;
 import mindera.backendProject.bookStore.dto.order.InvoiceGetDto;
 import mindera.backendProject.bookStore.exception.customer.CustomerNotFoundException;
 import mindera.backendProject.bookStore.exception.order.InvoiceAlreadyExistsException;
@@ -10,9 +12,9 @@ import mindera.backendProject.bookStore.exception.order.OrderNotFoundException;
 import mindera.backendProject.bookStore.model.Customer;
 import mindera.backendProject.bookStore.model.Invoice;
 import mindera.backendProject.bookStore.model.OrderModel;
+import mindera.backendProject.bookStore.repository.customerRepository.CustomerRepository;
 import mindera.backendProject.bookStore.repository.orderRepository.InvoiceRepository;
 import mindera.backendProject.bookStore.service.customerService.CustomerServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -30,13 +32,14 @@ public class InvoiceServiceImpl implements InvoiceService {
     private final CustomerServiceImpl customerService;
 
     private final OrderServiceImpl orderServiceImpl;
+    private final CustomerRepository customerRepository;
 
 
-    @Autowired
-    public InvoiceServiceImpl(InvoiceRepository invoiceRepository, CustomerServiceImpl customerService, OrderServiceImpl orderService) {
+    public InvoiceServiceImpl(InvoiceRepository invoiceRepository, CustomerServiceImpl customerService, OrderServiceImpl orderService, CustomerRepository customerRepository) {
         this.invoiceRepository = invoiceRepository;
         this.customerService = customerService;
         this.orderServiceImpl = orderService;
+        this.customerRepository = customerRepository;
     }
 
     @Override
@@ -106,5 +109,23 @@ public class InvoiceServiceImpl implements InvoiceService {
         return invoiceOptional.get();
     }
 
+    public List<InvoiceGetByCustomerDto> getInvoiceByCustomer(Long customerId) throws CustomerNotFoundException {
+        if(customerId <=0){
+            throw new CustomerNotFoundException(CUSTOMER_WITH_ID + customerId + DOESNT_EXIST);
+        }
+        Optional<Customer> getCustomer = customerRepository.findById(customerId);
+        if(getCustomer.isEmpty()){
+            throw new CustomerNotFoundException(CUSTOMER_WITH_ID + customerId + DOESNT_EXIST);
+        }
+        List<Invoice> findedInvoices = invoiceRepository.findInvoicesByCustomer(customerId);
+        if(findedInvoices.isEmpty()){
+            throw new CustomerNotFoundException("No orders with customer: " + customerId);
+        }
+        return invoiceRepository.findInvoicesByCustomer(customerId)
+                .stream()
+                .map(InvoiceConverter::fromModelToInvoiceGetByCustomerDto)
+                .toList();
+
+    }
 }
 

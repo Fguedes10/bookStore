@@ -1,16 +1,11 @@
 package mindera.backendProject.bookStore.converter.order;
 
 import mindera.backendProject.bookStore.converter.book.BookConverter;
-import mindera.backendProject.bookStore.converter.customer.CustomerConverter;
-import mindera.backendProject.bookStore.dto.order.OrderGetDto;
 import mindera.backendProject.bookStore.dto.order.OrderItemCreateDto;
 import mindera.backendProject.bookStore.dto.order.OrderItemGetDto;
 import mindera.backendProject.bookStore.model.Book;
 import mindera.backendProject.bookStore.model.Customer;
 import mindera.backendProject.bookStore.model.OrderItem;
-import mindera.backendProject.bookStore.model.OrderModel;
-
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 

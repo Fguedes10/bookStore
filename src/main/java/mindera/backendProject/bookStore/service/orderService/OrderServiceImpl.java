@@ -58,6 +58,41 @@ public class OrderServiceImpl implements OrderService {
         return OrderConverter.fromModelToOrderGetDto(orderModelOptional.get());
     }
 
+    public List<OrderGetByCustomerDto> getOrderByCostumer(Long customerId) throws CustomerNotFoundException {
+        if(customerId <=0){
+            throw new CustomerNotFoundException(CUSTOMER_WITH_ID + customerId + DOESNT_EXIST);
+        }
+        Optional<Customer> getCustomer = customerRepository.findById(customerId);
+        if(getCustomer.isEmpty()){
+            throw new CustomerNotFoundException(CUSTOMER_WITH_ID + customerId + DOESNT_EXIST);
+        }
+        List<OrderModel> findedOrders = orderRepository.findOrderByCustomer(customerId);
+        if(findedOrders.isEmpty()){
+            throw new CustomerNotFoundException("No orders with customer: " + customerId);
+        }
+        return orderRepository.findOrderByCustomer(customerId)
+                .stream()
+                .map(OrderConverter::fromModelToOderGetByCustomerDto)
+                .toList();
+    }
+
+    public List<OrderGetByBookDto> getOrderByBook(Long bookId) throws BookNotFoundException {
+        if(bookId <=0){
+            throw new BookNotFoundException(BOOK_WITH_ID + bookId + DOESNT_EXIST);
+        }
+        Optional<Book> getBook = bookRepository.findById(bookId);
+        if(getBook.isEmpty()){
+            throw new BookNotFoundException(BOOK_WITH_ID + bookId + DOESNT_EXIST);
+        }
+        List<OrderModel> findedOrders = orderRepository.findOrderByBook(bookId);
+        if(findedOrders.isEmpty()){
+            throw new BookNotFoundException("No orders with book: " + bookId);
+        }
+        return orderRepository.findOrderByBook(bookId)
+                .stream()
+                .map(OrderConverter::fromModelToOderGetByBookDto)
+                .toList();
+    }
 
     private Optional<OrderModel> verifyOrderExistsById(Long orderModelId) throws OrderNotFoundException {
         Optional<OrderModel> orderModelOptional = orderRepository.findById(orderModelId);
@@ -112,39 +147,5 @@ public class OrderServiceImpl implements OrderService {
         return orderOptional.get();
     }
 
-    public List<OrderGetByCustomerDto> getOrderByCostumer(Long customerId) throws CustomerNotFoundException {
-        if(customerId <=0){
-            throw new CustomerNotFoundException(CUSTOMER_WITH_ID + customerId + DOESNT_EXIST);
-        }
-        Optional<Customer> getCustomer = customerRepository.findById(customerId);
-        if(getCustomer.isEmpty()){
-            throw new CustomerNotFoundException(CUSTOMER_WITH_ID + customerId + DOESNT_EXIST);
-        }
-        List<OrderModel> findedOrders = orderRepository.findOrderByCustomer(customerId);
-        if(findedOrders.isEmpty()){
-            throw new CustomerNotFoundException("No orders with customer: " + customerId);
-        }
-        return orderRepository.findOrderByCustomer(customerId)
-                .stream()
-                .map(OrderConverter::fromModelToOderGetByCustomerDto)
-                .toList();
-    }
 
-    public List<OrderGetByBookDto> getOrderByBook(Long bookId) throws BookNotFoundException {
-        if(bookId <=0){
-            throw new BookNotFoundException(BOOK_WITH_ID + bookId + DOESNT_EXIST);
-        }
-        Optional<Book> getBook = bookRepository.findById(bookId);
-        if(getBook.isEmpty()){
-            throw new BookNotFoundException(BOOK_WITH_ID + bookId + DOESNT_EXIST);
-        }
-        List<OrderModel> findedOrders = orderRepository.findOrderByBook(bookId);
-        if(findedOrders.isEmpty()){
-            throw new BookNotFoundException("No orders with book: " + bookId);
-        }
-        return orderRepository.findOrderByBook(bookId)
-                .stream()
-                .map(OrderConverter::fromModelToOderGetByBookDto)
-                .toList();
-    }
     }

@@ -62,16 +62,7 @@ public class OrderItemServiceImpl implements OrderItemService {
         return orderItemOptional;
     }
 
-    @Override
-    public OrderItemGetDto createOrderItem(OrderItemCreateDto orderItemCreateDto, Long orderItemId) throws CustomerNotFoundException, OrderItemAlreadyExistsException {
-        return null;
-    }
-
-    @Override
-    public List<OrderItemGetDto> createOrderItems(List<OrderItemCreateDto> orderItemsCreateDto, Long orderItemId) throws CustomerNotFoundException, OrderItemNotFoundException {
-        return null;
-    }
-   /* @Override
+ /*  @Override
     public OrderItemGetDto createOrderItem(OrderItemCreateDto orderItemCreateDto, Long orderItemId) throws CustomerNotFoundException, OrderItemAlreadyExistsException {
             Optional<OrderItem> orderItemFindById = orderItemRepository.findById(orderItemId);
             Customer customer = customerService.findById(orderItemCreateDto.customerId());
@@ -83,14 +74,14 @@ public class OrderItemServiceImpl implements OrderItemService {
             OrderItem newOrderItem = OrderItemConverter.fromCreateDtoToModel(orderItemCreateDto, customer, bookList);
             orderItemRepository.save(newOrderItem);
             return OrderItemConverter.fromModelToOrderITemGetDto(newOrderItem);
-    }*/
+    }
 
-   /* @Override
+    @Override
     public List<OrderItemGetDto> createOrderItems(List<OrderItemCreateDto> orderItemCreateDto, Long orderItemId) throws CustomerNotFoundException, OrderItemNotFoundException {
         List<OrderItemGetDto> orderItemsCreated = new ArrayList<>();
         for (OrderItemCreateDto orderItemToCreate : orderItemCreateDto) {
             Customer customer = customerService.findById(orderItemToCreate.customerId());
-            Set<Book> bookList = bookService.getBooksByIds(orderItemToCreate.books());
+            Set<Long> bookList = bookService.getBooksByIds(orderItemToCreate.books());
             verifyOrderItemExistsById(orderItemId);
             OrderItem orderItemToSave = OrderItemConverter.fromCreateDtoToModel(orderItemToCreate, customer, bookList);
             orderItemRepository.save(orderItemToSave);

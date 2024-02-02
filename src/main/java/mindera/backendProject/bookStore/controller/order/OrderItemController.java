@@ -53,7 +53,7 @@ public class OrderItemController {
         return new ResponseEntity<>(orderItemService.getOrderItem(orderItemId), HttpStatus.OK);
     }
 
-    @Operation(
+  /*  @Operation(
             summary = "Add new orderItem",
             description = "Add new orderItem"
     )
@@ -70,7 +70,7 @@ public class OrderItemController {
     @PostMapping("/addMultipleOrderItems")
     public ResponseEntity<List<OrderItemGetDto>> addNewOrderItems(@Valid @RequestBody List<OrderItemCreateDto> orderItemCreateDto, Long orderItemId) throws OrderItemAlreadyExistsException, OrderItemNotFoundException, CustomerNotFoundException {
         return new ResponseEntity<>(orderItemService.createOrderItems(orderItemCreateDto, orderItemId), HttpStatus.CREATED);
-    }
+    }*/
 
     @Operation(
             summary = "Delete orderItem by id",

@@ -28,9 +28,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 
 
     private final InvoiceRepository invoiceRepository;
-
     private final CustomerServiceImpl customerService;
-
     private final OrderServiceImpl orderServiceImpl;
     private final CustomerRepository customerRepository;
 
@@ -52,6 +50,24 @@ public class InvoiceServiceImpl implements InvoiceService {
     public InvoiceGetDto getInvoice(Long invoiceId) throws InvoiceNotFoundException {
         Optional<Invoice> invoiceOptional = verifyIfInvoiceExistsById(invoiceId);
         return InvoiceConverter.fromModelToInvoiceGetDto(invoiceOptional.get());
+    }
+
+    public List<InvoiceGetByCustomerDto> getInvoiceByCustomer(Long customerId) throws CustomerNotFoundException {
+        if(customerId <=0){
+            throw new CustomerNotFoundException(CUSTOMER_WITH_ID + customerId + DOESNT_EXIST);
+        }
+        Optional<Customer> getCustomer = customerRepository.findById(customerId);
+        if(getCustomer.isEmpty()){
+            throw new CustomerNotFoundException(CUSTOMER_WITH_ID + customerId + DOESNT_EXIST);
+        }
+        List<Invoice> findedInvoices = invoiceRepository.findInvoicesByCustomer(customerId);
+        if(findedInvoices.isEmpty()){
+            throw new CustomerNotFoundException("No orders with customer: " + customerId);
+        }
+        return invoiceRepository.findInvoicesByCustomer(customerId)
+                .stream()
+                .map(InvoiceConverter::fromModelToInvoiceGetByCustomerDto)
+                .toList();
     }
 
    @Override
@@ -109,23 +125,6 @@ public class InvoiceServiceImpl implements InvoiceService {
         return invoiceOptional.get();
     }
 
-    public List<InvoiceGetByCustomerDto> getInvoiceByCustomer(Long customerId) throws CustomerNotFoundException {
-        if(customerId <=0){
-            throw new CustomerNotFoundException(CUSTOMER_WITH_ID + customerId + DOESNT_EXIST);
-        }
-        Optional<Customer> getCustomer = customerRepository.findById(customerId);
-        if(getCustomer.isEmpty()){
-            throw new CustomerNotFoundException(CUSTOMER_WITH_ID + customerId + DOESNT_EXIST);
-        }
-        List<Invoice> findedInvoices = invoiceRepository.findInvoicesByCustomer(customerId);
-        if(findedInvoices.isEmpty()){
-            throw new CustomerNotFoundException("No orders with customer: " + customerId);
-        }
-        return invoiceRepository.findInvoicesByCustomer(customerId)
-                .stream()
-                .map(InvoiceConverter::fromModelToInvoiceGetByCustomerDto)
-                .toList();
 
-    }
 }
 

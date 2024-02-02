@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import mindera.backendProject.bookStore.dto.order.InvoiceCreateDto;
 import mindera.backendProject.bookStore.dto.order.InvoiceGetByCustomerDto;
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-//@Tag(name = "Invoice", description = "Invoice endpoints")
+@Tag(name = "Invoice", description = "Invoice endpoints")
 @RestController
 @RequestMapping("/api/v1/Controller")
 public class InvoiceController {

@@ -122,4 +122,14 @@ public class Messages {
 
     public static final String PAYMENT_WITH_ID = "Payment with id: ";
     public static final String PAYMENT_ALREADY_EXISTS = "Payment already exists.";
+
+
+
+    //ORDER RELATED DTO
+    public static final String INVALID_CUSTOMER_ID = "Please input a valid customer Id";
+    public static final String INVALID_ORDERITEM_ID = "Please input a valid order item Id ";
+    public static final String INVALID_AMOUNT = "Please input a valid amount";
+    public static final String INVALID_VAT = "Please input a valid Value Added Tax";
+    public static final String INVALID_BOOK_ID = "Please input a valid book Id";
+
 }

@@ -3,14 +3,14 @@ package mindera.backendProject.bookStore.service.bookService;
 import mindera.backendProject.bookStore.converter.book.BookConverter;
 import mindera.backendProject.bookStore.converter.customer.CustomerConverter;
 import mindera.backendProject.bookStore.dto.book.*;
-import mindera.backendProject.bookStore.dto.customer.CustomerGetDto;
 import mindera.backendProject.bookStore.dto.customer.CustomerWhoFavoritedDto;
 import mindera.backendProject.bookStore.exception.book.*;
+import mindera.backendProject.bookStore.googleBooksApi.GoogleBookInfoDto;
+import mindera.backendProject.bookStore.googleBooksApi.GoogleBooksService;
 import mindera.backendProject.bookStore.model.*;
 import mindera.backendProject.bookStore.repository.bookRepository.BookRepository;
 import mindera.backendProject.bookStore.repository.bookRepository.TranslationRepository;
 import mindera.backendProject.bookStore.repository.customerRepository.CustomerRepository;
-import mindera.backendProject.bookStore.service.customerService.CustomerServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,11 +31,13 @@ public class BookServiceImpl implements BookService{
     private final PublisherServiceImpl publisherServiceImpl;
     private final TranslationRepository translationRepository;
 
+    private final GoogleBooksService googleBooksService;
+
     private final CustomerRepository customerRepository;
 
     public BookServiceImpl(BookRepository bookRepository, AuthorServiceImpl authorServiceImpl,
                            GenreServiceImpl genreServiceImpl, TranslationServiceImpl translationServiceImpl,
-                           ReviewServiceImpl reviewServiceImpl, PublisherServiceImpl publisherServiceImpl, TranslationRepository translationRepository, CustomerRepository customerRepository){
+                           ReviewServiceImpl reviewServiceImpl, PublisherServiceImpl publisherServiceImpl, TranslationRepository translationRepository, GoogleBooksService googleBooksService, CustomerRepository customerRepository){
         this.bookRepository = bookRepository;
         this.authorServiceImpl = authorServiceImpl;
         this.genreServiceImpl = genreServiceImpl;
@@ -43,6 +45,7 @@ public class BookServiceImpl implements BookService{
         this.reviewServiceImpl = reviewServiceImpl;
         this.publisherServiceImpl = publisherServiceImpl;
         this.translationRepository = translationRepository;
+        this.googleBooksService = googleBooksService;
         this.customerRepository = customerRepository;
     }
 
@@ -65,6 +68,13 @@ public class BookServiceImpl implements BookService{
             throw new BookAlreadyExistsException(BOOK_ALREADY_EXISTS);
         }
         Book newBook = BookConverter.fromCreateDtoToModel(book, author, publisher, genreList, translationList);
+     /*   GoogleBookInfoDto googleBook = googleBooksService.getBookInfo(newBook.getTitle().replaceAll("\\s+",""));
+        if(googleBook.getTitle().replaceAll("\\s+","")
+                .equals(newBook.getTitle().replaceAll("\\s+","")
+        )){
+            newBook.setRating(googleBook.getAverageRating());
+            newBook.setPageCount(googleBook.getPageCount());
+        }*/
         bookRepository.save(newBook);
         return BookConverter.fromModelToBookGetDto(newBook);
     }

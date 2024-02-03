@@ -6,11 +6,10 @@ import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
 import mindera.backendProject.bookStore.dto.book.*;
 
-import mindera.backendProject.bookStore.dto.customer.CustomerGetDto;
 import mindera.backendProject.bookStore.dto.customer.CustomerWhoFavoritedDto;
 import mindera.backendProject.bookStore.exception.book.*;
-import mindera.backendProject.bookStore.model.Author;
-import mindera.backendProject.bookStore.model.Customer;
+import mindera.backendProject.bookStore.googleBooksApi.GoogleBookInfoDto;
+import mindera.backendProject.bookStore.googleBooksApi.GoogleBooksService;
 import mindera.backendProject.bookStore.service.bookService.BookServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,12 +22,19 @@ import java.util.List;
 public class BookController {
 
     private final BookServiceImpl bookService;
+    private final GoogleBooksService googleBooksService;
 
 
-    public BookController(BookServiceImpl bookService) {
+    public BookController(BookServiceImpl bookService, GoogleBooksService googleBooksService) {
         this.bookService = bookService;
+        this.googleBooksService = googleBooksService;
     }
 
+    @GetMapping("/google/{title}")
+    public GoogleBookInfoDto getBooksInfo(@PathVariable("title") @Parameter(name = "Book Title",
+            description = "Book title", example = "The Lord of the Rings") String bookTittle) throws BookNotFoundException {
+        return googleBooksService.getBookInfo(bookTittle);
+    }
 
     @Operation(
             summary = "Get all existing books",

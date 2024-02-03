@@ -1,5 +1,6 @@
 package mindera.backendProject.bookStore.controller.order;
 
+import com.itextpdf.text.DocumentException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -7,6 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import mindera.backendProject.bookStore.dto.order.InvoiceCreateDto;
+import mindera.backendProject.bookStore.dto.order.InvoiceGetByCustomerDto;
 import mindera.backendProject.bookStore.dto.order.InvoiceGetDto;
 import mindera.backendProject.bookStore.exception.customer.CustomerNotFoundException;
 import mindera.backendProject.bookStore.exception.order.InvoiceAlreadyExistsException;
@@ -18,19 +20,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 @Tag(name = "Invoice", description = "Invoice endpoints")
 @RestController
-@RequestMapping("/api/v1/Controller")
+@RequestMapping("/api/v1/invoices")
 public class InvoiceController {
+
 
     private final InvoiceServiceImpl invoiceService;
 
-    public InvoiceController(InvoiceServiceImpl invoiceService){
+    public InvoiceController(InvoiceServiceImpl invoiceService) {
         this.invoiceService = invoiceService;
     }
-
 
     @Operation(
             summary = "Get all existing invoices",
@@ -38,10 +41,9 @@ public class InvoiceController {
     )
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Get all invoices")})
     @GetMapping("/")
-    public ResponseEntity<List<InvoiceGetDto>> getInvoices(){
+    public ResponseEntity<List<InvoiceGetDto>> getInvoices() {
         return ResponseEntity.ok(invoiceService.getInvoices());
     }
-
 
 
     @Operation(
@@ -49,8 +51,18 @@ public class InvoiceController {
             description = "Get invoice by id"
     )
     @GetMapping("/id/{invoiceId}")
-    public ResponseEntity<InvoiceGetDto> getInvoice(@PathVariable("invoiceId")@Parameter(name = "Invoice Id", description = "Invoice id", example = "1" ) Long invoiceId) throws InvoiceNotFoundException {
+    public ResponseEntity<InvoiceGetDto> getInvoice(@PathVariable("invoiceId") @Parameter(name = "Invoice Id", description = "Invoice id", example = "1") Long invoiceId) throws InvoiceNotFoundException {
         return new ResponseEntity<>(invoiceService.getInvoice(invoiceId), HttpStatus.OK);
+    }
+
+
+    @Operation(
+            summary = "Get all customer invoices",
+            description = "Get all customer invoices"
+    )
+    @GetMapping("/invoiceByCustomer/{customerId}")
+    public ResponseEntity<List<InvoiceGetByCustomerDto>> getInvoiceByCustomer(@PathVariable("customerId") @Parameter(name = "Customer Id", description = "Customer id", example = "1") Long customerId) throws InvoiceNotFoundException, CustomerNotFoundException {
+        return new ResponseEntity<>(invoiceService.getInvoiceByCustomer(customerId), HttpStatus.OK);
     }
 
     @Operation(
@@ -58,8 +70,8 @@ public class InvoiceController {
             description = "Add new invoice"
     )
     @PostMapping("/")
-    public ResponseEntity<InvoiceGetDto> addNewInvoice(@Valid @RequestBody InvoiceCreateDto invoice) throws InvoiceAlreadyExistsException, OrderNotFoundException, CustomerNotFoundException, InvoiceNotFoundException {
-        return new ResponseEntity<>(invoiceService.createInvoice(invoice), HttpStatus.CREATED);
+    public ResponseEntity<InvoiceGetDto> addNewInvoice(@Valid @RequestBody InvoiceCreateDto invoice, int invoiceNumber) throws InvoiceAlreadyExistsException, OrderNotFoundException, CustomerNotFoundException, InvoiceNotFoundException, DocumentException, FileNotFoundException {
+        return new ResponseEntity<>(invoiceService.createInvoice(invoice, invoiceNumber), HttpStatus.CREATED);
     }
 
 
@@ -67,9 +79,9 @@ public class InvoiceController {
             summary = "Add a list of new invoices",
             description = "Add a list of new invoices"
     )
-    @PostMapping("/addMultipleInvoices")
-    public ResponseEntity<List<InvoiceGetDto>> addNewInvoices(@Valid @RequestBody List<InvoiceCreateDto> invoice) throws InvoiceAlreadyExistsException, OrderNotFoundException, CustomerNotFoundException, InvoiceNotFoundException {
-        return new ResponseEntity<>(invoiceService.createInvoices(invoice), HttpStatus.CREATED);
+    @PostMapping("/addMany")
+    public ResponseEntity<List<InvoiceGetDto>> addNewInvoices(@Valid @RequestBody List<InvoiceCreateDto> invoice, int invoiceNumber) throws InvoiceAlreadyExistsException, OrderNotFoundException, CustomerNotFoundException, InvoiceNotFoundException {
+        return new ResponseEntity<>(invoiceService.createInvoices(invoice, invoiceNumber), HttpStatus.CREATED);
     }
 
 
@@ -78,8 +90,8 @@ public class InvoiceController {
             description = "Delete invoice"
     )
     @DeleteMapping("/id/{invoiceId}")
-    public ResponseEntity<Invoice> deleteInvoiceById(@PathVariable ("invoiceId")@Parameter(name = "Invoice Id",
-            description =  "Invoice id", example = "1") Long invoiceId) throws InvoiceNotFoundException {
+    public ResponseEntity<Invoice> deleteInvoiceById(@PathVariable("invoiceId") @Parameter(name = "Invoice Id",
+            description = "Invoice id", example = "1") Long invoiceId) throws InvoiceNotFoundException {
         invoiceService.deleteInvoice(invoiceId);
         return new ResponseEntity<>(HttpStatus.OK);
     }

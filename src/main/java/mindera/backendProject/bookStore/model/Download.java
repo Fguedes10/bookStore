@@ -8,8 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
- @Data
+
+@Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,16 +22,15 @@ public class Download {
     @Schema(description = "Download id", example = "1")
     private Long id;
 
-   @ManyToOne(fetch = FetchType.EAGER)
-   @JoinColumn(name = "order_id")
-   @Schema(description = "Book's download", example = "1")
-   private OrderModel orderModel;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @Schema(description = "Order's download", example = "1")
+    private OrderModel orderModel;
 
-   @Schema(description = "Download date", example = "2023-01-30")
-   private LocalDate downloadDate;
+    @Schema(description = "Download date", example = "2023-01-30")
+    private LocalDate downloadDate;
 
-     @Column(unique = true)
-     @Schema(description = "Download link", example = "https://yourdomain.com/download/unique-token")
-     private String downloadLink;
+    @Column(unique = true)
+    @Schema(description = "Download link", example = "https://yourdomain.com/download/unique-token")
+    private String downloadLink;
 
 }

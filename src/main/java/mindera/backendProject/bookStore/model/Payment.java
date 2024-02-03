@@ -8,7 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
- @Data
+
+@Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,9 +23,10 @@ public class Payment {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "bookOrderItem_id", nullable = false, unique = true)
-    @Schema(description = "Payment for the items orders", example = "1")
+    @JoinColumn(name = "OrderItem_id", nullable = false, unique = true)
+    @Schema(description = "Payment for the order Items", example = "1")
     private OrderItem orderItem;
+
 
     @Column(nullable = false)
     @Schema(description = "Date of payment", example = "2023-01-30")
@@ -33,6 +35,9 @@ public class Payment {
     @Column(nullable = false)
     @Schema(description = "Price of the purchase", example = "5.99")
     private double amount;
+
+    @Schema(description = "Indicates whether the payment was successful", example = "true")
+    private boolean isSuccessful;
 
 
 }

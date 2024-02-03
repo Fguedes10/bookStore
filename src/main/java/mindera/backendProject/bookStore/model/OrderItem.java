@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 
 @Data
@@ -29,9 +28,6 @@ public class OrderItem {
     @Schema(description = "Customer items to purchase", example = "[1, 2, 3] ")
     private Customer customer;
 
-    @OneToOne
-    @Schema(description = "Payment for the order item")
-    private Payment payment;
 
     @ManyToMany
     @JoinTable(
@@ -39,18 +35,17 @@ public class OrderItem {
             joinColumns = @JoinColumn(name = "orderItem_id"),
             inverseJoinColumns = @JoinColumn(name = "book_id")
     )
-    @Schema(description = "Set of books to purchase", example= "[1, 2, 3]")
-    private Set<Book> booksToPurchase;
+    @Schema(description = "Set of books to purchase", example = "[1, 2, 3]")
+    private List<Book> booksToPurchase;
 
-    @Schema( description = "Total amount to pay", example= "22.70")
+    @Schema(description = "Total amount to pay", example = "22.70")
     private double amountToPay;
 
     @Schema(description = "Value Added Tax (VAT)", example = "0.06")
-    private static final double TAX_RATE = 0.06;
+    private double taxRate = 0.06;
 
-    @Schema(description = "Ordered or not")
-    private boolean ordered;
-
+    @Schema(description = "Indicates whether the eBooks were purchased", example = "true")
+    private boolean isOrdered;
 
 
     public void calculateAmountToPay() {
@@ -60,6 +55,6 @@ public class OrderItem {
                 .mapToDouble(Book::getPrice)
                 .sum();
 
-        amountToPay = sumOfBookPrices * (1 + TAX_RATE);
+        amountToPay = sumOfBookPrices * (1 + taxRate);
     }
 }

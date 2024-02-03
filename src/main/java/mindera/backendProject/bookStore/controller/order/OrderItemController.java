@@ -6,6 +6,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import mindera.backendProject.bookStore.dto.order.OrderItemCreateDto;
+import mindera.backendProject.bookStore.dto.order.OrderItemGetDto;
+import mindera.backendProject.bookStore.exception.book.BookNotFoundException;
+import mindera.backendProject.bookStore.exception.customer.CustomerNotFoundException;
 import mindera.backendProject.bookStore.exception.order.OrderItemAlreadyExistsException;
 import mindera.backendProject.bookStore.exception.order.OrderItemNotFoundException;
 import mindera.backendProject.bookStore.model.OrderItem;
@@ -23,10 +27,9 @@ public class OrderItemController {
 
     private final OrderItemServiceImpl orderItemService;
 
-    public OrderItemController(OrderItemServiceImpl orderItemService){
-        this.orderItemService=orderItemService;
+    public OrderItemController(OrderItemServiceImpl orderItemService) {
+        this.orderItemService = orderItemService;
     }
-
 
 
     @Operation(
@@ -35,10 +38,9 @@ public class OrderItemController {
     )
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Get all orderItems")})
     @GetMapping("/")
-    public ResponseEntity<List<OrderItem>> getOrderItems(){
-        return ResponseEntity.ok(orderItemService.getAll());
+    public ResponseEntity<List<OrderItemGetDto>> getOrderItems() {
+        return ResponseEntity.ok(orderItemService.getOrderItems());
     }
-
 
 
     @Operation(
@@ -46,7 +48,7 @@ public class OrderItemController {
             description = "Get orderItem by id"
     )
     @GetMapping("/id/{orderItemId}")
-    public ResponseEntity<OrderItem> getOrderItem(@PathVariable("orderItemId")@Parameter(name = "OrderItem Id", description = "OrderItem id", example = "1" ) Long orderItemId) throws OrderItemNotFoundException {
+    public ResponseEntity<OrderItemGetDto> getOrderItem(@PathVariable("orderItemId") @Parameter(name = "OrderItem Id", description = "OrderItem id", example = "1") Long orderItemId) throws OrderItemNotFoundException {
         return new ResponseEntity<>(orderItemService.getOrderItem(orderItemId), HttpStatus.OK);
     }
 
@@ -55,8 +57,8 @@ public class OrderItemController {
             description = "Add new orderItem"
     )
     @PostMapping("/")
-    public ResponseEntity<OrderItem> addNewOrderItem(@Valid @RequestBody OrderItem orderItem) throws OrderItemAlreadyExistsException {
-        return new ResponseEntity<>(orderItemService.createOrderItem(orderItem), HttpStatus.CREATED);
+    public ResponseEntity<OrderItemGetDto> addNewOrderItem(@Valid @RequestBody OrderItemCreateDto orderItemCreateDto, Long orderItemId) throws OrderItemAlreadyExistsException, CustomerNotFoundException, BookNotFoundException {
+        return new ResponseEntity<>(orderItemService.createOrderItem(orderItemCreateDto, orderItemId), HttpStatus.CREATED);
     }
 
 
@@ -64,18 +66,18 @@ public class OrderItemController {
             summary = "Add a list of new orderItems",
             description = "Add a list of new orderItems"
     )
-    @PostMapping("/addMultipleOrderItems")
-    public ResponseEntity<List<OrderItem>> addNewOrderItem(@Valid @RequestBody List<OrderItem> orderItems) throws OrderItemAlreadyExistsException{
-        return new ResponseEntity<>(orderItemService.createOrderItems(orderItems), HttpStatus.CREATED);
+    @PostMapping("/addMany")
+    public ResponseEntity<List<OrderItemGetDto>> addNewOrderItems(@Valid @RequestBody List<OrderItemCreateDto> orderItemCreateDto, Long orderItemId) throws OrderItemNotFoundException, CustomerNotFoundException, BookNotFoundException {
+        return new ResponseEntity<>(orderItemService.createOrderItems(orderItemCreateDto, orderItemId), HttpStatus.CREATED);
     }
 
     @Operation(
-            summary = "Delete orderItem",
-            description = "Delete orderItem"
+            summary = "Delete orderItem by id",
+            description = "Delete orderItem by id"
     )
     @DeleteMapping("/id/{orderItemId}")
-    public ResponseEntity<OrderItem> deleteOrderItemById(@PathVariable ("orderItemId")@Parameter(name = "OrderItem Id",
-            description =  "OrderItem id", example = "1") Long orderItemId) throws OrderItemNotFoundException {
+    public ResponseEntity<OrderItem> delete(@PathVariable("orderItemId") @Parameter(name = "OrderItem Id",
+            description = "OrderItem id", example = "1") Long orderItemId) throws OrderItemNotFoundException {
         orderItemService.deleteOrderItem(orderItemId);
         return new ResponseEntity<>(HttpStatus.OK);
     }

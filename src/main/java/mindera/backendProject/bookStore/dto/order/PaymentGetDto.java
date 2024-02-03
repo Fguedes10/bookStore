@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 public record PaymentGetDto(
         LocalDate paymentDate,
-        double amount
+        double amount,
+        boolean isSuccessful
 ) {
 }

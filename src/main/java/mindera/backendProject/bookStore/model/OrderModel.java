@@ -18,6 +18,7 @@ import java.util.List;
 @Table
 public class OrderModel {
 
+    String invoicePath;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(description = "OrderModel id", example = "1")
@@ -27,6 +28,7 @@ public class OrderModel {
     @Schema(description = "Items associated with this Order", example = "[1, 2, 3]")
     private OrderItem orderItems;
 
+
     @ManyToOne(fetch = FetchType.EAGER)
     @Schema(description = "Customer order", example = "[1, 2, 3]")
     private Customer customer;
@@ -35,19 +37,18 @@ public class OrderModel {
     @Schema(description = "Orders downloaded", example = "[1, 2, 3]")
     private List<Download> downloads;
 
-
     @ManyToMany
     @JoinTable(
             name = "orderModel_book",
             joinColumns = @JoinColumn(name = "orderModel_id"),
             inverseJoinColumns = @JoinColumn(name = "book_id")
     )
+
     @Schema(description = "books ordered", example = "[1, 2, 3]")
     private List<Book> books;
 
     @Schema(description = "date of purchase", example = "2023-01-30")
     private LocalDate purchaseDate;
-
 
 
 }

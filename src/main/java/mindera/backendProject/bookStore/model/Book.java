@@ -79,7 +79,7 @@ public class Book {
         this.yearRelease = yearRelease;
         this.price = price;
         this.translation = translation;
-        defaultReviewMessage();
+        this.review.add(new Review("No reviews yet"));
     }
 
     public void addReview(Review review) {

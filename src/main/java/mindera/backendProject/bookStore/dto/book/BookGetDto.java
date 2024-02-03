@@ -12,6 +12,8 @@ public record BookGetDto (
         int edition,
         int yearRelease,
         double price,
+        Double rating,
+        Integer pageCount,
         List<ReviewCreateDto> reviews
 
 ) {

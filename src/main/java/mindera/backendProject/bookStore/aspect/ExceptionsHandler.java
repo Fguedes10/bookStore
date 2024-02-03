@@ -59,4 +59,4 @@ public class ExceptionsHandler {
         return ResponseEntity.badRequest().body(errors);
     }
 
-    }
+}

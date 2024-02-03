@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+
 import java.util.Optional;
 
 @Repository
@@ -21,5 +22,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     @Query("SELECT b FROM Book b JOIN b.translation t WHERE t.id = :translationId")
     List<Book> findBooksByTranslation(@Param("translationId") Long translationId);
 
+
     List<Book> findAllByIdIn(List<Long> bookIds);
+
 }

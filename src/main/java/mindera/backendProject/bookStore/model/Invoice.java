@@ -45,5 +45,7 @@ public class Invoice {
     @Schema(description = "Value Added Tax (VAT)", example = "0.06")
     private double VAT = 0.06;
 
+    private String filePath;
+
 }
 

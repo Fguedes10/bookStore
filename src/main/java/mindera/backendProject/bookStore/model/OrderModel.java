@@ -51,4 +51,10 @@ public class OrderModel {
     private LocalDate purchaseDate;
 
 
+    public OrderModel(OrderItem orderItem, Customer customer, List<Book> booksToPurchase, LocalDate purchaseDate) {
+        this.orderItems = orderItem;
+        this.customer = customer;
+        this.books = booksToPurchase;
+        this.purchaseDate = purchaseDate;
+    }
 }

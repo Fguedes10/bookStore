@@ -1,5 +1,6 @@
 package mindera.backendProject.bookStore.controller.order;
 
+import com.itextpdf.text.DocumentException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -21,6 +22,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 @Tag(name = "Order", description = "Order endpoints")
@@ -85,7 +87,7 @@ public class OrderController {
             description = "Add new order"
     )
     @PostMapping("/")
-    public ResponseEntity<OrderGetDto> addNewOrder(@Valid @RequestBody OrderCreateDto order, Long orderId) throws OrderAlreadyExistsException, CustomerNotFoundException, InvoiceNotFoundException, BookNotFoundException {
+    public ResponseEntity<OrderGetDto> addNewOrder(@Valid @RequestBody OrderModel order, Long orderId) throws OrderAlreadyExistsException, CustomerNotFoundException, InvoiceNotFoundException, BookNotFoundException, DocumentException, FileNotFoundException {
         return new ResponseEntity<>(orderService.createOrder(order, orderId), HttpStatus.CREATED);
     }
 

@@ -61,6 +61,14 @@ public class ReviewServiceImpl implements ReviewService {
         return ReviewConverter.fromModelToReviewGetDto(reviewToSave);
     }
 
+    public void addFirstReview(Book book){
+        Review firstReview = new Review();
+        firstReview.setBook(book);
+        firstReview.setCommentDate(LocalDate.now());
+        firstReview.setComment(NO_REVIEW);
+        reviewRepository.save(firstReview);
+    }
+
     @Override
     public void delete(Long reviewId) throws ReviewNotFoundException {
         Optional<Review> reviewOptional = reviewRepository.findById(reviewId);

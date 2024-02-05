@@ -68,9 +68,12 @@ public class Messages {
     public static final String RATING_WITH_ID = "Rating with id: ";
 
 
-    //REVIEW CONTROLLER
+    //REVIEW SERVICE
     public static final String REVIEW_WITH_ID = "Review with id: ";
     public static final String REVIEW_SAME_CUSTOMER = "You have already written a review about this book.";
+
+    public static final String NO_REVIEW = "No reviews for this book yet";
+
 
 
     //TRANSLATION CONTROLLER
@@ -122,5 +125,7 @@ public class Messages {
     public static final String INVALID_BOOK_ID = "Please input a valid book Id";
     public static final String NO_ORDER_WITH_BOOK = "No orders with book: ";
     public static final String NO_ORDER_WITH_CUSTOMER = "No orders with customer: ";
+
+
 
 }

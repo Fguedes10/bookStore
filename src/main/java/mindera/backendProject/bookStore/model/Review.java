@@ -30,7 +30,7 @@ public class Review {
     private LocalDate commentDate;
 
     @Schema(description = "Review rating", example = "5")
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Book book;
 
 
@@ -43,6 +43,5 @@ public class Review {
         this.comment = comment;
         this.commentDate = LocalDate.now();
     }
-
 
 }

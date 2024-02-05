@@ -5,11 +5,17 @@ import mindera.backendProject.bookStore.dto.order.PaymentCreateDto;
 import mindera.backendProject.bookStore.dto.order.PaymentGetDto;
 import mindera.backendProject.bookStore.exception.order.OrderItemAlreadyExistsException;
 import mindera.backendProject.bookStore.exception.order.PaymentNotFoundException;
+import mindera.backendProject.bookStore.model.Customer;
 import mindera.backendProject.bookStore.model.OrderItem;
+import mindera.backendProject.bookStore.model.OrderModel;
 import mindera.backendProject.bookStore.model.Payment;
+import mindera.backendProject.bookStore.repository.bookRepository.BookRepository;
+import mindera.backendProject.bookStore.repository.customerRepository.CustomerRepository;
+import mindera.backendProject.bookStore.repository.orderRepository.OrderRepository;
 import mindera.backendProject.bookStore.repository.orderRepository.PaymentRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,10 +28,20 @@ public class PaymentServiceImpl implements PaymentService {
 
     private final PaymentRepository paymentRepository;
     private final OrderItemServiceImpl orderItemService;
+    private final OrderServiceImpl orderService;
 
-    public PaymentServiceImpl(PaymentRepository paymentRepository, OrderItemServiceImpl orderItemService) {
+    private final BookRepository bookRepository;
+    private final CustomerRepository customerRepository;
+    private final OrderRepository orderRepository;
+
+
+    public PaymentServiceImpl(PaymentRepository paymentRepository, OrderItemServiceImpl orderItemService, OrderServiceImpl orderService, BookRepository bookRepository, CustomerRepository customerRepository, OrderRepository orderRepository) {
         this.paymentRepository = paymentRepository;
         this.orderItemService = orderItemService;
+        this.orderService = orderService;
+        this.bookRepository = bookRepository;
+        this.customerRepository = customerRepository;
+        this.orderRepository = orderRepository;
     }
 
     @Override
@@ -54,6 +70,17 @@ public class PaymentServiceImpl implements PaymentService {
         OrderItem orderItem = orderItemService.findById(payment.orderItemId());
         Payment paymentToSave = PaymentConverter.fromPaymentCreateDtoToModel(payment, orderItem);
         paymentRepository.save(paymentToSave);
+        Optional<Customer> customerOptional = customerRepository.findById(orderItem.getCustomer().getId());
+        if (paymentToSave.isSuccessful()) {
+
+            OrderModel order = new OrderModel(
+                    orderItem,
+                    customerOptional.get(),
+                    orderItem.getBooksToPurchase(),
+                    LocalDate.now());
+            orderRepository.save(order);
+        }
+
         return PaymentConverter.fromModelToPaymentGetDto(paymentToSave);
     }
 

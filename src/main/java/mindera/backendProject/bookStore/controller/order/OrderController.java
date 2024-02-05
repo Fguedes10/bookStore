@@ -1,12 +1,12 @@
 package mindera.backendProject.bookStore.controller.order;
 
+import com.itextpdf.text.DocumentException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import mindera.backendProject.bookStore.dto.order.OrderCreateDto;
 import mindera.backendProject.bookStore.dto.order.OrderGetByBookDto;
 import mindera.backendProject.bookStore.dto.order.OrderGetByCustomerDto;
 import mindera.backendProject.bookStore.dto.order.OrderGetDto;
@@ -21,6 +21,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 @Tag(name = "Order", description = "Order endpoints")
@@ -85,18 +86,8 @@ public class OrderController {
             description = "Add new order"
     )
     @PostMapping("/")
-    public ResponseEntity<OrderGetDto> addNewOrder(@Valid @RequestBody OrderCreateDto order, Long orderId) throws OrderAlreadyExistsException, CustomerNotFoundException, InvoiceNotFoundException, BookNotFoundException {
+    public ResponseEntity<OrderGetDto> addNewOrder(@Valid @RequestBody OrderModel order, Long orderId) throws OrderAlreadyExistsException, CustomerNotFoundException, InvoiceNotFoundException, BookNotFoundException, DocumentException, FileNotFoundException {
         return new ResponseEntity<>(orderService.createOrder(order, orderId), HttpStatus.CREATED);
-    }
-
-
-    @Operation(
-            summary = "Add a list of new orders",
-            description = "Add a list of new orders"
-    )
-    @PostMapping("/addManny")
-    public ResponseEntity<List<OrderGetDto>> addNewOrders(@Valid @RequestBody List<OrderCreateDto> orderCreateDto, Long orderId) throws OrderAlreadyExistsException, InvoiceNotFoundException, CustomerNotFoundException, BookNotFoundException, OrderNotFoundException {
-        return new ResponseEntity<>(orderService.createOrders(orderCreateDto, orderId), HttpStatus.CREATED);
     }
 
 

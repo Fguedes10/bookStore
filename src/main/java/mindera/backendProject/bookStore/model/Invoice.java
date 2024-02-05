@@ -47,5 +47,11 @@ public class Invoice {
 
     private String filePath;
 
+    public Invoice(Customer customer, OrderModel orderModel, LocalDate issueDate, double totalAmount) {
+        this.customer = customer;
+        this.orderModel = orderModel;
+        this.issueDate = issueDate;
+        this.totalAmount = totalAmount;
+    }
 }
 

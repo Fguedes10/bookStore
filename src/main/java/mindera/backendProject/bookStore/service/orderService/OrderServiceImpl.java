@@ -1,7 +1,10 @@
 package mindera.backendProject.bookStore.service.orderService;
 
+import com.itextpdf.text.DocumentException;
+import jakarta.mail.MessagingException;
+import mindera.backendProject.bookStore.apiHandler.EmailServiceImpl;
+import mindera.backendProject.bookStore.apiHandler.PdfCreator;
 import mindera.backendProject.bookStore.converter.order.OrderConverter;
-import mindera.backendProject.bookStore.dto.order.OrderCreateDto;
 import mindera.backendProject.bookStore.dto.order.OrderGetByBookDto;
 import mindera.backendProject.bookStore.dto.order.OrderGetByCustomerDto;
 import mindera.backendProject.bookStore.dto.order.OrderGetDto;
@@ -11,15 +14,19 @@ import mindera.backendProject.bookStore.exception.order.OrderAlreadyExistsExcept
 import mindera.backendProject.bookStore.exception.order.OrderNotFoundException;
 import mindera.backendProject.bookStore.model.Book;
 import mindera.backendProject.bookStore.model.Customer;
+import mindera.backendProject.bookStore.model.Invoice;
 import mindera.backendProject.bookStore.model.OrderModel;
 import mindera.backendProject.bookStore.repository.bookRepository.BookRepository;
 import mindera.backendProject.bookStore.repository.customerRepository.CustomerRepository;
+import mindera.backendProject.bookStore.repository.orderRepository.InvoiceRepository;
+import mindera.backendProject.bookStore.repository.orderRepository.OrderItemRepository;
 import mindera.backendProject.bookStore.repository.orderRepository.OrderRepository;
 import mindera.backendProject.bookStore.service.bookService.BookServiceImpl;
 import mindera.backendProject.bookStore.service.customerService.CustomerServiceImpl;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.io.FileNotFoundException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,13 +40,23 @@ public class OrderServiceImpl implements OrderService {
     private final CustomerServiceImpl customerService;
     private final CustomerRepository customerRepository;
     private final BookRepository bookRepository;
+    private final InvoiceServiceImpl invoiceService;
+    private final InvoiceRepository invoiceRepository;
+    private final OrderItemRepository orderItemRepository;
+    private final PdfCreator pdfCreator;
+    private final EmailServiceImpl emailService;
 
-    public OrderServiceImpl(OrderRepository orderRepository, BookServiceImpl bookService, CustomerServiceImpl customerService, CustomerRepository customerRepository, BookRepository bookRepository) {
+    public OrderServiceImpl(OrderRepository orderRepository, BookServiceImpl bookService, CustomerServiceImpl customerService, CustomerRepository customerRepository, BookRepository bookRepository, InvoiceServiceImpl invoiceService, InvoiceRepository invoiceRepository, OrderItemRepository orderItemRepository, PdfCreator pdfCreator, EmailServiceImpl emailService) {
         this.orderRepository = orderRepository;
         this.bookService = bookService;
         this.customerService = customerService;
         this.customerRepository = customerRepository;
         this.bookRepository = bookRepository;
+        this.invoiceService = invoiceService;
+        this.invoiceRepository = invoiceRepository;
+        this.orderItemRepository = orderItemRepository;
+        this.pdfCreator = pdfCreator;
+        this.emailService = emailService;
     }
 
     @Override
@@ -99,33 +116,38 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderGetDto createOrder(OrderCreateDto orderCreateDto, Long orderId) throws CustomerNotFoundException,
-            OrderAlreadyExistsException, BookNotFoundException {
+    public OrderGetDto createOrder(OrderModel order, Long orderId) throws CustomerNotFoundException,
+            OrderAlreadyExistsException, BookNotFoundException, DocumentException, FileNotFoundException {
         Optional<OrderModel> orderModelFindById = orderRepository.findById(orderId);
-        Customer customer = customerService.findById(orderCreateDto.customerId());
-        List<Book> bookList = bookService.getBooksByIds(orderCreateDto.books());
+        Customer customer = customerService.findById(order.getCustomer().getId());
 
         if (orderModelFindById.isPresent()) {
             throw new OrderAlreadyExistsException(ORDERMODEL_WITH_ID + orderId + ALREADY_EXISTS);
         }
-        OrderModel newOrderModel = OrderConverter.fromCreateDtoToModel(orderCreateDto, customer, bookList);
-        orderRepository.save(newOrderModel);
-        return OrderConverter.fromModelToOrderGetDto(newOrderModel);
-    }
+        orderRepository.save(order);
+
+        double totalAmount = orderModelFindById.get().getOrderItems().getAmountToPay();
+
+        Invoice invoice = new Invoice(
+                customer,
+                order,
+                LocalDate.now(),
+                totalAmount);
+
+        invoiceRepository.save(invoice);
 
 
-    @Override
-    public List<OrderGetDto> createOrders(List<OrderCreateDto> orderCreateDto, Long orderId) throws CustomerNotFoundException, BookNotFoundException, OrderNotFoundException {
-        List<OrderGetDto> ordersCreated = new ArrayList<>();
-        for (OrderCreateDto orderToCreate : orderCreateDto) {
-            Customer customer = customerService.findById(orderToCreate.customerId());
-            List<Book> bookList = bookService.getBooksByIds(orderToCreate.books());
-            verifyOrderExistsById(orderId);
-            OrderModel orderToSave = OrderConverter.fromCreateDtoToModel(orderToCreate, customer, bookList);
-            orderRepository.save(orderToSave);
-            ordersCreated.add(OrderConverter.fromModelToOrderGetDto(orderToSave));
+        pdfCreator.createPdf("InvoicePDF".concat(invoice.getId().toString()).concat(".pdf"), invoice);
+
+        //insert download here
+
+        try {
+            emailService.sendEmailWithAttachment(invoice.getCustomer());
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
         }
-        return ordersCreated;
+
+        return OrderConverter.fromModelToOrderGetDto(order);
     }
 
 

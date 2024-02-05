@@ -1,26 +1,20 @@
 package mindera.backendProject.bookStore.controller.order;
 
-import com.itextpdf.text.DocumentException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
-import mindera.backendProject.bookStore.dto.order.InvoiceCreateDto;
 import mindera.backendProject.bookStore.dto.order.InvoiceGetByCustomerDto;
 import mindera.backendProject.bookStore.dto.order.InvoiceGetDto;
 import mindera.backendProject.bookStore.exception.customer.CustomerNotFoundException;
-import mindera.backendProject.bookStore.exception.order.InvoiceAlreadyExistsException;
 import mindera.backendProject.bookStore.exception.order.InvoiceNotFoundException;
-import mindera.backendProject.bookStore.exception.order.OrderNotFoundException;
 import mindera.backendProject.bookStore.model.Invoice;
 import mindera.backendProject.bookStore.service.orderService.InvoiceServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.FileNotFoundException;
 import java.util.List;
 
 @Tag(name = "Invoice", description = "Invoice endpoints")
@@ -63,25 +57,6 @@ public class InvoiceController {
     @GetMapping("/invoiceByCustomer/{customerId}")
     public ResponseEntity<List<InvoiceGetByCustomerDto>> getInvoiceByCustomer(@PathVariable("customerId") @Parameter(name = "Customer Id", description = "Customer id", example = "1") Long customerId) throws InvoiceNotFoundException, CustomerNotFoundException {
         return new ResponseEntity<>(invoiceService.getInvoiceByCustomer(customerId), HttpStatus.OK);
-    }
-
-    @Operation(
-            summary = "Add new invoice",
-            description = "Add new invoice"
-    )
-    @PostMapping("/")
-    public ResponseEntity<InvoiceGetDto> addNewInvoice(@Valid @RequestBody InvoiceCreateDto invoice, int invoiceNumber) throws InvoiceAlreadyExistsException, OrderNotFoundException, CustomerNotFoundException, InvoiceNotFoundException, DocumentException, FileNotFoundException {
-        return new ResponseEntity<>(invoiceService.createInvoice(invoice, invoiceNumber), HttpStatus.CREATED);
-    }
-
-
-    @Operation(
-            summary = "Add a list of new invoices",
-            description = "Add a list of new invoices"
-    )
-    @PostMapping("/addMany")
-    public ResponseEntity<List<InvoiceGetDto>> addNewInvoices(@Valid @RequestBody List<InvoiceCreateDto> invoice, int invoiceNumber) throws InvoiceAlreadyExistsException, OrderNotFoundException, CustomerNotFoundException, InvoiceNotFoundException {
-        return new ResponseEntity<>(invoiceService.createInvoices(invoice, invoiceNumber), HttpStatus.CREATED);
     }
 
 

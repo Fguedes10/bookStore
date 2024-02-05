@@ -57,7 +57,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookGetDto add(BookCreateDto book) throws BookAlreadyExistsException, AuthorNotFoundException, PublisherNotFoundException, GenreNotFoundException, TranslationNotFoundException {
+    public BookGetNewBookDto add(BookCreateDto book) throws BookAlreadyExistsException, AuthorNotFoundException,
+            PublisherNotFoundException, GenreNotFoundException, TranslationNotFoundException {
         Optional<Book> bookFindByTitle = bookRepository.findByTitle(book.title());
         Optional<Book> bookFindByIsbn = bookRepository.findByIsbn(book.isbn());
         Author author = authorServiceImpl.getAuthorById(book.authorId());
@@ -68,6 +69,7 @@ public class BookServiceImpl implements BookService {
             throw new BookAlreadyExistsException(BOOK_ALREADY_EXISTS);
         }
         Book newBook = BookConverter.fromCreateDtoToModel(book, author, publisher, genreList, translationList);
+        reviewServiceImpl.addFirstReview(newBook);
         String title = newBook.getTitle().replaceAll("\\s+", "");
         GoogleBookInfoDto googleBook = googleBooksService.getBookInfo(title);
         if (googleBook != null) {
@@ -75,7 +77,7 @@ public class BookServiceImpl implements BookService {
             newBook.setPageCount(googleBook.getPageCount());
         }
         bookRepository.save(newBook);
-        return BookConverter.fromModelToBookGetDto(newBook);
+        return BookConverter.fromModelToBookGetNewBookDto(newBook);
     }
 
     @Override

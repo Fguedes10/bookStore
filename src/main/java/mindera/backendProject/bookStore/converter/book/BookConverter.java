@@ -38,6 +38,21 @@ public class BookConverter {
         );
     }
 
+    public static BookGetNewBookDto fromModelToBookGetNewBookDto(Book book) {
+        return new BookGetNewBookDto(
+                book.getTitle(),
+                AuthorConverter.fromModelToAuthorCreateDto(book.getAuthor()),
+                PublisherConverter.fromModelToPublisherCreateDto(book.getPublisher()),
+                book.getGenre().stream().map(GenreConverter::fromModelToGenreCreateDto).toList(),
+                book.getTranslation().stream().map(TranslationConverter::fromModelToTranslationCreateDto).toList(),
+                book.getEdition(),
+                book.getYearRelease(),
+                book.getPrice(),
+                book.getRating(),
+                book.getPageCount()
+        );
+    }
+
 
     public static BookUpdateEditionDto fromModelToBookUpdateEditionDto(Book book) {
         return new BookUpdateEditionDto(

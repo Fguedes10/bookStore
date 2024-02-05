@@ -5,7 +5,6 @@ import jakarta.mail.MessagingException;
 import mindera.backendProject.bookStore.apiHandler.EmailServiceImpl;
 import mindera.backendProject.bookStore.apiHandler.PdfCreator;
 import mindera.backendProject.bookStore.converter.order.OrderConverter;
-import mindera.backendProject.bookStore.dto.order.OrderCreateDto;
 import mindera.backendProject.bookStore.dto.order.OrderGetByBookDto;
 import mindera.backendProject.bookStore.dto.order.OrderGetByCustomerDto;
 import mindera.backendProject.bookStore.dto.order.OrderGetDto;
@@ -28,7 +27,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -150,21 +148,6 @@ public class OrderServiceImpl implements OrderService {
         }
 
         return OrderConverter.fromModelToOrderGetDto(order);
-    }
-
-
-    @Override
-    public List<OrderGetDto> createOrders(List<OrderCreateDto> orderCreateDto, Long orderId) throws CustomerNotFoundException, BookNotFoundException, OrderNotFoundException {
-        List<OrderGetDto> ordersCreated = new ArrayList<>();
-        for (OrderCreateDto orderToCreate : orderCreateDto) {
-            Customer customer = customerService.findById(orderToCreate.customerId());
-            List<Book> bookList = bookService.getBooksByIds(orderToCreate.books());
-            verifyOrderExistsById(orderId);
-            OrderModel orderToSave = OrderConverter.fromCreateDtoToModel(orderToCreate, customer, bookList);
-            orderRepository.save(orderToSave);
-            ordersCreated.add(OrderConverter.fromModelToOrderGetDto(orderToSave));
-        }
-        return ordersCreated;
     }
 
 

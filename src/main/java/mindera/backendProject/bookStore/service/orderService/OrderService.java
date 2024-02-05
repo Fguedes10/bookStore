@@ -1,7 +1,6 @@
 package mindera.backendProject.bookStore.service.orderService;
 
 import com.itextpdf.text.DocumentException;
-import mindera.backendProject.bookStore.dto.order.OrderCreateDto;
 import mindera.backendProject.bookStore.dto.order.OrderGetDto;
 import mindera.backendProject.bookStore.exception.book.BookNotFoundException;
 import mindera.backendProject.bookStore.exception.customer.CustomerNotFoundException;
@@ -20,7 +19,6 @@ public interface OrderService {
 
     OrderGetDto createOrder(OrderModel order, Long orderId) throws CustomerNotFoundException, OrderAlreadyExistsException, InvoiceNotFoundException, BookNotFoundException, DocumentException, FileNotFoundException;
 
-    List<OrderGetDto> createOrders(List<OrderCreateDto> orderCreateDto, Long orderID) throws CustomerNotFoundException, InvoiceNotFoundException, BookNotFoundException, OrderAlreadyExistsException, OrderNotFoundException;
 
     void deleteOrder(Long orderId) throws OrderNotFoundException;
 

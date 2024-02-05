@@ -100,7 +100,8 @@ public class BookController {
             description = "Add new book"
     )
     @PostMapping("/")
-    public ResponseEntity<BookGetDto> add(@RequestBody BookCreateDto book) throws BookAlreadyExistsException, AuthorNotFoundException, PublisherNotFoundException, GenreNotFoundException, TranslationNotFoundException {
+    public ResponseEntity<BookGetNewBookDto> add(@RequestBody BookCreateDto book) throws BookAlreadyExistsException,
+            AuthorNotFoundException, PublisherNotFoundException, GenreNotFoundException, TranslationNotFoundException {
         return new ResponseEntity<>(bookService.add(book), HttpStatus.CREATED);
     }
 

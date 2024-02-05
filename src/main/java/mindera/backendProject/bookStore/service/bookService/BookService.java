@@ -1,9 +1,6 @@
 package mindera.backendProject.bookStore.service.bookService;
 
-import mindera.backendProject.bookStore.dto.book.BookCreateDto;
-import mindera.backendProject.bookStore.dto.book.BookGetDto;
-import mindera.backendProject.bookStore.dto.book.BookUpdateEditionDto;
-import mindera.backendProject.bookStore.dto.book.BookUpdatePriceDto;
+import mindera.backendProject.bookStore.dto.book.*;
 import mindera.backendProject.bookStore.exception.book.*;
 
 import java.util.List;
@@ -13,7 +10,8 @@ public interface BookService {
 
     List<BookGetDto> getAll();
 
-    BookGetDto add(BookCreateDto book) throws BookAlreadyExistsException, AuthorNotFoundException, PublisherNotFoundException, GenreNotFoundException, TranslationNotFoundException;
+    BookGetNewBookDto add(BookCreateDto book) throws BookAlreadyExistsException, AuthorNotFoundException,
+            PublisherNotFoundException, GenreNotFoundException, TranslationNotFoundException;
 
     void delete(Long id) throws BookNotFoundException;
 

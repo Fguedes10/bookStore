@@ -49,7 +49,6 @@ public class GoogleBooksService {
             googleBookInfoDto.setTitle(volumeInfo.getString("title"));
             return googleBookInfoDto;
         }
-
         return null;
     }
 }

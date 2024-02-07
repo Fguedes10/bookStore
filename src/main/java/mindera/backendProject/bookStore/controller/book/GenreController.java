@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import mindera.backendProject.bookStore.dto.book.GenreCreateDto;
 
@@ -19,6 +20,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static mindera.backendProject.bookStore.util.Messages.*;
+
+@Tag(name = GENRE_TAG_NAME, description = GENRE_TAG_DESCRIPTION)
 @RestController
 @RequestMapping("api/v1/genres")
 public class GenreController {
@@ -27,11 +31,11 @@ public class GenreController {
     private GenreServiceImpl genreService;
 
     @Operation(
-            summary = "Get all existing genres",
-            description = "Get all existing genres"
+            summary = GET_ALL_EXIST_GENRES,
+            description = GET_ALL_EXIST_GENRES
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Genres found")})
+            @ApiResponse(responseCode = OK, description = GENRES_FOUND)})
     @GetMapping("/")
     public ResponseEntity<List<GenreCreateDto>> getGenres() {
         return ResponseEntity.ok(genreService.getAll());
@@ -39,12 +43,12 @@ public class GenreController {
 
 
     @Operation(
-            summary = "Get genre by id",
-            description = "Get genre by id"
+            summary = GET_GENRE_BY_ID,
+            description = GET_GENRE_BY_ID
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Genre found"),
-            @ApiResponse(responseCode = "404", description = "Genre not found")})
+            @ApiResponse(responseCode = OK, description = GENRE_FOUND),
+            @ApiResponse(responseCode = NOT_FOUND, description = GENRE_NOT_FOUND)})
     @GetMapping("/id/{genreId}")
     public ResponseEntity<GenreCreateDto> getGenre(@PathVariable("genreId")@Parameter(name = "Genre Id", description = "Genre id", example = "1") Long genreId) throws GenreNotFoundException {
         return new ResponseEntity<>(genreService.getGenre(genreId), HttpStatus.OK);
@@ -52,12 +56,12 @@ public class GenreController {
 
 
     @Operation(
-            summary = "Get genre by name",
-            description = "Get genre by name"
+            summary = GET_GENRE_BY_NAME,
+            description = GET_GENRE_BY_NAME
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Genre found"),
-            @ApiResponse(responseCode = "404", description = "Genre not found")})
+            @ApiResponse(responseCode = OK, description = GENRE_FOUND),
+            @ApiResponse(responseCode = NOT_FOUND, description = GENRE_NOT_FOUND)})
     @GetMapping("/name/{genreName}")
     public ResponseEntity<GenreCreateDto> getGenreByName(@PathVariable("genreName")@Parameter(name = "Genre Name",
             description = "Genre name", example = "Drama") String genreName) throws GenreNotFoundException {
@@ -65,12 +69,12 @@ public class GenreController {
     }
 
     @Operation(
-            summary = "Add new genre",
-            description = "Add new genre"
+            summary = ADD_NEW_GENRE,
+            description = ADD_NEW_GENRE
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Genre created"),
-            @ApiResponse(responseCode = "409", description = "Genre already exists")})
+            @ApiResponse(responseCode = CREATED, description = GENRE_CREATED),
+            @ApiResponse(responseCode = CONFLICT, description = GENRE_ALREADY_EXISTS)})
     @PostMapping("/")
     public ResponseEntity<GenreCreateDto> add(@Valid @RequestBody GenreCreateDto genre) throws GenreAlreadyExistsException {
         return new ResponseEntity<>(genreService.add(genre), HttpStatus.CREATED);
@@ -78,12 +82,12 @@ public class GenreController {
 
 
     @Operation(
-            summary = "Add multiple genres",
-            description = "Add multiple genres"
+            summary = ADD_MULTIPLE_GENRES,
+            description = ADD_MULTIPLE_GENRES
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Genres created"),
-            @ApiResponse(responseCode = "409", description = "Genre already exists")})
+            @ApiResponse(responseCode = CREATED, description = GENRES_CREATED),
+            @ApiResponse(responseCode = CONFLICT, description = GENRE_ALREADY_EXISTS)})
     @PostMapping("/addMultipleGenres")
     public ResponseEntity<List<GenreCreateDto>> addMultipleGenres(@Valid @RequestBody List<GenreCreateDto> genres) throws GenreAlreadyExistsException {
         return new ResponseEntity<>(genreService.addMultipleGenres(genres), HttpStatus.CREATED);
@@ -93,12 +97,12 @@ public class GenreController {
 
 
     @Operation(
-            summary = "Delete genre by id",
-            description = "Delete genre by id"
+            summary = DELETE_GENRE_BY_ID,
+            description = DELETE_GENRE_BY_ID
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Genre deleted"),
-            @ApiResponse(responseCode = "404", description = "Genre not found")})
+            @ApiResponse(responseCode = OK, description = GENRE_DELETED),
+            @ApiResponse(responseCode = NOT_FOUND, description = GENRE_NOT_FOUND)})
     @DeleteMapping("/id/{genreId}")
     public ResponseEntity<Genre> delete(@PathVariable("genreId") Long genreId) throws GenreNotFoundException {
         genreService.delete(genreId);

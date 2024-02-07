@@ -27,7 +27,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Tag(name = "Customer", description = "Customer endpoints")
+import static mindera.backendProject.bookStore.util.Messages.*;
+
+@Tag(name = CUSTOMER_TAG_NAME, description = CUSTOMER_TAG_DESCRIPTION)
 @RestController
 @RequestMapping("api/v1/customers")
 public class CustomerController {
@@ -38,11 +40,11 @@ public class CustomerController {
 
 
     @Operation(
-            summary = "Get all existing customers",
-            description = "Get all customers"
+            summary = GET_ALL_EXIST_CUSTOMERS,
+            description = GET_ALL_EXIST_CUSTOMERS
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Get all customers")})
+            @ApiResponse(responseCode = OK, description = CUSTOMERS_FOUND)})
     @GetMapping("/")
     public ResponseEntity<List<CustomerGetDto>> getCustomers() {
         return new ResponseEntity<>(customerService.getCustomers(), HttpStatus.OK);
@@ -50,12 +52,12 @@ public class CustomerController {
 
 
     @Operation(
-            summary = "Get customer by id",
-            description = "Get customer by id"
+            summary = GET_CUSTOMER_BY_ID,
+            description = GET_CUSTOMER_BY_ID
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Get customer by id"),
-            @ApiResponse(responseCode = "404", description = "Customer not found")
+            @ApiResponse(responseCode = OK, description = CUSTOMER_FOUND),
+            @ApiResponse(responseCode = NOT_FOUND, description = CUSTOMER_FOUND)
     })
     @GetMapping("/id/{customerId}")
     public ResponseEntity<CustomerGetDto> getCustomer(@PathVariable("customerId")@Parameter(name = "Client Id",
@@ -64,12 +66,12 @@ public class CustomerController {
     }
 
     @Operation(
-            summary = "Get customer by username",
-            description = "Get customer by username"
+            summary = GET_CUSTOMER_BY_USERNAME,
+            description = GET_CUSTOMER_BY_USERNAME
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Get customer by username"),
-            @ApiResponse(responseCode = "404", description = "Customer not found")})
+            @ApiResponse(responseCode = OK, description = CUSTOMER_FOUND),
+            @ApiResponse(responseCode = NOT_FOUND, description = CUSTOMER_NOT_FOUND)})
     @GetMapping("/username/{username}")
     public ResponseEntity<CustomerGetDto> getCustomerByUsername(@PathVariable("username")@Parameter(name = "Client " +
             "Username", description = "Customer username", example = "joaquimverde") String username) throws CustomerNotFoundException {
@@ -77,12 +79,12 @@ public class CustomerController {
     }
 
     @Operation(
-            summary = "Get customer favorite genres by id",
-            description = "Get customer favorite genres by id"
+            summary = GET_CUSTOMER_FAVORITE_GENRES_BY_ID,
+            description = GET_CUSTOMER_FAVORITE_GENRES_BY_ID
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Get customer favorite genres by id"),
-            @ApiResponse(responseCode = "404", description = "Customer not found")})
+            @ApiResponse(responseCode = OK, description = GENRES_FOUND),
+            @ApiResponse(responseCode = NOT_FOUND, description = CUSTOMER_NOT_FOUND)})
     @GetMapping("/favoriteGenres/{customerId}")
     public ResponseEntity<List<GenreCreateDto>> getFavoriteGenresById(@PathVariable ("customerId")@Parameter(name = "Client Id",
             description =  "Customer id", example = "1") Long customerId) throws CustomerNotFoundException{
@@ -90,12 +92,12 @@ public class CustomerController {
     }
 
     @Operation(
-            summary = "Get customer favorite books by id",
-            description = "Get customer favorite books by id"
+            summary = GET_CUSTOMER_FAVORITE_BOOKS_BY_ID,
+            description = GET_CUSTOMER_FAVORITE_BOOKS_BY_ID
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Get customer favorite books by id"),
-            @ApiResponse(responseCode = "404", description = "Customer not found")})
+            @ApiResponse(responseCode = OK, description = BOOKS_FOUND),
+            @ApiResponse(responseCode = NOT_FOUND, description = CUSTOMER_NOT_FOUND)})
     @GetMapping("/favoriteBooks/{customerId}")
     public ResponseEntity<List<BookGetDto>> getFavoriteBooksById(@PathVariable ("customerId")@Parameter(name = "Client Id",
             description =  "Customer id", example = "1") Long customerId) throws CustomerNotFoundException{
@@ -104,26 +106,26 @@ public class CustomerController {
 
 
     @Operation(
-            summary = "Add new customer",
-            description = "Add new customer"
+            summary = ADD_NEW_CUSTOMER,
+            description = ADD_NEW_CUSTOMER
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Customer created"),
-            @ApiResponse(responseCode = "409", description = "Customer already exist"),
-            @ApiResponse(responseCode = "404", description = "Genre not found")})
+            @ApiResponse(responseCode = CREATED, description = CUSTOMER_CREATED),
+            @ApiResponse(responseCode = CONFLICT, description = CUSTOMER_ALREADY_EXISTS),
+            @ApiResponse(responseCode = NOT_FOUND, description = GENRE_NOT_FOUND)})
     @PostMapping("/")
     public ResponseEntity<CustomerGetDto> addNewCustomer(@Valid @RequestBody CustomerCreateDto customer) throws CustomerAlreadyExistsException, GenreNotFoundException {
         return new ResponseEntity<>(customerService.createCustomer(customer), HttpStatus.CREATED);
     }
 
     @Operation(
-            summary = "Add a list of new customers",
-            description = "Add a list of new customers"
+            summary = ADD_MULTIPLE_CUSTOMERS,
+            description = ADD_MULTIPLE_CUSTOMERS
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Customers created"),
-            @ApiResponse(responseCode = "409", description = "Customers already exist"),
-            @ApiResponse(responseCode = "404", description = "Genre not found")
+            @ApiResponse(responseCode = CREATED, description = CUSTOMERS_CREATED),
+            @ApiResponse(responseCode = CONFLICT, description = CUSTOMER_ALREADY_EXISTS),
+            @ApiResponse(responseCode = NOT_FOUND, description = GENRE_NOT_FOUND)
     })
     @PostMapping("/addMultipleCustomers")
     public ResponseEntity<List<CustomerGetDto>> addNewCustomers(@Valid @RequestBody List<CustomerCreateDto> customer) throws CustomerAlreadyExistsException, GenreNotFoundException {
@@ -131,13 +133,13 @@ public class CustomerController {
     }
 
     @Operation(
-            summary = "Add books to customer favorites",
-            description = "Add books to customer favorites"
+            summary = ADD_FAVORITE_BOOKS,
+            description = ADD_FAVORITE_BOOKS
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Books added to customer favorites"),
-            @ApiResponse(responseCode = "404", description = "Customer or book not found"),
-            @ApiResponse(responseCode = "409", description = "Customer already has this book in favorites")
+            @ApiResponse(responseCode = OK, description = BOOK_FOUND),
+            @ApiResponse(responseCode = NOT_FOUND, description = CUSTOMER_OR_BOOK_NOT_FOUND),
+            @ApiResponse(responseCode = CONFLICT, description = REPEATED_FAVORITE_BOOK)
     })
     @PostMapping("addToFavorites/{customerId}")
     public ResponseEntity<List<BookGetDto>> addBooksToFavorites(@PathVariable ("customerId")@Parameter(name = "Client Id",
@@ -147,13 +149,13 @@ public class CustomerController {
     }
 
     @Operation(
-            summary = "Update customer",
-            description = "Update customer"
+            summary = UPDATE_CUSTOMER,
+            description = UPDATE_CUSTOMER
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Customer updated"),
-            @ApiResponse(responseCode = "404", description = "Customer not found"),
-            @ApiResponse(responseCode = "409", description = "Customer email already exists")
+            @ApiResponse(responseCode = OK, description = CUSTOMER_UPDATED),
+            @ApiResponse(responseCode = NOT_FOUND, description = CUSTOMER_NOT_FOUND),
+            @ApiResponse(responseCode = CONFLICT, description = CUSTOMER_ALREADY_EXISTS)
     })
     @PatchMapping("/id/{customerId}")
     public ResponseEntity<CustomerPatchDto> updateCustomer(@PathVariable ("customerId")@Parameter(name = "Client Id",
@@ -162,12 +164,12 @@ public class CustomerController {
     }
 
     @Operation(
-            summary = "Delete customer",
-            description = "Delete customer"
+            summary = DELETE_CUSTOMER_BY_ID,
+            description = DELETE_CUSTOMER_BY_ID
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Customer deleted"),
-            @ApiResponse(responseCode = "404", description = "Customer not found")
+            @ApiResponse(responseCode = OK, description = CUSTOMER_DELETED),
+            @ApiResponse(responseCode = NOT_FOUND, description = CUSTOMER_NOT_FOUND)
     })
     @DeleteMapping("/id/{customerId}")
     public ResponseEntity<Customer> deleteCustomerById(@PathVariable ("customerId")@Parameter(name = "Client Id",

@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
+import static mindera.backendProject.bookStore.util.Messages.*;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -19,30 +21,30 @@ public class Invoice {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(description = "Invoice id", example = "1")
+    @Schema(description = INVOICE_ID, example = ID_EXAMPLE)
     private Long id;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "customer_id")
-    @Schema(description = "Customer invoice", example = "1")
+    @Schema(description = CUSTOMER_INVOICE, example = ID_EXAMPLE)
     private Customer customer;
 
     @OneToOne
-    @Schema(description = "Order associated with this invoice", example = "[1}")
+    @Schema(description = ORDER_ASSOCIATED_WITH_THIS_INVOICE, example = ID_EXAMPLE)
     private OrderModel orderModel;
 
-    @Schema(description = "invoice release date", example = "2023-01-30")
+    @Schema(description = INVOICE_DATE, example = DATE_EXAMPLE)
     private LocalDate issueDate;
 
-    @Schema(description = "Total amount payed", example = "22.70")
+    @Schema(description = TOTAL_AMOUNT, example = BOOK_PRICE_EXAMPLE)
     private double totalAmount;
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(description = "Invoice number", example = "1")
+    @Schema(description = INVOICE_NUMBER, example = ID_EXAMPLE)
     @Column(unique = true)
     private int invoiceNumber = 1000;
 
-    @Schema(description = "Value Added Tax (VAT)", example = "0.06")
+    @Schema(description = TAX_VALUE, example = TAX_VALUE_EXAMPLE)
     private double VAT = 0.06;
 
     private String filePath;

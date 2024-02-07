@@ -9,6 +9,7 @@ import mindera.backendProject.bookStore.repository.bookRepository.BookRepository
 import mindera.backendProject.bookStore.repository.bookRepository.ReviewRepository;
 import mindera.backendProject.bookStore.service.bookService.ReviewServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -50,7 +51,10 @@ public class ReviewServiceTest {
     }
 
     @Test
+    @DisplayName("Get all reviews and check repository")
     void testGetAll() {
+
+        // GIVEN
         int page = 0;
         int size = 10;
         String searchTerm = "title";
@@ -64,43 +68,52 @@ public class ReviewServiceTest {
         when(reviewRepositoryMock.findAll(any(PageRequest.class))).thenReturn(mockedPage);
         mockedReviewConverter.when(() -> ReviewConverter.fromModelToReviewCreateDto(review1)).thenReturn(new ReviewCreateDto(review1.getComment()));
         mockedReviewConverter.when(() -> ReviewConverter.fromModelToReviewCreateDto(review1)).thenReturn(new ReviewCreateDto(review2.getComment()));
-
         when(ReviewConverter.fromModelToReviewCreateDto(any())).thenReturn(new ReviewCreateDto(review1.getComment()));
         when(ReviewConverter.fromModelToReviewCreateDto(any())).thenReturn(new ReviewCreateDto(review2.getComment()));
 
+        // WHEN
         List<ReviewCreateDto> result = reviewService.getAll(page, size, searchTerm);
 
+        // THEN
         assertNotNull(result);
         assertEquals(reviewList.size(), result.size());
-
         verify(reviewRepositoryMock).findAll(PageRequest.of(page, size, Sort.Direction.ASC, searchTerm));
-
         mockedReviewConverter.verify(() -> ReviewConverter.fromModelToReviewCreateDto(review1));
         mockedReviewConverter.verify(() -> ReviewConverter.fromModelToReviewCreateDto(review2));
     }
 
     @Test
+    @DisplayName("Get review by id and check repository")
     void testGetReview() throws ReviewNotFoundException {
+
+        // GIVEN
         Long reviewId = 1L;
         Review review = Review.builder().id(reviewId).comment("Great Book").commentDate(LocalDate.now()).book(new Book()).build();
 
         when(reviewRepositoryMock.findById(reviewId)).thenReturn(Optional.of(review));
         mockedReviewConverter.when(() -> ReviewConverter.fromModelToReviewCreateDto(review)).thenReturn(new ReviewCreateDto(review.getComment()));
 
+        // WHEN
         ReviewCreateDto resultDto = reviewService.getReview(reviewId);
 
+        // THEN
         assertNotNull(resultDto);
         assertEquals(review.getComment(), resultDto.comment());
-
         verify(reviewRepositoryMock).findById(reviewId);
         mockedReviewConverter.verify(() -> ReviewConverter.fromModelToReviewCreateDto(review));
     }
 
     @Test
+    @DisplayName("Add first review and check repository")
     void testAddFirstReview() {
+
+        // GIVEN
         Book book = new Book();
+
+        // WHEN
         reviewService.addFirstReview(book);
 
+        // THEN
         ArgumentCaptor<Review> reviewCaptor = ArgumentCaptor.forClass(Review.class);
 
         verify(reviewRepositoryMock).save(reviewCaptor.capture());

@@ -125,28 +125,6 @@ public class ReviewServiceTest {
         assertEquals("No reviews for this book yet", savedReview.getComment());
     }
 
-  /*  @Test
-    @DisplayName("Add a Review when a book exists")
-    void testAddReview_WhenBookExists() {
-
-        long bookId = 1L;
-        ReviewAddNewDto reviewAddNewDto = new ReviewAddNewDto(bookId, "Great book");
-        reviewAddNewDto.bookId();
-
-        Book book = new Book();
-        when(bookRepositoryMock.findById(bookId)).thenReturn(Optional.of(book));
-
-        Review review = new Review();
-        when(reviewRepository.save(any(Review.class))).thenReturn(review);
-
-        // Act
-        ReviewGetDto result = reviewService.addReview(reviewAddNewDto);
-
-        // Assert
-        assertNotNull(result);
-        verify(bookRepository, times(1)).findById(bookId);
-        verify(reviewRepository, times(1)).save(any(Review.class));
-    }*/
 
 }
 

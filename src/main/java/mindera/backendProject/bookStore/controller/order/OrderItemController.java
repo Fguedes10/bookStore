@@ -21,7 +21,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Tag(name = "OrderItem", description = "OrderItem endpoints")
+import static mindera.backendProject.bookStore.util.Messages.*;
+
+@Tag(name = ORDERITEM_TAG_NAME, description = ORDERITEM_TAG_DESCRIPTION)
 @RestController
 @RequestMapping("/api/v1/orderItems")
 public class OrderItemController {
@@ -30,11 +32,11 @@ public class OrderItemController {
     private OrderItemServiceImpl orderItemService;
 
     @Operation(
-            summary = "Get all existing orderItems",
-            description = "Get all orderItems"
+            summary = GET_ALL_EXIST_ORDERITEMS,
+            description = GET_ALL_EXIST_ORDERITEMS
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Get all orderItems")})
+            @ApiResponse(responseCode = OK, description = ORDERITEMS_FOUND)})
     @GetMapping("/")
     public ResponseEntity<List<OrderItemGetDto>> getOrderItems() {
         return ResponseEntity.ok(orderItemService.getOrderItems());
@@ -42,25 +44,25 @@ public class OrderItemController {
 
 
     @Operation(
-            summary = "Get orderItem by id",
-            description = "Get orderItem by id"
+            summary = GET_ORDERITEM_BY_ID,
+            description = GET_ORDERITEM_BY_ID
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Get orderItem by id"),
-            @ApiResponse(responseCode = "404", description = "OrderItem not found")})
+            @ApiResponse(responseCode = OK, description = ORDERITEM_FOUND),
+            @ApiResponse(responseCode = NOT_FOUND, description = ORDERITEM_NOT_FOUND)})
     @GetMapping("/id/{orderItemId}")
     public ResponseEntity<OrderItemGetDto> getOrderItem(@PathVariable("orderItemId") @Parameter(name = "OrderItem Id", description = "OrderItem id", example = "1") Long orderItemId) throws OrderItemNotFoundException {
         return new ResponseEntity<>(orderItemService.getOrderItem(orderItemId), HttpStatus.OK);
     }
 
     @Operation(
-            summary = "Add new orderItem",
-            description = "Add new orderItem"
+            summary = ADD_ORDERITEM,
+            description = ADD_ORDERITEM
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "OrderItem created"),
-            @ApiResponse(responseCode = "404", description = "Customer or book not found"),
-            @ApiResponse(responseCode = "409", description = "OrderItem already exists")
+            @ApiResponse(responseCode = CREATED, description = ORDERITEM_CREATED),
+            @ApiResponse(responseCode = NOT_FOUND, description = CUSTOMER_OR_BOOK_NOT_FOUND),
+            @ApiResponse(responseCode = CONFLICT, description = ORDERITEM_ALREADY_EXISTS)
     })
     @PostMapping("/")
     public ResponseEntity<OrderItemGetDto> addNewOrderItem(@Valid @RequestBody OrderItemCreateDto orderItemCreateDto, Long orderItemId) throws OrderItemAlreadyExistsException, CustomerNotFoundException, BookNotFoundException {
@@ -69,13 +71,13 @@ public class OrderItemController {
 
 
     @Operation(
-            summary = "Add a list of new orderItems",
-            description = "Add a list of new orderItems"
+            summary = ADD_MULTIPLE_ORDERITEMS,
+            description = ADD_MULTIPLE_ORDERITEMS
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "OrderItem created"),
-            @ApiResponse(responseCode = "404", description = "Customer or book not found"),
-            @ApiResponse(responseCode = "409", description = "OrderItem already exists")
+            @ApiResponse(responseCode = CREATED, description = ORDERITEM_CREATED),
+            @ApiResponse(responseCode = NOT_FOUND, description = CUSTOMER_OR_BOOK_NOT_FOUND),
+            @ApiResponse(responseCode = CONFLICT, description = ORDERITEM_ALREADY_EXISTS)
     })
     @PostMapping("/addMany")
     public ResponseEntity<List<OrderItemGetDto>> addNewOrderItems(@Valid @RequestBody List<OrderItemCreateDto> orderItemCreateDto, Long orderItemId) throws OrderItemNotFoundException, CustomerNotFoundException, BookNotFoundException {
@@ -83,12 +85,12 @@ public class OrderItemController {
     }
 
     @Operation(
-            summary = "Delete orderItem by id",
-            description = "Delete orderItem by id"
+            summary = DELETE_ORDERITEM_BY_ID,
+            description = DELETE_ORDERITEM_BY_ID
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "OrderItem deleted"),
-            @ApiResponse(responseCode = "404", description = "OrderItem not found")
+            @ApiResponse(responseCode = OK, description = ORDERITEM_DELETED),
+            @ApiResponse(responseCode = NOT_FOUND, description = ORDERITEM_NOT_FOUND)
     })
     @DeleteMapping("/id/{orderItemId}")
     public ResponseEntity<OrderItem> delete(@PathVariable("orderItemId") @Parameter(name = "OrderItem Id",

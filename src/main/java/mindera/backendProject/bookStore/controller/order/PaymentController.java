@@ -9,7 +9,6 @@ import jakarta.validation.Valid;
 import mindera.backendProject.bookStore.dto.order.PaymentCreateDto;
 import mindera.backendProject.bookStore.dto.order.PaymentGetDto;
 import mindera.backendProject.bookStore.exception.order.OrderItemAlreadyExistsException;
-import mindera.backendProject.bookStore.exception.order.PaymentAlreadyExistsException;
 import mindera.backendProject.bookStore.exception.order.PaymentNotFoundException;
 import mindera.backendProject.bookStore.model.Payment;
 import mindera.backendProject.bookStore.service.orderService.PaymentServiceImpl;
@@ -20,8 +19,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static mindera.backendProject.bookStore.util.Messages.*;
 
-@Tag(name = "Payment", description = "Payment endpoints")
+
+@Tag(name = PAYMENT_TAG_NAME , description = PAYMENT_TAG_DESCRIPTION)
 @RestController
 @RequestMapping("/api/v1/payments")
 public class PaymentController {
@@ -30,11 +31,11 @@ public class PaymentController {
     private PaymentServiceImpl paymentService;
 
     @Operation(
-            summary = "Get all existing payments",
-            description = "Get all payments"
+            summary = GET_ALL_EXIST_PAYMENTS,
+            description = GET_ALL_EXIST_PAYMENTS
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Get all payments")})
+            @ApiResponse(responseCode = OK, description = PAYMENTS_FOUND)})
     @GetMapping("/")
     public ResponseEntity<List<PaymentGetDto>> getPayments() {
         return ResponseEntity.ok(paymentService.getAllPayments());
@@ -42,24 +43,24 @@ public class PaymentController {
 
 
     @Operation(
-            summary = "Get payment by id",
-            description = "Get payment by id"
+            summary = GET_PAYMENT_BY_ID,
+            description = GET_PAYMENT_BY_ID
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Get payment by id"),
-            @ApiResponse(responseCode = "404", description = "Payment not found")})
+            @ApiResponse(responseCode = OK, description = PAYMENT_FOUND),
+            @ApiResponse(responseCode = NOT_FOUND, description = PAYMENT_NOT_FOUND)})
     @GetMapping("/id/{paymentId}")
     public ResponseEntity<PaymentGetDto> getPayment(@PathVariable("paymentId") @Parameter(name = "Payment Id", description = "Payment id", example = "1") Long paymentId) throws PaymentNotFoundException {
         return new ResponseEntity<>(paymentService.getPayment(paymentId), HttpStatus.OK);
     }
 
     @Operation(
-            summary = "Add new payment",
-            description = "Add new payment"
+            summary = ADD_NEW_PAYMENT,
+            description = ADD_NEW_PAYMENT
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Payment created"),
-            @ApiResponse(responseCode = "409", description = "Payment already exists")
+            @ApiResponse(responseCode = CREATED, description = PAYMENT_CREATED),
+            @ApiResponse(responseCode = CONFLICT, description = PAYMENT_ALREADY_EXISTS)
     })
     @PostMapping("/")
     public ResponseEntity<PaymentGetDto> addNewPayment(@Valid @RequestBody PaymentCreateDto payment, Long paymentId) throws OrderItemAlreadyExistsException {
@@ -68,12 +69,12 @@ public class PaymentController {
 
 
     @Operation(
-            summary = "Delete payment",
-            description = "Delete payment"
+            summary = DELETE_PAYMENT_BY_ID,
+            description = DELETE_PAYMENT_BY_ID
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Payment deleted"),
-            @ApiResponse(responseCode = "404", description = "Payment not found")
+            @ApiResponse(responseCode = OK, description = PAYMENT_DELETED),
+            @ApiResponse(responseCode = NOT_FOUND, description = PAYMENT_NOT_FOUND)
     })
     @DeleteMapping("/id/{paymentId}")
     public ResponseEntity<Payment> deletePaymentById(@PathVariable("paymentId") @Parameter(name = "Payment Id",

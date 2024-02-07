@@ -96,6 +96,23 @@ public class PublisherServiceTest {
     }
 
     @Test
+    @DisplayName("Add a Publisher and check repository and Exception")
+    void testAddPublisherSuccessfully() {
+
+        // GIVEN
+        PublisherCreateDto publisherExistingDto = new PublisherCreateDto("Existing Publisher");
+
+        when(publisherRepositoryMock.findByName(publisherExistingDto.name())).thenReturn(Optional.of(new Publisher()));
+
+        // WHEN / THEN
+        assertThrows(PublisherAlreadyExistsException.class, () -> {
+            publisherService.add(publisherExistingDto);
+        });
+        verify(publisherRepositoryMock, never()).save(any(Publisher.class));
+
+    }
+
+    @Test
     @DisplayName("Get publisher when the requested publisher does not exist in the DB")
     void testGetPublisherThrowsException() {
 

@@ -71,7 +71,7 @@ public class OrderServiceImpl implements OrderService {
         return OrderConverter.fromModelToOrderGetDto(orderModelOptional.get());
     }
 
-    public List<OrderGetByCustomerDto> getOrderByCostumer(Long customerId) throws CustomerNotFoundException {
+    public List<OrderGetByCustomerDto> getOrderByCostumer(Long customerId) throws CustomerNotFoundException, OrderNotFoundException {
         if (customerId <= 0) {
             throw new CustomerNotFoundException(CUSTOMER_WITH_ID + customerId + DOESNT_EXIST);
         }
@@ -81,7 +81,7 @@ public class OrderServiceImpl implements OrderService {
         }
         List<OrderModel> findedOrders = orderRepository.findOrderByCustomer(customerId);
         if (findedOrders.isEmpty()) {
-            throw new CustomerNotFoundException(NO_ORDER_WITH_CUSTOMER + customerId);
+            throw new OrderNotFoundException(NO_ORDER_WITH_CUSTOMER + customerId);
         }
         return orderRepository.findOrderByCustomer(customerId)
                 .stream()
@@ -89,7 +89,7 @@ public class OrderServiceImpl implements OrderService {
                 .toList();
     }
 
-    public List<OrderGetByBookDto> getOrderByBook(Long bookId) throws BookNotFoundException {
+    public List<OrderGetByBookDto> getOrderByBook(Long bookId) throws BookNotFoundException, OrderNotFoundException {
         if (bookId <= 0) {
             throw new BookNotFoundException(BOOK_WITH_ID + bookId + DOESNT_EXIST);
         }
@@ -99,7 +99,7 @@ public class OrderServiceImpl implements OrderService {
         }
         List<OrderModel> findedOrders = orderRepository.getOrderModelsByBookId(bookId);
         if (findedOrders.isEmpty()) {
-            throw new BookNotFoundException(NO_ORDER_WITH_BOOK + bookId);
+            throw new OrderNotFoundException(NO_ORDER_WITH_BOOK + bookId);
         }
         return orderRepository.getOrderModelsByBookId(bookId)
                 .stream()
@@ -117,7 +117,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderGetDto createOrder(OrderModel order, Long orderId) throws CustomerNotFoundException,
-            OrderAlreadyExistsException, BookNotFoundException, DocumentException, FileNotFoundException {
+            OrderAlreadyExistsException, DocumentException, FileNotFoundException {
         Optional<OrderModel> orderModelFindById = orderRepository.findById(orderId);
         Customer customer = customerService.findById(order.getCustomer().getId());
 

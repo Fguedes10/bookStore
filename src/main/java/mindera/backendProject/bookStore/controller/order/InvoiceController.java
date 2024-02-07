@@ -11,6 +11,7 @@ import mindera.backendProject.bookStore.exception.customer.CustomerNotFoundExcep
 import mindera.backendProject.bookStore.exception.order.InvoiceNotFoundException;
 import mindera.backendProject.bookStore.model.Invoice;
 import mindera.backendProject.bookStore.service.orderService.InvoiceServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,18 +23,15 @@ import java.util.List;
 @RequestMapping("/api/v1/invoices")
 public class InvoiceController {
 
-
-    private final InvoiceServiceImpl invoiceService;
-
-    public InvoiceController(InvoiceServiceImpl invoiceService) {
-        this.invoiceService = invoiceService;
-    }
+    @Autowired
+    private InvoiceServiceImpl invoiceService;
 
     @Operation(
             summary = "Get all existing invoices",
             description = "Get all invoices"
     )
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Get all invoices")})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Get all invoices")})
     @GetMapping("/")
     public ResponseEntity<List<InvoiceGetDto>> getInvoices() {
         return ResponseEntity.ok(invoiceService.getInvoices());
@@ -44,6 +42,9 @@ public class InvoiceController {
             summary = "Get invoice by id",
             description = "Get invoice by id"
     )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Get invoice by id"),
+            @ApiResponse(responseCode = "404", description = "Invoice not found")})
     @GetMapping("/id/{invoiceId}")
     public ResponseEntity<InvoiceGetDto> getInvoice(@PathVariable("invoiceId") @Parameter(name = "Invoice Id", description = "Invoice id", example = "1") Long invoiceId) throws InvoiceNotFoundException {
         return new ResponseEntity<>(invoiceService.getInvoice(invoiceId), HttpStatus.OK);
@@ -54,6 +55,9 @@ public class InvoiceController {
             summary = "Get all customer invoices",
             description = "Get all customer invoices"
     )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Get all customer invoices"),
+            @ApiResponse(responseCode = "404", description = "Customer not found")})
     @GetMapping("/invoiceByCustomer/{customerId}")
     public ResponseEntity<List<InvoiceGetByCustomerDto>> getInvoiceByCustomer(@PathVariable("customerId") @Parameter(name = "Customer Id", description = "Customer id", example = "1") Long customerId) throws InvoiceNotFoundException, CustomerNotFoundException {
         return new ResponseEntity<>(invoiceService.getInvoiceByCustomer(customerId), HttpStatus.OK);
@@ -64,6 +68,9 @@ public class InvoiceController {
             summary = "Delete invoice",
             description = "Delete invoice"
     )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Delete invoice"),
+            @ApiResponse(responseCode = "404", description = "Invoice not found")})
     @DeleteMapping("/id/{invoiceId}")
     public ResponseEntity<Invoice> deleteInvoiceById(@PathVariable("invoiceId") @Parameter(name = "Invoice Id",
             description = "Invoice id", example = "1") Long invoiceId) throws InvoiceNotFoundException {

@@ -150,38 +150,22 @@ public class AuthorServiceTest {
     }
 
 
-   /* @Test
-    void testAddAuthorSuccessfully() throws AuthorAlreadyExistsException {
-        AuthorCreateDto authorCreateDto = new AuthorCreateDto("Miguel Afonso");
+    @Test
+    @DisplayName("Add an author and check repository and check exception")
+    void testAddAuthorSuccessfully() {
 
-        when(authorRepositoryMock.findByName("Miguel Afonso")).thenReturn(Optional.empty());
+        // GIVEN
+        AuthorCreateDto authorExistingDto = new AuthorCreateDto("Existing Author");
 
-        when(authorRepositoryMock.save(any(Author.class))).thenAnswer(invocation -> {
-            Author savedAuthor = invocation.getArgument(0);
-            savedAuthor.setId(1L);
-            return savedAuthor;
+        when(authorRepositoryMock.findByName(authorExistingDto.name())).thenReturn(Optional.of(new Author()));
+
+        // WHEN / THEN
+        assertThrows(AuthorAlreadyExistsException.class, () -> {
+            authorService.add(authorExistingDto);
         });
+        verify(authorRepositoryMock, never()).save(any(Author.class));
 
-        AuthorCreateDto resultDto = authorService.add(authorCreateDto);
-
-        assertEquals("Miguel Afonso", resultDto.name());
-
-        verify(authorRepositoryMock, times(1)).findByName("Miguel Afonso");
-
-
-        verify(authorRepositoryMock, times(1)).save(argThat(author -> {
-            return author != null && "Miguel Afonso".equals(author.getName()) && author.getId() != null;
-        }));
-
-        when(authorRepositoryMock.findByName("Miguel Afonso")).thenReturn(Optional.empty());
-
-        when(authorRepositoryMock.save(any(Author.class))).thenAnswer(invocation -> {
-            Author savedAuthor = invocation.getArgument(0);
-            savedAuthor.setId(1L);
-            return savedAuthor;
-        });
-        assertNotNull(resultDto.name());
-    }*/
+    }
 
     @Test
     @DisplayName("Get author by name and check exception")

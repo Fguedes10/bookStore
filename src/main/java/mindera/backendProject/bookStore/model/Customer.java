@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 import java.util.Set;
 
+import static mindera.backendProject.bookStore.util.Messages.*;
+
 
 @Builder
 @AllArgsConstructor
@@ -20,26 +22,26 @@ public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(description = "Customer id", example = "1")
+    @Schema(description = CUSTOMER_ID, example = ID_EXAMPLE)
     private Long id;
 
-    @Schema(description = "Customer first name", example = "Joaquim")
+    @Schema(description = CUSTOMER_FIRSTNAME, example = CUSTOMER_FIRSTNAME_EXAMPLE)
     private String firstName;
-    @Schema(description = "Customer last name", example = "Verde")
+    @Schema(description = CUSTOMER_LASTNAME, example = CUSTOMER_LASTNAME_EXAMPLE)
     private String lastName;
 
-    @Schema(description = "Customer username", example = "joaquimverde")
+    @Schema(description = CUSTOMER_USERNAME, example = CUSTOMER_USERNAME_EXAMPLE)
     @Column(unique = true)
     private String username;
 
-    @Schema(description = "Customer password", example = "JVerde123")
+    @Schema(description = CUSTOMER_PASSWORD, example = CUSTOMER_PASSWORD_EXAMPLE)
     private String password;
 
-    @Schema(description = "Customer email", example = "jverde@me.com")
+    @Schema(description = CUSTOMER_EMAIL, example = CUSTOMER_EMAIL_EXAMPLE)
     @Column(unique = true)
     private String email;
 
-    @Schema(description = "Customer NIF", example = "123456789")
+    @Schema(description = CUSTOMER_NIF, example = CUSTOMER_NIF_EXAMPLE)
     @Column(unique = true)
     private Long nif;
 
@@ -50,7 +52,7 @@ public class Customer {
             joinColumns = @JoinColumn(name = "customer_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id")
     )
-    @Schema(description = "Customer favorite genres", example = "[1, 2, 3]")
+    @Schema(description = CUSTOMER_FAVORITE_GENRES, example = LIST_EXAMPLE)
     private List<Genre> favoriteGenres;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -59,7 +61,7 @@ public class Customer {
             joinColumns = @JoinColumn(name = "customer_id"),
             inverseJoinColumns = @JoinColumn(name = "book_id")
     )
-    @Schema(description = "Customer favorite books", example = "[1, 2, 3]")
+    @Schema(description = CUSTOMER_FAVORITE_BOOKS, example = LIST_EXAMPLE)
     private List<Book> favoriteBooks;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -68,21 +70,21 @@ public class Customer {
             joinColumns = @JoinColumn(name = "customer_id"),
             inverseJoinColumns = @JoinColumn(name = "book_id")
     )
-    @Schema(description = "purchased books", example = "[1, 2, 3]")
+    @Schema(description = PURCHASED_BOOKS, example = LIST_EXAMPLE)
     private Set<Book> purchasedBooks;
 
 
     @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @Schema(description = "customer total invoices", example = "[1, 2, 3]")
+    @Schema(description = CUSTOMER_INVOICES, example = LIST_EXAMPLE)
     private Set<Invoice> invoices;
 
 
     @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @Schema(description = "customer items to purchase", example = "[1, 2, 3]")
+    @Schema(description = CUSTOMER_ITEMS_TO_PURCHASE, example = LIST_EXAMPLE)
     private Set<OrderItem> orderItems;
 
     @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @Schema(description = "customer items purchased", example = "[1, 2, 3]")
+    @Schema(description = CUSTOMER_ORDERS, example = LIST_EXAMPLE)
     private Set<OrderModel> orderModels;
 
 }

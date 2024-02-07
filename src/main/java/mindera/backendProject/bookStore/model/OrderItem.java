@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
+import static mindera.backendProject.bookStore.util.Messages.*;
+
 
 @Data
 @Builder
@@ -20,12 +22,12 @@ import java.util.List;
 public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(description = "OrderItem id", example = "1")
+    @Schema(description = ORDERITEM_ID, example = ID_EXAMPLE)
     private Long id;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "customer_id", nullable = false)
-    @Schema(description = "Customer items to purchase", example = "[1, 2, 3] ")
+    @Schema(description = "Customer items to purchase", example = LIST_EXAMPLE)
     private Customer customer;
 
 
@@ -35,13 +37,13 @@ public class OrderItem {
             joinColumns = @JoinColumn(name = "orderItem_id"),
             inverseJoinColumns = @JoinColumn(name = "book_id")
     )
-    @Schema(description = "Set of books to purchase", example = "[1, 2, 3]")
+    @Schema(description = "Set of books to purchase", example = LIST_EXAMPLE)
     private List<Book> booksToPurchase;
 
-    @Schema(description = "Total amount to pay", example = "22.70")
+    @Schema(description = TOTAL_AMOUNT, example = BOOK_PRICE_EXAMPLE)
     private double amountToPay;
 
-    @Schema(description = "Value Added Tax (VAT)", example = "0.06")
+    @Schema(description = TAX_VALUE, example = TAX_VALUE_EXAMPLE)
     private double taxRate = 0.06;
 
     @Schema(description = "Indicates whether the eBooks were purchased", example = "true")

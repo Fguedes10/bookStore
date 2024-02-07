@@ -29,7 +29,7 @@ public record CustomerCreateDto(
         @Digits(integer = 9, fraction = 0, message = INVALID_NIF)
         Long nif,
 
-        @NotEmpty(message = "This field cannot be empty")
+        @NotEmpty(message = EMPTY_FIELD)
         List<Long> favoriteGenresIds
 
 ) {

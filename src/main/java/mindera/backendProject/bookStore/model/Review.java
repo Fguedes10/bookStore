@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
+import static mindera.backendProject.bookStore.util.Messages.*;
+
 
 @Builder
 @AllArgsConstructor
@@ -20,16 +22,16 @@ public class Review {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(description = "Review id", example = "1")
+    @Schema(description = REVIEW_ID, example = "1")
     private Long id;
 
-    @Schema(description = "Review comment", example = "I like this book, because ...")
+    @Schema(description = REVIEW_COMMENT, example = REVIEW_COMMENT_EXAMPLE)
     private String comment;
 
-    @Schema(description = "Review date", example = "2022-01-01")
+    @Schema(description = REVIEW_DATE, example = DATE_EXAMPLE)
     private LocalDate commentDate;
 
-    @Schema(description = "Review rating", example = "5")
+    @Schema(description = REVIEW_RATING, example = BOOK_RATING_EXAMPLE)
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Book book;
 

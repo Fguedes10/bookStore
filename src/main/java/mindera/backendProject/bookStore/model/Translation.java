@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+import static mindera.backendProject.bookStore.util.Messages.*;
+
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,15 +21,15 @@ public class Translation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(description = "Translation id", example = "1")
+    @Schema(description = TRANSLATION_ID, example = ID_EXAMPLE)
     private Long id;
 
     @Column(unique=true)
-    @Schema(description = "Translation name", example = "Portuguese")
+    @Schema(description = TRANSLATION_NAME, example = LANGUAGE_EXAMPLE)
     private String name;
 
     @ManyToMany(mappedBy = "translation", fetch = FetchType.EAGER)
-    @Schema(description = "Translation's books", example = "[1, 2, 3]")
+    @Schema(description = BOOK_WITH_TRANSLATION, example = LIST_EXAMPLE)
     private List<Book> books;
 
 }

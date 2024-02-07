@@ -24,7 +24,9 @@ import org.springframework.web.bind.annotation.*;
 import java.io.FileNotFoundException;
 import java.util.List;
 
-@Tag(name = "Order", description = "Order endpoints")
+import static mindera.backendProject.bookStore.util.Messages.*;
+
+@Tag(name = ORDER_TAG_NAME, description = ORDER_TAG_DESCRIPTION)
 @RestController
 @RequestMapping("/api/v1/orders")
 public class OrderController {
@@ -37,10 +39,11 @@ public class OrderController {
 
 
     @Operation(
-            summary = "Get all existing orders",
-            description = "Get all orders"
+            summary = GET_ALL_EXIST_ORDERS,
+            description = GET_ALL_EXIST_ORDERS
     )
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Get all orders")})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = OK, description = ORDERS_FOUND)})
     @GetMapping("/")
     public ResponseEntity<List<OrderGetDto>> getOrders() {
         return ResponseEntity.ok(orderService.getOrders());
@@ -48,10 +51,12 @@ public class OrderController {
 
 
     @Operation(
-            summary = "Get order by id",
-            description = "Get order by id"
+            summary = GET_ORDER_BY_ID,
+            description = GET_ORDER_BY_ID
     )
-
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = OK, description = ORDER_FOUND),
+            @ApiResponse(responseCode = NOT_FOUND, description = ORDER_NOT_FOUND)})
     @GetMapping("/id/{orderId}")
     public ResponseEntity<OrderGetDto> getOrder(@PathVariable("orderId") @Parameter(name = "Order Id", description = "Order id",
             example = "1") Long orderId) throws OrderNotFoundException {
@@ -59,10 +64,13 @@ public class OrderController {
     }
 
     @Operation(
-            summary = "Get order by customer",
-            description = "Get order by customer"
+            summary = GET_ORDER_BY_CUSTOMER_ID,
+            description = GET_ORDER_BY_CUSTOMER_ID
     )
-
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = OK, description = ORDER_FOUND),
+            @ApiResponse(responseCode = NOT_FOUND, description = CUSTOMER_OR_ORDER_NOT_FOUND)
+    })
     @GetMapping("/orderByCustomer/{customerId}")
     public ResponseEntity<List<OrderGetByCustomerDto>> getOrderByCustomer(@PathVariable("customerId") @Parameter(name = "Customer Id", description = "Customer id",
             example = "1") Long customerId) throws OrderNotFoundException, CustomerNotFoundException {
@@ -70,10 +78,13 @@ public class OrderController {
     }
 
     @Operation(
-            summary = "Get order by book",
-            description = "Get order by book"
+            summary = GET_ORDER_BY_BOOK_ID,
+            description = GET_ORDER_BY_BOOK_ID
     )
-
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = OK, description = ORDER_FOUND),
+            @ApiResponse(responseCode = NOT_FOUND, description = BOOK_OR_ORDER_NOT_FOUND)
+    })
     @GetMapping("/orderByBook/{bookId}")
     public ResponseEntity<List<OrderGetByBookDto>> getOrderByBook(@PathVariable("bookId") @Parameter(name = "Book Id", description = "Book id",
             example = "1") Long bookId) throws OrderNotFoundException, BookNotFoundException {
@@ -81,25 +92,35 @@ public class OrderController {
     }
 
 
-    @Operation(
-            summary = "Add new order",
-            description = "Add new order"
-    )
-    @PostMapping("/")
-    public ResponseEntity<OrderGetDto> addNewOrder(@Valid @RequestBody OrderModel order, Long orderId) throws OrderAlreadyExistsException, CustomerNotFoundException, InvoiceNotFoundException, BookNotFoundException, DocumentException, FileNotFoundException {
-        return new ResponseEntity<>(orderService.createOrder(order, orderId), HttpStatus.CREATED);
-    }
-
 
     @Operation(
-            summary = "Delete order",
-            description = "Delete order"
+            summary = DELETE_ORDER_BY_ID,
+            description = DELETE_ORDER_BY_ID
     )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = OK, description = ORDER_DELETED),
+            @ApiResponse(responseCode = NOT_FOUND, description = ORDER_NOT_FOUND)
+    })
     @DeleteMapping("/id/{orderId}")
     public ResponseEntity<OrderModel> deleteOrderById(@PathVariable("orderId") @Parameter(name = "Order Id",
             description = "Order id", example = "1") Long orderId) throws OrderNotFoundException {
         orderService.deleteOrder(orderId);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Operation(
+            summary = ADD_ORDER,
+            description = ADD_ORDER
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = CREATED, description = ORDER_CREATED),
+            @ApiResponse(responseCode = DOCUMENT_FAILED, description = DOCUMENT_FAILED_LOAD),
+            @ApiResponse(responseCode = NOT_FOUND, description = CUSTOMER_OR_FILE_NOT_FOUND),
+            @ApiResponse(responseCode = CONFLICT, description = ORDERMODEL_ALREADY_EXISTS)
+    })
+    @PostMapping("/")
+    public ResponseEntity<OrderGetDto> addNewOrder(@Valid @RequestBody OrderModel order, Long orderId) throws OrderAlreadyExistsException, CustomerNotFoundException, DocumentException, FileNotFoundException {
+        return new ResponseEntity<>(orderService.createOrder(order, orderId), HttpStatus.CREATED);
     }
 
 }

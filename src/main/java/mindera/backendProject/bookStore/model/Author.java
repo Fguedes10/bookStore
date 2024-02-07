@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+import static mindera.backendProject.bookStore.util.Messages.*;
+
 
 @Builder
 @AllArgsConstructor
@@ -20,16 +22,16 @@ public class Author {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(description = "Author id", example = "1")
+    @Schema(description = AUTHOR_ID, example = ID_EXAMPLE)
     private Long id;
 
     @Column(unique=true)
-    @Schema(description = "Author name", example = "J.R.R. Tolkien")
+    @Schema(description = AUTHOR_NAME, example = AUTHOR_NAME_EXAMPLE)
     private String name;
 
 
     @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
-    @Schema(description = "Author's books", example = "[1, 2, 3]")
+    @Schema(description = AUTHOR_BOOKS, example = LIST_EXAMPLE)
     List<Book> books;
 
 }

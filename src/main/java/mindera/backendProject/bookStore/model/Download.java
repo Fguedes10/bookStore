@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
+import static mindera.backendProject.bookStore.util.Messages.*;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -19,18 +21,18 @@ public class Download {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(description = "Download id", example = "1")
+    @Schema(description = DOWNLOAD_ID, example = ID_EXAMPLE)
     private Long id;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @Schema(description = "Order's download", example = "1")
+    @Schema(description = ORDER_DOWNLOAD, example = ID_EXAMPLE)
     private OrderModel orderModel;
 
-    @Schema(description = "Download date", example = "2023-01-30")
+    @Schema(description = DOWNLOAD_DATE, example = DATE_EXAMPLE)
     private LocalDate downloadDate;
 
     @Column(unique = true)
-    @Schema(description = "Download link", example = "https://yourdomain.com/download/unique-token")
+    @Schema(description = DOWNLOAD_LINK, example = DOWNLOAD_LINK_EXAMPLE)
     private String downloadLink;
 
 }

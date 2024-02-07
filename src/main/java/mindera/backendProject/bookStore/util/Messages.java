@@ -229,7 +229,6 @@ public class Messages {
     //PAYMENT CONTROLLER SWAGGER ANNOTATIONS
     public static final String PAYMENT_TAG_NAME = "Payment";
     public static final String PAYMENT_TAG_DESCRIPTION = "Payment endpoints";
-
     public static final String GET_ALL_EXIST_PAYMENTS = "Get all existing payments";
     public static final String GET_PAYMENT_BY_ID = "Get payment by id";
     public static final String ADD_NEW_PAYMENT = "Add new payment";
@@ -241,7 +240,148 @@ public class Messages {
     public static final String PAYMENT_DELETED = "Payment deleted";
 
 
-    //CUSTOMER CONTROLLER
+    // @SCHEMA GENERAL SWAGGER
+
+    public static final String ID_EXAMPLE = "1";
+    public static final String LIST_EXAMPLE = "[1, 2, 3]";
+    public static final String DATE_EXAMPLE = "2023-01-30";
+
+
+    //AUTHOR MODEL @SCHEMA SWAGGER
+
+    public static final String AUTHOR_ID = "Author id";
+    public static final String AUTHOR_NAME = "Author name";
+    public static final String AUTHOR_BOOKS = "Author's books";
+    public static final String AUTHOR_NAME_EXAMPLE = "J.R.R. Tolkien";
+
+    //BOOK MODEL @SCHEMA SWAGGER
+
+    public static final String BOOK_ID = "Book id";
+    public static final String BOOK_TITLE = "Book title";
+    public static final String BOOK_ISBN = "Book ISBN";
+    public static final String BOOK_PUBLISHER = "Book publisher";
+    public static final String BOOK_PRICE = "Book price";
+    public static final String BOOK_GENRES = "Book genres";
+    public static final String CUSTOMER_FAVORITE_BOOKS = "Customer favorite books";
+    public static final String BOOK_EDITION = "Book edition";
+    public static final String BOOK_TRANSLATIONS = "Book translations";
+    public static final String BOOK_AUTHOR = "Book author";
+    public static final String CUSTOMERS_WHO_PURCHASED = "Customers who purchase book";
+    public static final String BOOK_RELEASE_YEAR = "Book release year";
+    public static final String BOOK_ORDERS = "Book orders";
+    public static final String BOOKS_TO_PURCHASE = "Books to purchase";
+    public static final String BOOK_RATING = "Book rating";
+    public static final String BOOK_PAGE_COUNT = "Book page count";
+
+    public static final String BOOK_TITLE_EXAMPLE = "Lord of the Rings";
+
+    public static final String BOOK_ISBN_EXAMPLE = "1234567890";
+
+    public static final String BOOK_RELEASE_YEAR_EXAMPLE = "2000";
+
+    public static final String BOOK_PRICE_EXAMPLE = "19.99";
+
+    public static final String BOOK_RATING_EXAMPLE = "4.5";
+
+    public static final String BOOK_PAGE_COUNT_EXAMPLE = "453";
+
+    //CUSTOMER MODEL @SCHEMA SWAGGER
+
+    public static final String CUSTOMER_ID = "Customer id";
+    public static final String CUSTOMER_FIRSTNAME = "Customer first name";
+    public static final String CUSTOMER_LASTNAME = "Customer last name";
+    public static final String CUSTOMER_USERNAME = "Customer username";
+    public static final String CUSTOMER_EMAIL = "Customer email";
+    public static final String CUSTOMER_PASSWORD = "Customer password";
+    public static final String CUSTOMER_NIF = "Customer NIF";
+    public static final String CUSTOMER_ORDERS = "Customer orders";
+    public static final String CUSTOMER_FAVORITE_GENRES = "Customer favorite genres";
+    public static final String PURCHASED_BOOKS = "Purchased books";
+    public static final String CUSTOMER_INVOICES = "Customer invoices";
+
+    public static final String CUSTOMER_ITEMS_TO_PURCHASE = "Customer items to purchase";
+
+    public static final String CUSTOMER_FIRSTNAME_EXAMPLE = "Joaquim";
+
+    public static final String CUSTOMER_LASTNAME_EXAMPLE = "Verde";
+
+    public static final String CUSTOMER_USERNAME_EXAMPLE = "joaquimverde";
+
+    public static final String CUSTOMER_EMAIL_EXAMPLE = "jverde@me.com";
+
+    public static final String CUSTOMER_PASSWORD_EXAMPLE = "JVerde123";
+
+    public static final String CUSTOMER_NIF_EXAMPLE = "123456789";
+
+
+    //DOWNLOAD MODEL @SCHEMA SWAGGER
+
+    public static final String DOWNLOAD_ID = "Download id";
+    public static final String DOWNLOAD_DATE= "Download date";
+    public static final String ORDER_DOWNLOAD = "Order download";
+    public static final String DOWNLOAD_LINK = "Download link";
+    public static final String DOWNLOAD_LINK_EXAMPLE = "https://yourdomain.com/download/unique-token";
+
+
+    //GENRE MODEL @SCHEMA SWAGGER
+
+    public static final String GENRE_ID = "Genre id";
+    public static final String GENRE_NAME = "Genre name";
+    public static final String GENRE_BOOKS = "Genre books";
+    public static final String GENRE_NAME_EXAMPLE = "Drama";
+
+    //INVOICE MODEL @SCHEMA SWAGGER
+
+    public static final String INVOICE_ID = "Invoice id";
+    public static final String INVOICE_DATE = "Invoice date";
+    public static final String CUSTOMER_INVOICE = "Customer invoice";
+    public static final String ORDER_ASSOCIATED_WITH_THIS_INVOICE = "Order associated with this invoice";
+    public static final String TOTAL_AMOUNT = "Total amount";
+    public static final String INVOICE_NUMBER = "Invoice number";
+    public static final String TAX_VALUE = "Value Added Tax (VAT)";
+    public static final String TAX_VALUE_EXAMPLE = "0.06";
+
+    //ORDERITEM MODEL @SCHEMA SWAGGER
+
+    public static final String ORDERITEM_ID = "OrderItem id";
+
+    //ORDERMODEL MODEL @SCHEMA SWAGGER
+
+    public static final String ORDER_ID = "OrderModel id";
+    public static final String ORDER_DATE = "Order date";
+    public static final String CUSTOMER_ORDER = "Customer order";
+    public static final String PURCHASE_DATE = "Purchase date";
+    public static final String ORDERITEM_ASSOCIATED_WITH_THIS_ORDER = "Items associated with this Order";
+    public static final String ORDER_DOWNLOADS = "Order downloads";
+
+
+    //PUBLISHER MODEL @SCHEMA SWAGGER
+
+    public static final String PUBLISHER_ID = "Publisher id";
+    public static final String PUBLISHER_NAME = "Publisher name";
+    public static final String PUBLISHER_BOOKS = "Publisher books";
+    public static final String PUBLISHER_NAME_EXAMPLE = "Porto Editora";
+
+    //REVIEW MODEL @SCHEMA SWAGGER
+
+    public static final String REVIEW_ID = "Review id";
+    public static final String REVIEW_COMMENT = "Review comment";
+    public static final String REVIEW_DATE = "Review date";
+    public static final String REVIEW_RATING = "Review rating";
+    public static final String REVIEW_COMMENT_EXAMPLE = "I like this book, because ...";
+
+    //TRANSLATION MODEL @SCHEMA SWAGGER
+
+    public static final String TRANSLATION_ID = "Translation id";
+    public static final String TRANSLATION_NAME = "Translation Language name";
+    public static final String LANGUAGE_EXAMPLE = "Portuguese";
+    public static final String BOOK_WITH_TRANSLATION = "Book with translation";
+
+
+
+
+
+    //CUSTOMER SERVICE
     public static final String CUSTOMER_WITH_ID = "Customer with id: ";
     public static final String DOESNT_EXIST = " doesn't exist";
     public static final String CUSTOMER_WITH_USERNAME = "Customer with username: ";
@@ -258,6 +398,7 @@ public class Messages {
     public static final String INVALID_LASTNAME = "Please input a valid last name";
     public static final String INVALID_EMAIL = "Please input a valid email";
     public static final String INVALID_NIF = "Please input a valid nif";
+    public static final String EMPTY_FIELD = "This field cannot be empty";
 
 
     // BOOK CONTROLLER
@@ -325,18 +466,18 @@ public class Messages {
     public static final String TOP_RATED_BOOK_ADDED = "Top rated books had been added";
 
 
-    //ORDER
+    //ORDER SERVICE
     public static final String ORDERMODEL_WITH_ID = "Order with id: ";
     public static final String ORDERMODEL_ALREADY_EXISTS = "Order already exists.";
 
 
-    //ORDERITEM
+    //ORDERITEM SERVICE
 
     public static final String ORDERITEM_WITH_ID = "Order item with id: ";
     public static final String ORDERITEM_ALREADY_EXISTS = "Order item already exists.";
 
 
-    //INVOICE
+    //INVOICE SERVICE
 
     public static final String INVOICE_WITH_ID = "Invoice with id: ";
     public static final String INVOICE_WITH_INVOICE_NUMBER = "Invoice with invoice number: ";
@@ -344,12 +485,12 @@ public class Messages {
     public static final String NO_INVOICE_WITH_CUSTOMER = "No invoices with customer: ";
 
 
-    //PAYMENT
+    //PAYMENT SERVICE
 
     public static final String PAYMENT_WITH_ID = "Payment with id: ";
     public static final String PAYMENT_ALREADY_EXISTS = "Payment already exists.";
 
-    // DOWNLOAD
+    // DOWNLOAD SERVICE
     public static final String DOWNLOAD_WITH_ID = "Download with id: ";
     public static final String DOWNLOAD_ALREADY_EXISTS = "Download already exists.";
     public static final String NO_DOWNLOAD_WITH_ORDER = "No downloads with order: ";

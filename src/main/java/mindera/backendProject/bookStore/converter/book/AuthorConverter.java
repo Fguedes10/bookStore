@@ -19,11 +19,4 @@ public class AuthorConverter {
                 author.getName());
     }
 
-    public static AuthorGetDto fromAuthorCreateDtoToAuthorGetDto(AuthorCreateDto authorCreateDto) {
-        return new AuthorGetDto(
-                authorCreateDto.name()
-        );
-    }
-
-
 }

@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.util.List;
 
+import static mindera.backendProject.bookStore.util.Messages.*;
+
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,20 +23,20 @@ public class OrderModel {
     String invoicePath;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(description = "OrderModel id", example = "1")
+    @Schema(description = ORDER_ID, example = ID_EXAMPLE)
     private Long id;
 
     @OneToOne
-    @Schema(description = "Items associated with this Order", example = "[1, 2, 3]")
+    @Schema(description = ORDERITEM_ASSOCIATED_WITH_THIS_ORDER, example = LIST_EXAMPLE)
     private OrderItem orderItems;
 
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @Schema(description = "Customer order", example = "[1, 2, 3]")
+    @Schema(description = CUSTOMER_ORDER, example = LIST_EXAMPLE)
     private Customer customer;
 
     @OneToMany(mappedBy = "orderModel", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @Schema(description = "Orders downloaded", example = "[1, 2, 3]")
+    @Schema(description = ORDER_DOWNLOADS, example = LIST_EXAMPLE)
     private List<Download> downloads;
 
     @ManyToMany
@@ -44,10 +46,10 @@ public class OrderModel {
             inverseJoinColumns = @JoinColumn(name = "book_id")
     )
 
-    @Schema(description = "books ordered", example = "[1, 2, 3]")
+    @Schema(description = BOOK_ORDERS, example = LIST_EXAMPLE)
     private List<Book> books;
 
-    @Schema(description = "date of purchase", example = "2023-01-30")
+    @Schema(description = PURCHASE_DATE, example = DATE_EXAMPLE)
     private LocalDate purchaseDate;
 
 

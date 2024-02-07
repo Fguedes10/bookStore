@@ -60,12 +60,6 @@ public class BookConverter {
         );
     }
 
-    public static Book fromUpdateEditionDtoToModel(BookUpdateEditionDto bookUpdateEditionDto) {
-        return Book.builder()
-                .edition(bookUpdateEditionDto.edition())
-                .build();
-    }
-
 
     public static BookUpdatePriceDto fromModelToBookUpdatePriceDto(Book book) {
         return new BookUpdatePriceDto(
@@ -73,11 +67,6 @@ public class BookConverter {
         );
     }
 
-    public static Book fromUpdatePriceDtoToModel(BookUpdatePriceDto bookUpdatePriceDto) {
-        return Book.builder()
-                .price(bookUpdatePriceDto.price())
-                .build();
-    }
 
     public static List<BookGetDto> fromModelToBookGetFavoriteBooksDto(List<Book> bookList) {
         return bookList.stream().map(BookConverter::fromModelToBookGetDto).toList();

@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+import static mindera.backendProject.bookStore.util.Messages.*;
+
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,19 +21,19 @@ public class Genre {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(description = "Genre id", example = "1")
+    @Schema(description = GENRE_ID, example = ID_EXAMPLE)
     private Long id;
 
     @Column(unique=true)
-    @Schema(description = "Genre name", example = "Drama")
+    @Schema(description = GENRE_NAME, example = GENRE_NAME_EXAMPLE)
     private String name;
 
     @ManyToMany(mappedBy = "genre", fetch = FetchType.EAGER)
-    @Schema(description = "Genre's books", example = "[1, 2, 3]")
+    @Schema(description = GENRE_BOOKS, example = LIST_EXAMPLE)
     private List<Book> books;
 
     @ManyToMany(mappedBy = "favoriteGenres", fetch = FetchType.EAGER)
-    @Schema(description = "Customer favorite genres", example = "[1, 2, 3]")
+    @Schema(description = CUSTOMER_FAVORITE_GENRES, example = LIST_EXAMPLE)
     private List<Customer> customerList;
 
 

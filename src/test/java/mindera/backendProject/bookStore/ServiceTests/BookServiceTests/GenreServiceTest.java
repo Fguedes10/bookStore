@@ -95,30 +95,22 @@ public class GenreServiceTest {
         mockedGenreConverter.verify(() -> GenreConverter.fromModelToGenreCreateDto(genre));
     }
 
-  /*  @Test
-    @DisplayName("Add genre and check repository")
-    void testAdd() throws GenreAlreadyExistsException {
+    @Test
+    @DisplayName("Add a genre and check repository and Exception")
+    void testAddGenreSuccessfully() {
+
         // GIVEN
-        GenreCreateDto genreCreateDto = new GenreCreateDto("Drama");
-        Genre genre = new Genre();
-        genre.setName("Drama");
+        GenreCreateDto genreExistingDto = new GenreCreateDto("Existing Genre");
 
-        when(genreRepositoryMock.findByName(genreCreateDto.name())).thenReturn(Optional.empty());
-        when(GenreConverter.fromCreateDtoToModel(genreCreateDto)).thenReturn(genre);
-        when(genreRepositoryMock.save(Mockito.any())).thenReturn(genre);
+        when(genreRepositoryMock.findByName(genreExistingDto.name())).thenReturn(Optional.of(new Genre()));
 
-        // WHEN
-        genreService.add(genreCreateDto);
+        // WHEN / THEN
+        assertThrows(GenreAlreadyExistsException.class, () -> {
+            genreService.add(genreExistingDto);
+        });
+        verify(genreRepositoryMock, never()).save(any(Genre.class));
 
-        // THEN
-        mockedGenreConverter.verify(() -> GenreConverter.fromCreateDtoToModel(genreCreateDto));
-        verifyNoMoreInteractions(mockedGenreConverter);
-
-        verify(genreRepositoryMock, Mockito.times(1)).findByName(genreCreateDto.name());
-        Mockito.verifyNoMoreInteractions(genreRepositoryMock);
-        assertEquals(genreCreateDto, genreService.add(genreCreateDto));
-
-    }*/
+    }
 
 
     @Test

@@ -11,6 +11,7 @@ import mindera.backendProject.bookStore.dto.order.DownloadGetDto;
 import mindera.backendProject.bookStore.exception.order.DownloadNotFoundException;
 import mindera.backendProject.bookStore.exception.order.OrderNotFoundException;
 import mindera.backendProject.bookStore.service.orderService.DownloadServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,18 +23,15 @@ import java.util.List;
 @RequestMapping("/api/v1/downloads")
 public class DownloadController {
 
-    private final DownloadServiceImpl downloadService;
-
-    public DownloadController(DownloadServiceImpl downloadService) {
-        this.downloadService = downloadService;
-    }
-
+    @Autowired
+    private DownloadServiceImpl downloadService;
 
     @Operation(
             summary = "Get all existing downloads",
             description = "Get all downloads"
     )
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Get all downloads")})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Get all downloads")})
     @GetMapping("/")
     public ResponseEntity<List<DownloadGetDto>> getDownloads() {
         return ResponseEntity.ok(downloadService.getAllDownloads());
@@ -44,6 +42,10 @@ public class DownloadController {
             summary = "Get download by id",
             description = "Get download by id"
     )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Get download by id"),
+            @ApiResponse(responseCode = "404", description = "Download not found")
+    })
     @GetMapping("/id/{downloadId}")
     public ResponseEntity<DownloadGetDto> getDownload(@PathVariable("downloadId") @Parameter(name = "Download Id", description = "Download id", example = "1") Long downloadId) throws DownloadNotFoundException {
         return new ResponseEntity<>(downloadService.getDownload(downloadId), HttpStatus.OK);
@@ -54,7 +56,10 @@ public class DownloadController {
             summary = "Get downloads by order",
             description = "Get downloads by order"
     )
-
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Get downloads by order"),
+            @ApiResponse(responseCode = "404", description = "Download not found or Order not found")
+    })
     @GetMapping("/downloadByOrder/{customerId}")
     public ResponseEntity<List<DownloadGetDto>> getDownloadsByOrder(@PathVariable("orderModelId") @Parameter(name = "OrderModel Id", description = "OrderModel id",
             example = "1") Long orderModelId) throws OrderNotFoundException, DownloadNotFoundException {
@@ -66,6 +71,10 @@ public class DownloadController {
             summary = "Add new download",
             description = "Add new download"
     )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Download created"),
+            @ApiResponse(responseCode = "404", description = "Order not found")
+    })
     @PostMapping("/")
     public ResponseEntity<DownloadGetDto> addNewDownload(@Valid @RequestBody DownloadCreateDto downloadCreateDto) throws OrderNotFoundException {
         return new ResponseEntity<>(downloadService.createDownload(downloadCreateDto), HttpStatus.CREATED);

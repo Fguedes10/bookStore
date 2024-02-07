@@ -40,7 +40,8 @@ public class OrderController {
             summary = "Get all existing orders",
             description = "Get all orders"
     )
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Get all orders")})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Get all orders")})
     @GetMapping("/")
     public ResponseEntity<List<OrderGetDto>> getOrders() {
         return ResponseEntity.ok(orderService.getOrders());
@@ -51,7 +52,9 @@ public class OrderController {
             summary = "Get order by id",
             description = "Get order by id"
     )
-
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Get order"),
+            @ApiResponse(responseCode = "404", description = "Order not found")})
     @GetMapping("/id/{orderId}")
     public ResponseEntity<OrderGetDto> getOrder(@PathVariable("orderId") @Parameter(name = "Order Id", description = "Order id",
             example = "1") Long orderId) throws OrderNotFoundException {
@@ -62,7 +65,10 @@ public class OrderController {
             summary = "Get order by customer",
             description = "Get order by customer"
     )
-
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Get order"),
+            @ApiResponse(responseCode = "404", description = "Order not found or Customer not found")
+    })
     @GetMapping("/orderByCustomer/{customerId}")
     public ResponseEntity<List<OrderGetByCustomerDto>> getOrderByCustomer(@PathVariable("customerId") @Parameter(name = "Customer Id", description = "Customer id",
             example = "1") Long customerId) throws OrderNotFoundException, CustomerNotFoundException {
@@ -73,7 +79,10 @@ public class OrderController {
             summary = "Get order by book",
             description = "Get order by book"
     )
-
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Get order"),
+            @ApiResponse(responseCode = "404", description = "Order not found or Book not found")
+    })
     @GetMapping("/orderByBook/{bookId}")
     public ResponseEntity<List<OrderGetByBookDto>> getOrderByBook(@PathVariable("bookId") @Parameter(name = "Book Id", description = "Book id",
             example = "1") Long bookId) throws OrderNotFoundException, BookNotFoundException {
@@ -81,25 +90,34 @@ public class OrderController {
     }
 
 
-    @Operation(
-            summary = "Add new order",
-            description = "Add new order"
-    )
-    @PostMapping("/")
-    public ResponseEntity<OrderGetDto> addNewOrder(@Valid @RequestBody OrderModel order, Long orderId) throws OrderAlreadyExistsException, CustomerNotFoundException, InvoiceNotFoundException, BookNotFoundException, DocumentException, FileNotFoundException {
-        return new ResponseEntity<>(orderService.createOrder(order, orderId), HttpStatus.CREATED);
-    }
-
 
     @Operation(
             summary = "Delete order",
             description = "Delete order"
     )
+    @ApiResponses(value = {
+
+    })
     @DeleteMapping("/id/{orderId}")
     public ResponseEntity<OrderModel> deleteOrderById(@PathVariable("orderId") @Parameter(name = "Order Id",
             description = "Order id", example = "1") Long orderId) throws OrderNotFoundException {
         orderService.deleteOrder(orderId);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Operation(
+            summary = "Add new order",
+            description = "Add new order"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Order created"),
+            @ApiResponse(responseCode = "400", description = "Document failed to load"),
+            @ApiResponse(responseCode = "404", description = "Customer or File not found"),
+            @ApiResponse(responseCode = "409", description = "Order already exists")
+    })
+    @PostMapping("/")
+    public ResponseEntity<OrderGetDto> addNewOrder(@Valid @RequestBody OrderModel order, Long orderId) throws OrderAlreadyExistsException, CustomerNotFoundException, DocumentException, FileNotFoundException {
+        return new ResponseEntity<>(orderService.createOrder(order, orderId), HttpStatus.CREATED);
     }
 
 }

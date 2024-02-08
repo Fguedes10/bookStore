@@ -5,6 +5,7 @@ import mindera.backendProject.bookStore.dto.book.AuthorCreateDto;
 import mindera.backendProject.bookStore.exception.book.AuthorAlreadyExistsException;
 import mindera.backendProject.bookStore.exception.book.AuthorNotFoundException;
 import mindera.backendProject.bookStore.model.Author;
+import mindera.backendProject.bookStore.model.Customer;
 import mindera.backendProject.bookStore.repository.bookRepository.AuthorRepository;
 import mindera.backendProject.bookStore.service.bookService.AuthorServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,6 +16,10 @@ import org.mockito.InjectMocks;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Arrays;
@@ -44,6 +49,11 @@ public class AuthorServiceTest {
     @DisplayName("Get all authors and check repository")
     void testGetAll() {
         // GIVEN
+
+        int page = 0;
+        int size = 10;
+        String searchTerm = "firstName";
+
         Author author1 = new Author();
         author1.setId(1L);
         author1.setName("João Silva");
@@ -53,8 +63,10 @@ public class AuthorServiceTest {
         author2.setName("Ana Almeida");
 
         List<Author> mockAuthorList = Arrays.asList(author1, author2);
+        Page<Author> mockedPage = new PageImpl<>(mockAuthorList);
 
-        when(authorRepositoryMock.findAll()).thenReturn(mockAuthorList);
+
+        when(authorRepositoryMock.findAll(any(PageRequest.class))).thenReturn(mockedPage);
 
         AuthorCreateDto dto1 = new AuthorCreateDto("João Silva");
         AuthorCreateDto dto2 = new AuthorCreateDto("Ana Almeida");
@@ -63,7 +75,7 @@ public class AuthorServiceTest {
         when(AuthorConverter.fromModelToAuthorCreateDto(author2)).thenReturn(dto2);
 
         // WHEN
-        List<AuthorCreateDto> result = authorService.getAll();
+        List<AuthorCreateDto> result = authorService.getAll(page, size, searchTerm);
 
         // THEN
         assertEquals(2, result.size());
@@ -71,7 +83,7 @@ public class AuthorServiceTest {
         assertEquals(dto2, result.get(1));
 
 
-        verify(authorRepositoryMock, times(1)).findAll();
+        verify(authorRepositoryMock, times(1)).findAll(PageRequest.of(page, size, Sort.Direction.DESC, searchTerm));
         mockedAuthorConverter.verify(() -> AuthorConverter.fromModelToAuthorCreateDto(author1));
         mockedAuthorConverter.verify(() -> AuthorConverter.fromModelToAuthorCreateDto(author2));
 

@@ -39,8 +39,10 @@ public class AuthorController {
             @ApiResponse(responseCode = OK, description = AUTHORS_FOUND)})
 
     @GetMapping("/")
-    public ResponseEntity<List<AuthorCreateDto>> getAuthors(){
-        return ResponseEntity.ok(authorService.getAll());
+    public ResponseEntity<List<AuthorCreateDto>> getAuthors(@RequestParam (defaultValue = "0", required = false) int page,
+                                                            @RequestParam (defaultValue = "10", required = false) int size,
+                                                            @RequestParam(defaultValue = "name") String searchTerm){
+        return ResponseEntity.ok(authorService.getAll(page, size, searchTerm));
     }
 
 

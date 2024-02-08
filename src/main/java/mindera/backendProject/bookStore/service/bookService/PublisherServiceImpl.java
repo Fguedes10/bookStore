@@ -6,6 +6,10 @@ import mindera.backendProject.bookStore.exception.book.PublisherAlreadyExistsExc
 import mindera.backendProject.bookStore.exception.book.PublisherNotFoundException;
 import mindera.backendProject.bookStore.model.Publisher;
 import mindera.backendProject.bookStore.repository.bookRepository.PublisherRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,15 +20,18 @@ import static mindera.backendProject.bookStore.util.Messages.*;
 
 @Service
 public class PublisherServiceImpl implements PublisherService{
+
     private final PublisherRepository publisherRepository;
 
-    public PublisherServiceImpl(PublisherRepository publisherRepository){
-        this.publisherRepository=publisherRepository;}
+    public PublisherServiceImpl(PublisherRepository publisherRepository) {
+        this.publisherRepository = publisherRepository;
+    }
 
 
     @Override
-    public List<PublisherCreateDto> getAll() {
-        List<Publisher> publisherList = publisherRepository.findAll();
+    public List<PublisherCreateDto> getAll(int page, int size, String searchTerm) {
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.DESC, searchTerm);
+        Page<Publisher> publisherList = publisherRepository.findAll(pageRequest);
         return publisherList.stream().map(PublisherConverter::fromModelToPublisherCreateDto).toList();
     }
 

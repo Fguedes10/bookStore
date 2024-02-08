@@ -54,9 +54,11 @@ public class BookController {
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = OK, description = BOOK_FOUND)})
-    @GetMapping("/")
-    public ResponseEntity<List<BookGetDto>> getBooks() {
-        return ResponseEntity.ok(bookService.getAll());
+    @GetMapping("/search")
+    public ResponseEntity<List<BookGetDto>> getBooks(@RequestParam (defaultValue = "0", required = false) int page,
+                                                     @RequestParam (defaultValue = "10", required = false) int size,
+                                                     @RequestParam(defaultValue = "title") String searchTerm) {
+        return ResponseEntity.ok(bookService.getAll(page, size, searchTerm));
     }
 
     @Operation(

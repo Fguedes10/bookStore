@@ -20,6 +20,10 @@ import org.mockito.InjectMocks;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
@@ -54,6 +58,11 @@ public class CustomerServiceTest {
     void testGetCustomers() {
 
         // Given
+
+        int page = 0;
+        int size = 10;
+        String searchTerm = "firstName";
+
         Customer customer1 = Customer.builder()
                 .id(1L).firstName("John")
                 .lastName("Daves")
@@ -71,8 +80,9 @@ public class CustomerServiceTest {
                 .password("pass").build();
 
         List<Customer> customers = List.of(customer1, customer2);
+        Page<Customer> mockedPage = new PageImpl<>(customers);
 
-        when(customerRepositoryMock.findAll()).thenReturn(customers);
+        when(customerRepositoryMock.findAll(any(PageRequest.class))).thenReturn(mockedPage);
         mockedCustomerConverter.when(() -> CustomerConverter.fromEntityToCustomerGetDto(customer1)).thenReturn(new CustomerGetDto(
                 customer1.getFirstName(),
                 customer1.getLastName(),
@@ -87,13 +97,12 @@ public class CustomerServiceTest {
 
 
         // WHEN
-        List<CustomerGetDto> result = customerService.getCustomers();
+        List<CustomerGetDto> result = customerService.getCustomers(page, size, searchTerm);
 
         // Then
         assertNotNull(result);
         assertEquals(2, result.size());
-
-        verify(customerRepositoryMock).findAll();
+        verify(customerRepositoryMock).findAll(PageRequest.of(page, size, Sort.Direction.DESC, searchTerm));
         mockedCustomerConverter.verify(() -> CustomerConverter.fromEntityToCustomerGetDto(customer1));
         mockedCustomerConverter.verify(() -> CustomerConverter.fromEntityToCustomerGetDto(customer2));
     }

@@ -11,6 +11,10 @@ import mindera.backendProject.bookStore.model.*;
 import mindera.backendProject.bookStore.repository.bookRepository.BookRepository;
 import mindera.backendProject.bookStore.repository.bookRepository.TranslationRepository;
 import mindera.backendProject.bookStore.repository.customerRepository.CustomerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,20 +28,24 @@ import static mindera.backendProject.bookStore.util.Messages.*;
 public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
+
     private final AuthorServiceImpl authorServiceImpl;
+
     private final GenreServiceImpl genreServiceImpl;
+
     private final TranslationServiceImpl translationServiceImpl;
+
     private final ReviewServiceImpl reviewServiceImpl;
+
     private final PublisherServiceImpl publisherServiceImpl;
+
     private final TranslationRepository translationRepository;
 
     private final GoogleBooksService googleBooksService;
 
     private final CustomerRepository customerRepository;
 
-    public BookServiceImpl(BookRepository bookRepository, AuthorServiceImpl authorServiceImpl,
-                           GenreServiceImpl genreServiceImpl, TranslationServiceImpl translationServiceImpl,
-                           ReviewServiceImpl reviewServiceImpl, PublisherServiceImpl publisherServiceImpl, TranslationRepository translationRepository, GoogleBooksService googleBooksService, CustomerRepository customerRepository) {
+    public BookServiceImpl(BookRepository bookRepository, AuthorServiceImpl authorServiceImpl, GenreServiceImpl genreServiceImpl, TranslationServiceImpl translationServiceImpl, ReviewServiceImpl reviewServiceImpl, PublisherServiceImpl publisherServiceImpl, TranslationRepository translationRepository, GoogleBooksService googleBooksService, CustomerRepository customerRepository) {
         this.bookRepository = bookRepository;
         this.authorServiceImpl = authorServiceImpl;
         this.genreServiceImpl = genreServiceImpl;
@@ -51,8 +59,9 @@ public class BookServiceImpl implements BookService {
 
 
     @Override
-    public List<BookGetDto> getAll() {
-        List<Book> bookList = bookRepository.findAll();
+    public List<BookGetDto> getAll(int page, int size, String searchTerm) {
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.DESC, searchTerm);
+        Page<Book> bookList = bookRepository.findAll(pageRequest);
         return bookList.stream().map(BookConverter::fromModelToBookGetDto).toList();
     }
 

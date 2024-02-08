@@ -11,7 +11,7 @@ import java.util.List;
 public interface AuthorService {
 
 
-    List<AuthorCreateDto> getAll();
+    List<AuthorCreateDto> getAll(int page, int size, String searchTerm);
     AuthorCreateDto getAuthor(Long authorId) throws AuthorNotFoundException;
 
     AuthorCreateDto add(AuthorCreateDto author) throws AuthorAlreadyExistsException;

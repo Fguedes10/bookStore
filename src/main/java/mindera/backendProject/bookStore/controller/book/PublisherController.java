@@ -34,9 +34,11 @@ public class PublisherController {
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = OK, description = PUBLISHERS_FOUND)})
-    @GetMapping("/")
-    public ResponseEntity<List<PublisherCreateDto>> getPublishers(){
-        return ResponseEntity.ok(publisherService.getAll());
+    @GetMapping("/search")
+    public ResponseEntity<List<PublisherCreateDto>> getPublishers(@RequestParam (defaultValue = "0", required = false) int page,
+                                                                  @RequestParam (defaultValue = "10", required = false) int size,
+                                                                  @RequestParam(defaultValue = "name") String searchTerm){
+        return ResponseEntity.ok(publisherService.getAll(page, size, searchTerm));
     }
 
 

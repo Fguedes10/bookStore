@@ -7,7 +7,11 @@ import mindera.backendProject.bookStore.exception.book.AuthorNotFoundException;
 import mindera.backendProject.bookStore.exception.book.CannotDeleteException;
 import mindera.backendProject.bookStore.model.Author;
 import mindera.backendProject.bookStore.repository.bookRepository.AuthorRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,15 +23,17 @@ import static mindera.backendProject.bookStore.util.Messages.*;
 @Service
 public class AuthorServiceImpl implements AuthorService{
 
+
     private final AuthorRepository authorRepository;
 
-    public AuthorServiceImpl(AuthorRepository authorRepository){
-        this.authorRepository=authorRepository;}
-
+    public AuthorServiceImpl(AuthorRepository authorRepository) {
+        this.authorRepository = authorRepository;
+    }
 
     @Override
-    public List<AuthorCreateDto> getAll() {
-        List<Author> authorList = authorRepository.findAll();
+    public List<AuthorCreateDto> getAll(int page, int size, String searchTerm) {
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.DESC, searchTerm);
+        Page<Author> authorList = authorRepository.findAll(pageRequest);
         return authorList.stream().map(AuthorConverter::fromModelToAuthorCreateDto).toList();
     }
 

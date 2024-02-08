@@ -7,7 +7,7 @@ import mindera.backendProject.bookStore.exception.book.PublisherNotFoundExceptio
 import java.util.List;
 
 public interface PublisherService {
-    List<PublisherCreateDto> getAll();
+    List<PublisherCreateDto> getAll(int page, int size, String searchTerm);
 
     PublisherCreateDto getPublisher(Long publisherId) throws PublisherNotFoundException;
 

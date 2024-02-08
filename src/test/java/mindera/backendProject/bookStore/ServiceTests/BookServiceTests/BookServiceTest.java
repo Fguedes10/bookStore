@@ -8,10 +8,7 @@ import mindera.backendProject.bookStore.exception.book.BookNotFoundException;
 import mindera.backendProject.bookStore.exception.book.IncorrectReleaseYearException;
 import mindera.backendProject.bookStore.exception.book.TranslationNotFoundException;
 import mindera.backendProject.bookStore.googleBooksApi.GoogleBooksService;
-import mindera.backendProject.bookStore.model.Author;
-import mindera.backendProject.bookStore.model.Book;
-import mindera.backendProject.bookStore.model.Publisher;
-import mindera.backendProject.bookStore.model.Translation;
+import mindera.backendProject.bookStore.model.*;
 import mindera.backendProject.bookStore.repository.bookRepository.BookRepository;
 import mindera.backendProject.bookStore.repository.bookRepository.TranslationRepository;
 import mindera.backendProject.bookStore.repository.customerRepository.CustomerRepository;
@@ -25,6 +22,10 @@ import org.mockito.InjectMocks;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.*;
@@ -69,6 +70,10 @@ public class BookServiceTest {
     void testGetAll() {
 
         // GIVEN
+        int page = 0;
+        int size = 10;
+        String searchTerm = "title";
+
         Book book1 = Book.builder()
                 .id(1L)
                 .title("A criada")
@@ -98,8 +103,9 @@ public class BookServiceTest {
                 .review(new ArrayList<>()).build();
 
         List<Book> BookList = Arrays.asList(book1, book2);
+        Page<Book> mockedPage = new PageImpl<>(BookList);
 
-        when(bookRepositoryMock.findAll()).thenReturn(BookList);
+        when(bookRepositoryMock.findAll(any(PageRequest.class))).thenReturn(mockedPage);
 
         mockedBookConverter.when(() -> BookConverter.fromModelToBookGetDto(book1)).thenReturn(new BookGetDto(
                 book1.getTitle(),
@@ -129,13 +135,13 @@ public class BookServiceTest {
 
 
         // WHEN
-        List<BookGetDto> result = bookService.getAll();
+        List<BookGetDto> result = bookService.getAll(page, size, searchTerm);
 
         // THEN
         assertNotNull(result);
         assertEquals(2, result.size());
 
-        verify(bookRepositoryMock).findAll();
+        verify(bookRepositoryMock).findAll(PageRequest.of(page, size, Sort.Direction.DESC, searchTerm));
         mockedBookConverter.verify(() -> BookConverter.fromModelToBookGetDto(book1));
         mockedBookConverter.verify(() -> BookConverter.fromModelToBookGetDto(book2));
 

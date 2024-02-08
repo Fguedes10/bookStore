@@ -38,14 +38,16 @@ public class GoogleBooksService {
         if (!items.isEmpty()) {
             JSONObject volumeInfo = items.getJSONObject(0).getJSONObject("volumeInfo");
             GoogleBookInfoDto googleBookInfoDto = new GoogleBookInfoDto();
-            if(!volumeInfo.has("averageRating")) {
+            if (volumeInfo.has("averageRating")) {
+                googleBookInfoDto.setAverageRating(volumeInfo.getDouble("averageRating"));
+            } else {
                 googleBookInfoDto.setAverageRating(0.0);
             }
-            googleBookInfoDto.setAverageRating(volumeInfo.getDouble("averageRating"));
-            if (!volumeInfo.has("pageCount")) {
+            if (volumeInfo.has("pageCount")) {
+                googleBookInfoDto.setPageCount(volumeInfo.getInt("pageCount"));
+            } else {
                 googleBookInfoDto.setPageCount(0);
             }
-            googleBookInfoDto.setPageCount(volumeInfo.getInt("pageCount"));
             googleBookInfoDto.setTitle(volumeInfo.getString("title"));
             return googleBookInfoDto;
         }

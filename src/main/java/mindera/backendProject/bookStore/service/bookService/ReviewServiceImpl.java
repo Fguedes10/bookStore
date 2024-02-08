@@ -58,8 +58,8 @@ public class ReviewServiceImpl implements ReviewService {
         if(checkIfBookExists.isEmpty()){
             throw new BookNotFoundException(BOOK_WITH_ID  + reviewAddNewDto.bookId() + DOESNT_EXIST);
         }
-        Review checkFirstReview = checkIfBookExists.get().getReview().getFirst();
-        if(checkFirstReview.getComment().equals(NO_REVIEW)){
+        Book checkFirstReview = checkIfBookExists.get();
+        if(checkFirstReview.getReview().getFirst().getComment().equals(NO_REVIEW)){
             checkIfBookExists.get().getReview().removeFirst();
         }
         Review reviewToSave = ReviewConverter.fromReviewAddNewDtoToModel(reviewAddNewDto, checkIfBookExists.get());

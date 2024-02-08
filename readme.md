@@ -1,6 +1,7 @@
-<h1 align="center"> E-Book Store </h1>
+![Design sem nome.png](..%2F..%2F..%2FDownloads%2FDesign%20sem%20nome.png)
 Welcome to the Java Ebook Store implemented in Java!
-This eBook Store provides a user-friendly interface to customer to explore, purchase and review eBooks. Below is an overview of the features and functionalities.
+This eBook Store provides a user-friendly interface to customer to explore, purchase and review eBooks. Below is an
+overview of the features and functionalities.
 
 ___
 
@@ -50,6 +51,5 @@ ___
 
 * <a href=https://github.com/Fguedes10>Fábio Guedes
 * <a href=https://github.com/melissasa6/>Melissa Sá
-* <a href=https://https://github.com/FilipeMPinto91/>Filipe Pinto
 
 <h1 align="center"> THANK YOU FOR READING! </h1>

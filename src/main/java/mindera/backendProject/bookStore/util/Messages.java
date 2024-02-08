@@ -12,10 +12,10 @@ public class Messages {
 
     public static final String NOT_FOUND = "404";
 
+
     //AUTHOR CONTROLLER SWAGGER ANNOTATIONS
 
     public static final String AUTHOR_TAG_NAME = "Author";
-
     public static final String AUTHOR_TAG_DESCRIPTION = "Author endpoints";
     public static final String AUTHORS_FOUND = "Authors found";
     public static final String AUTHOR_FOUND = "Author found";
@@ -317,7 +317,7 @@ public class Messages {
     //DOWNLOAD MODEL @SCHEMA SWAGGER
 
     public static final String DOWNLOAD_ID = "Download id";
-    public static final String DOWNLOAD_DATE= "Download date";
+    public static final String DOWNLOAD_DATE = "Download date";
     public static final String ORDER_DOWNLOAD = "Order download";
     public static final String DOWNLOAD_LINK = "Download link";
     public static final String DOWNLOAD_LINK_EXAMPLE = "https://yourdomain.com/download/unique-token";
@@ -376,9 +376,6 @@ public class Messages {
     public static final String TRANSLATION_NAME = "Translation Language name";
     public static final String LANGUAGE_EXAMPLE = "Portuguese";
     public static final String BOOK_WITH_TRANSLATION = "Book with translation";
-
-
-
 
 
     //CUSTOMER SERVICE

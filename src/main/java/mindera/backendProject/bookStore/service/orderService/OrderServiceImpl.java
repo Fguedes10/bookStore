@@ -1,10 +1,10 @@
 package mindera.backendProject.bookStore.service.orderService;
 
 import com.itextpdf.text.DocumentException;
-import jakarta.mail.MessagingException;
 import mindera.backendProject.bookStore.apiHandler.EmailServiceImpl;
 import mindera.backendProject.bookStore.apiHandler.PdfCreator;
 import mindera.backendProject.bookStore.converter.order.OrderConverter;
+import mindera.backendProject.bookStore.dto.order.OrderCreateDto;
 import mindera.backendProject.bookStore.dto.order.OrderGetByBookDto;
 import mindera.backendProject.bookStore.dto.order.OrderGetByCustomerDto;
 import mindera.backendProject.bookStore.dto.order.OrderGetDto;
@@ -35,6 +35,7 @@ import static mindera.backendProject.bookStore.util.Messages.*;
 
 @Service
 public class OrderServiceImpl implements OrderService {
+
     private final OrderRepository orderRepository;
     private final BookServiceImpl bookService;
     private final CustomerServiceImpl customerService;
@@ -116,38 +117,34 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderGetDto createOrder(OrderModel order, Long orderId) throws CustomerNotFoundException,
-            OrderAlreadyExistsException, DocumentException, FileNotFoundException {
+    public OrderGetDto createOrder(OrderCreateDto order, Long orderId) throws CustomerNotFoundException,
+            OrderAlreadyExistsException, DocumentException, FileNotFoundException, BookNotFoundException {
         Optional<OrderModel> orderModelFindById = orderRepository.findById(orderId);
-        Customer customer = customerService.findById(order.getCustomer().getId());
-
+        Customer customer = customerService.findById(order.customerId());
+        List<Book> bookList = bookService.getBooksByIds(order.books());
         if (orderModelFindById.isPresent()) {
             throw new OrderAlreadyExistsException(ORDERMODEL_WITH_ID + orderId + ALREADY_EXISTS);
         }
-        orderRepository.save(order);
+        OrderModel newOrder = OrderConverter.fromCreateDtoToModel(order, customer, bookList);
 
         double totalAmount = orderModelFindById.get().getOrderItems().getAmountToPay();
 
         Invoice invoice = new Invoice(
                 customer,
-                order,
+                newOrder,
                 LocalDate.now(),
                 totalAmount);
 
         invoiceRepository.save(invoice);
+        String path = "InvoicePDF".concat(invoice.getId().toString()).concat(".pdf");
 
+        pdfCreator.createPdf(path, invoice);
 
-        pdfCreator.createPdf("InvoicePDF".concat(invoice.getId().toString()).concat(".pdf"), invoice);
+        String downloadLink = "https://yourwebsite.com/download?invoiceId=" + invoice.getId();
 
-        //insert download here
-
-        try {
-            emailService.sendEmailWithAttachment(invoice.getCustomer());
-        } catch (MessagingException e) {
-            throw new RuntimeException(e);
-        }
-
-        return OrderConverter.fromModelToOrderGetDto(order);
+        emailService.sendEmailWithAttachment(customer.getEmail(), path, "invoicePdfName", customer, downloadLink);
+        orderRepository.save(newOrder);
+        return OrderConverter.fromModelToOrderGetDto(newOrder);
     }
 
 

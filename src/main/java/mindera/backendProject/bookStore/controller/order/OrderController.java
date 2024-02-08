@@ -7,12 +7,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import mindera.backendProject.bookStore.dto.order.OrderCreateDto;
 import mindera.backendProject.bookStore.dto.order.OrderGetByBookDto;
 import mindera.backendProject.bookStore.dto.order.OrderGetByCustomerDto;
 import mindera.backendProject.bookStore.dto.order.OrderGetDto;
 import mindera.backendProject.bookStore.exception.book.BookNotFoundException;
 import mindera.backendProject.bookStore.exception.customer.CustomerNotFoundException;
-import mindera.backendProject.bookStore.exception.order.InvoiceNotFoundException;
 import mindera.backendProject.bookStore.exception.order.OrderAlreadyExistsException;
 import mindera.backendProject.bookStore.exception.order.OrderNotFoundException;
 import mindera.backendProject.bookStore.model.OrderModel;
@@ -92,7 +92,6 @@ public class OrderController {
     }
 
 
-
     @Operation(
             summary = DELETE_ORDER_BY_ID,
             description = DELETE_ORDER_BY_ID
@@ -119,7 +118,7 @@ public class OrderController {
             @ApiResponse(responseCode = CONFLICT, description = ORDERMODEL_ALREADY_EXISTS)
     })
     @PostMapping("/")
-    public ResponseEntity<OrderGetDto> addNewOrder(@Valid @RequestBody OrderModel order, Long orderId) throws OrderAlreadyExistsException, CustomerNotFoundException, DocumentException, FileNotFoundException {
+    public ResponseEntity<OrderGetDto> addNewOrder(@Valid @RequestBody OrderCreateDto order, Long orderId) throws OrderAlreadyExistsException, CustomerNotFoundException, DocumentException, FileNotFoundException, BookNotFoundException {
         return new ResponseEntity<>(orderService.createOrder(order, orderId), HttpStatus.CREATED);
     }
 

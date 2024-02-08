@@ -39,7 +39,7 @@ public class OrderModel {
     @Schema(description = ORDER_DOWNLOADS, example = LIST_EXAMPLE)
     private List<Download> downloads;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "orderModel_book",
             joinColumns = @JoinColumn(name = "orderModel_id"),

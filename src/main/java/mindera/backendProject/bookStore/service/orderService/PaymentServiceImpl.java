@@ -25,15 +25,12 @@ import static mindera.backendProject.bookStore.util.Messages.PAYMENT_WITH_ID;
 @Service
 public class PaymentServiceImpl implements PaymentService {
 
-
     private final PaymentRepository paymentRepository;
     private final OrderItemServiceImpl orderItemService;
     private final OrderServiceImpl orderService;
-
     private final BookRepository bookRepository;
     private final CustomerRepository customerRepository;
     private final OrderRepository orderRepository;
-
 
     public PaymentServiceImpl(PaymentRepository paymentRepository, OrderItemServiceImpl orderItemService, OrderServiceImpl orderService, BookRepository bookRepository, CustomerRepository customerRepository, OrderRepository orderRepository) {
         this.paymentRepository = paymentRepository;

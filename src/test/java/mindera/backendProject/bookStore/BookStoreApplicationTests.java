@@ -22,13 +22,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class BookStoreApplicationTests {
 
+    private static ObjectMapper objectMapper;
     @Autowired
     private MockMvc mockMvc;
-
     @Autowired
     private CustomerRepository customerRepository;
-
-    private static ObjectMapper objectMapper;
 
     @BeforeAll
     public static void setUp() {
@@ -42,9 +40,6 @@ class BookStoreApplicationTests {
         customerRepository.resetAutoIncrement();
     }
 
-    @Test
-    void contextLoads() {
-    }
 
     @Test
     @DisplayName("Test get all customers when no customers on database returns empty list")
@@ -58,24 +53,19 @@ class BookStoreApplicationTests {
 
     @Test
     @DisplayName("Test create customer when client returns code 201")
-	void testCreateCustomerWhenClientReturnsDtoFields() throws Exception {
+    void testCreateCustomerWhenClientReturnsDtoFields() throws Exception {
 
-		String customerInputJson = "{\"username\": \"fguedes10\", \"firstName\": \"Fabio\", \"lastName\": \"Guedes\"," +
-				"  " +
-				"\"email\": \"email@email.com\",  \"nif\": \"123456789\",  \"favoriteGenre\": \"Drama\" }";
+        String customerInputJson = "{\"username\": \"fguedes10\", \"firstName\": \"Fabio\", \"lastName\": \"Guedes\"," +
+                "  " +
+                "\"email\": \"email@email.com\",  \"nif\": \"123456789\",  \"favoriteGenre\": \"Drama\" }";
 
-		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/version1/customers/")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(customerInputJson))
-				.andExpect(status().isCreated())
-				.andReturn();
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/version1/customers/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(customerInputJson))
+                .andExpect(status().isCreated())
+                .andReturn();
 
-	}
-
-
-
-
-
+    }
 
 
 }

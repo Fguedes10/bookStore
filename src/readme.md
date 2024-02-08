@@ -1,4 +1,5 @@
-![Logo eBook Store](https://github.com/Fguedes10/bookStore/assets/152307336/64583523-9412-463d-977a-6307d444eace)
+![Logo](https://github.com/Fguedes10/bookStore/assets/152307336/9f2ea430-5193-4ed7-8b05-91ddc9a1df51)
+
 
 
 Welcome to the Java Ebook Store implemented in Java!

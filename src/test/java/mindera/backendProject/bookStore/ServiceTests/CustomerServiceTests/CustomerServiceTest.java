@@ -172,26 +172,24 @@ public class CustomerServiceTest {
         assertThrows(CustomerNotFoundException.class, () -> customerService.getCustomerByUsername("Costumer doesn´t exists"));
     }
 
-  /*  @Test
+    @Test
     @DisplayName("Add a customer and check repository")
-    void testCreateCustomer() throws CustomerAlreadyExistsException, GenreNotFoundException {
+    void testCreateCustomerSuccessfully() {
 
         // GIVEN
-        CustomerCreateDto customerCreateDto = new CustomerCreateDto("johnDoe", "John", "Doe", "john@example.com", 123456789L, new ArrayList<>());
-        Customer customerToSave = new Customer();
+        CustomerCreateDto customerExistingDto = new CustomerCreateDto("johnDaves", "John", "Daves", "john@mindera.pt", 125452L, new ArrayList<>());
 
-        List<Genre> mockGenres = List.of(new Genre(), new Genre());
-        when(genreService.findByIds(customerCreateDto.favoriteGenresIds())).thenReturn(mockGenres);
-        when(customerRepositoryMock.save(any(Customer.class))).thenReturn(customerToSave);
+        when(customerRepositoryMock.findByUsername(customerExistingDto.username())).thenReturn(Optional.of(new Customer()));
+        when(customerRepositoryMock.findByNif(customerExistingDto.nif())).thenReturn(Optional.of(new Customer()));
+        when(customerRepositoryMock.findByEmail(customerExistingDto.email())).thenReturn(Optional.of(new Customer()));
 
-        // WHEN
-        CustomerGetDto result = customerService.createCustomer(customerCreateDto);
+        // WHEN / THEN
+        assertThrows(CustomerAlreadyExistsException.class, () -> {
+            customerService.createCustomer(customerExistingDto);
+        });
+        verify(customerRepositoryMock, never()).save(any(Customer.class));
 
-        // THEN
-        assertNotNull(result);
-
-        verify(customerRepositoryMock, times(1)).save(any(Customer.class));
-    }*/
+    }
 
 
     @Test

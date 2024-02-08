@@ -1,7 +1,5 @@
 package mindera.backendProject.bookStore.service.orderService;
 
-import mindera.backendProject.bookStore.apiHandler.EmailServiceImpl;
-import mindera.backendProject.bookStore.apiHandler.PdfCreator;
 import mindera.backendProject.bookStore.converter.order.InvoiceConverter;
 import mindera.backendProject.bookStore.dto.order.InvoiceGetByCustomerDto;
 import mindera.backendProject.bookStore.dto.order.InvoiceGetDto;
@@ -27,15 +25,11 @@ public class InvoiceServiceImpl implements InvoiceService {
     private final InvoiceRepository invoiceRepository;
     private final CustomerServiceImpl customerService;
     private final CustomerRepository customerRepository;
-    private final PdfCreator pdfCreator;
-    private final EmailServiceImpl emailService;
 
-    public InvoiceServiceImpl(InvoiceRepository invoiceRepository, CustomerServiceImpl customerService, CustomerRepository customerRepository, PdfCreator pdfCreator, EmailServiceImpl emailService) {
+    public InvoiceServiceImpl(InvoiceRepository invoiceRepository, CustomerServiceImpl customerService, CustomerRepository customerRepository) {
         this.invoiceRepository = invoiceRepository;
         this.customerService = customerService;
         this.customerRepository = customerRepository;
-        this.pdfCreator = pdfCreator;
-        this.emailService = emailService;
     }
 
     @Override

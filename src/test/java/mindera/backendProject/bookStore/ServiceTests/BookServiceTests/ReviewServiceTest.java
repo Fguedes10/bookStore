@@ -125,27 +125,6 @@ public class ReviewServiceTest {
         assertEquals("No reviews for this book yet", savedReview.getComment());
     }
 
-    /*@Test
-    void testAddReview() throws BookNotFoundException {
-        ReviewAddNewDto reviewAddNewDto = new ReviewAddNewDto(1L, "Great Book");
-
-        Book existingBook = new Book(); // You may need to set properties for the Book object as needed
-        when(bookRepositoryMock.findById(reviewAddNewDto.bookId())).thenReturn(Optional.of(existingBook));
-
-        ReviewGetDto resultDto = reviewService.addReview(reviewAddNewDto);
-
-        assertNotNull(resultDto);
-
-        verify(bookRepositoryMock).findById(reviewAddNewDto.bookId());
-
-        ArgumentCaptor<Review> reviewCaptor = ArgumentCaptor.forClass(Review.class);
-        verify(reviewRepositoryMock).save(reviewCaptor.capture());
-
-        Review savedReview = reviewCaptor.getValue();
-        assertNotNull(savedReview);
-        assertEquals(existingBook, savedReview.getBook());
-
-    }*/
 
 }
 

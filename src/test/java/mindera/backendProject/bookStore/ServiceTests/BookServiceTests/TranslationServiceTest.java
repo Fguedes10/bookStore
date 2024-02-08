@@ -95,6 +95,24 @@ public class TranslationServiceTest {
         mockedTranslationConverter.verify(() -> TranslationConverter.fromModelToTranslationCreateDto(translation));
     }
 
+
+    @Test
+    @DisplayName("Add a Translation and check repository and Exception")
+    void testAddTranslationSuccessfully() {
+
+        // GIVEN
+        TranslationCreateDto translationExistingDto = new TranslationCreateDto("Existing Translation");
+
+        when(translationRepositoryMock.findByName(translationExistingDto.name())).thenReturn(Optional.of(new Translation()));
+
+        // WHEN / THEN
+        assertThrows(TranslationAlreadyExistsException.class, () -> {
+            translationService.add(translationExistingDto);
+        });
+        verify(translationRepositoryMock, never()).save(any(Translation.class));
+
+    }
+
     @Test
     @DisplayName("Get translation when the requested translation does not exist in the DB")
     void testGetTranslationThrowsException() {

@@ -1,9 +1,11 @@
 package mindera.backendProject.bookStore.ServiceTests.BookServiceTests;
 
 import mindera.backendProject.bookStore.converter.book.*;
+import mindera.backendProject.bookStore.dto.book.BookCreateDto;
 import mindera.backendProject.bookStore.dto.book.BookGetByTranslationDto;
 import mindera.backendProject.bookStore.dto.book.BookGetDto;
 import mindera.backendProject.bookStore.dto.book.BookYearReleaseInfoDto;
+import mindera.backendProject.bookStore.exception.book.BookAlreadyExistsException;
 import mindera.backendProject.bookStore.exception.book.BookNotFoundException;
 import mindera.backendProject.bookStore.exception.book.IncorrectReleaseYearException;
 import mindera.backendProject.bookStore.exception.book.TranslationNotFoundException;
@@ -203,6 +205,33 @@ public class BookServiceTest {
         assertEquals(expectedDto, resultDto);
         verify(bookRepositoryMock, times(1)).findById(bookId);
         mockedBookConverter.verify(() -> BookConverter.fromModelToBookGetDto(book));
+    }
+
+    @Test
+    @DisplayName("Add a book and check repository")
+    void testAddBookSuccessfully() {
+
+        // GIVEN
+        BookCreateDto bookExistingDto = new BookCreateDto(
+                "A criada",
+                478521L,
+                1L,
+                1L,
+                new ArrayList<>(),
+                new ArrayList<>(),
+                1,
+                2022,
+                5.99);
+
+        when(bookRepositoryMock.findByTitle(bookExistingDto.title())).thenReturn(Optional.of(new Book()));
+        when(bookRepositoryMock.findByIsbn(bookExistingDto.isbn())).thenReturn(Optional.of(new Book()));
+
+        // WHEN / THEN
+        assertThrows(BookAlreadyExistsException.class, () -> {
+            bookService.add(bookExistingDto);
+        });
+        verify(bookRepositoryMock, never()).save(any(Book.class));
+
     }
 
     @Test

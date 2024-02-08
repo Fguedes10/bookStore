@@ -30,7 +30,6 @@ public class OrderItem {
     @Schema(description = "Customer items to purchase", example = LIST_EXAMPLE)
     private Customer customer;
 
-
     @ManyToMany
     @JoinTable(
             name = "orderItem_book",

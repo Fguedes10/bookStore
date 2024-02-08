@@ -53,6 +53,9 @@ public class OrderModel {
     @Schema(description = PURCHASE_DATE, example = DATE_EXAMPLE)
     private LocalDate purchaseDate;
 
+    @Schema(description = INVOICE_PATH, example = INVOICE_PATH_EXAMPLE)
+    private String invoiceFilePath;
+
 
     public OrderModel(OrderItem orderItem, Customer customer, List<Book> booksToPurchase, LocalDate purchaseDate) {
         this.orderItems = orderItem;

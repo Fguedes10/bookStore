@@ -1,4 +1,6 @@
-![Design sem nome.png](..%2F..%2F..%2FDownloads%2FDesign%20sem%20nome.png)
+![Logo eBook Store](https://github.com/Fguedes10/bookStore/assets/152307336/64583523-9412-463d-977a-6307d444eace)
+
+
 Welcome to the Java Ebook Store implemented in Java!
 This eBook Store provides a user-friendly interface to customer to explore, purchase and review eBooks. Below is an
 overview of the features and functionalities.

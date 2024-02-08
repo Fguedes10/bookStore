@@ -11,6 +11,7 @@ import mindera.backendProject.bookStore.model.Invoice;
 import mindera.backendProject.bookStore.model.OrderModel;
 import mindera.backendProject.bookStore.repository.bookRepository.BookRepository;
 import mindera.backendProject.bookStore.repository.customerRepository.CustomerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.FileNotFoundException;
@@ -21,13 +22,12 @@ import static mindera.backendProject.bookStore.util.Messages.PDF_NOT_FOUND;
 
 @Service
 public class PdfCreator {
-    private CustomerRepository customerRepository;
-    private BookRepository bookRepository;
+    
+    @Autowired
+    CustomerRepository customerRepository;
+    @Autowired
+    BookRepository bookRepository;
 
-    public PdfCreator(CustomerRepository customerRepository, BookRepository bookRepository) {
-        this.customerRepository = customerRepository;
-        this.bookRepository = bookRepository;
-    }
 
     @Transactional
     public void createPdf(OrderModel order, Invoice invoice) throws DocumentException, FileNotFoundException, PdfNotFoundException {

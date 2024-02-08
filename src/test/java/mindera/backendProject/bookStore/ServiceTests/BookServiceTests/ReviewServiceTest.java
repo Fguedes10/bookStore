@@ -77,7 +77,7 @@ public class ReviewServiceTest {
         // THEN
         assertNotNull(result);
         assertEquals(reviewList.size(), result.size());
-        verify(reviewRepositoryMock).findAll(PageRequest.of(page, size, Sort.Direction.ASC, searchTerm));
+        verify(reviewRepositoryMock).findAll(PageRequest.of(page, size, Sort.Direction.DESC, searchTerm));
         mockedReviewConverter.verify(() -> ReviewConverter.fromModelToReviewCreateDto(review1));
         mockedReviewConverter.verify(() -> ReviewConverter.fromModelToReviewCreateDto(review2));
     }

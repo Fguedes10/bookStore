@@ -6,6 +6,7 @@ import mindera.backendProject.bookStore.exception.book.TranslationAlreadyExistsE
 import mindera.backendProject.bookStore.exception.book.TranslationNotFoundException;
 import mindera.backendProject.bookStore.model.Translation;
 import mindera.backendProject.bookStore.repository.bookRepository.TranslationRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,11 +20,13 @@ import static mindera.backendProject.bookStore.util.Messages.*;
 @Service
 public class TranslationServiceImpl implements TranslationService{
 
+
     private final TranslationRepository translationRepository;
 
-    public TranslationServiceImpl(TranslationRepository translationRepository){
+    public TranslationServiceImpl(TranslationRepository translationRepository) {
         this.translationRepository = translationRepository;
     }
+
 
     @Override
     public List<TranslationCreateDto> getAll() {

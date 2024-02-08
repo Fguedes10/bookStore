@@ -25,11 +25,9 @@ public class OrderItem {
     @Schema(description = ORDERITEM_ID, example = ID_EXAMPLE)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "customer_id", nullable = false)
-    @Schema(description = "Customer items to purchase", example = LIST_EXAMPLE)
+    @OneToOne
+    @Schema(description = "Customer", example = ID_EXAMPLE)
     private Customer customer;
-
 
     @ManyToMany
     @JoinTable(

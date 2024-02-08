@@ -10,3 +10,4 @@ services:
     ports:
       - '3310:3306'
     restart: always
+

@@ -21,6 +21,9 @@ import mindera.backendProject.bookStore.model.Genre;
 import mindera.backendProject.bookStore.repository.customerRepository.CustomerRepository;
 import mindera.backendProject.bookStore.service.bookService.BookServiceImpl;
 import mindera.backendProject.bookStore.service.bookService.GenreServiceImpl;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -44,8 +47,9 @@ public class CustomerServiceImpl implements CustomerService {
 
 
     @Override
-    public List<CustomerGetDto> getCustomers() {
-        List<Customer> customersList = customerRepository.findAll();
+    public List<CustomerGetDto> getCustomers(int page, int size, String searchTerm) {
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.DESC, searchTerm);
+        Page<Customer> customersList = customerRepository.findAll(pageRequest);
         return customersList.stream().map(CustomerConverter::fromEntityToCustomerGetDto).toList();
     }
 

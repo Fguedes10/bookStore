@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface BookService {
 
-    List<BookGetDto> getAll();
+    List<BookGetDto> getAll(int page, int size, String searchTerm);
 
     BookGetNewBookDto add(BookCreateDto book) throws BookAlreadyExistsException, AuthorNotFoundException,
             PublisherNotFoundException, GenreNotFoundException, TranslationNotFoundException;

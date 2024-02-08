@@ -21,6 +21,7 @@ import static mindera.backendProject.bookStore.util.Messages.*;
 public class OrderModel {
 
     String invoicePath;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(description = ORDER_ID, example = ID_EXAMPLE)
@@ -39,7 +40,7 @@ public class OrderModel {
     @Schema(description = ORDER_DOWNLOADS, example = LIST_EXAMPLE)
     private List<Download> downloads;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "orderModel_book",
             joinColumns = @JoinColumn(name = "orderModel_id"),

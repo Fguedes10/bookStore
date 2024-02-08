@@ -64,9 +64,9 @@ public class OrderItemController {
             @ApiResponse(responseCode = NOT_FOUND, description = CUSTOMER_OR_BOOK_NOT_FOUND),
             @ApiResponse(responseCode = CONFLICT, description = ORDERITEM_ALREADY_EXISTS)
     })
-    @PostMapping("/")
-    public ResponseEntity<OrderItemGetDto> addNewOrderItem(@Valid @RequestBody OrderItemCreateDto orderItemCreateDto, Long orderItemId) throws OrderItemAlreadyExistsException, CustomerNotFoundException, BookNotFoundException {
-        return new ResponseEntity<>(orderItemService.createOrderItem(orderItemCreateDto, orderItemId), HttpStatus.CREATED);
+    @PostMapping("/{customerId}")
+    public ResponseEntity<OrderItemGetDto> addNewOrderItem(@PathVariable ("customerId") @Parameter(name = "Customer Id", description = "Customer id", example = "1") Long customerId, @Valid @RequestBody OrderItemCreateDto orderItemCreateDto) throws CustomerNotFoundException, BookNotFoundException {
+        return new ResponseEntity<>(orderItemService.createOrderItem(orderItemCreateDto, customerId), HttpStatus.CREATED);
     }
 
 

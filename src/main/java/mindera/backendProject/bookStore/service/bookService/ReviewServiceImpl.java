@@ -10,6 +10,7 @@ import mindera.backendProject.bookStore.model.Book;
 import mindera.backendProject.bookStore.model.Review;
 import mindera.backendProject.bookStore.repository.bookRepository.BookRepository;
 import mindera.backendProject.bookStore.repository.bookRepository.ReviewRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -25,8 +26,8 @@ import static mindera.backendProject.bookStore.util.Messages.*;
 @Service
 public class ReviewServiceImpl implements ReviewService {
 
-    private final ReviewRepository reviewRepository;
 
+    private final ReviewRepository reviewRepository;
     private final BookRepository bookRepository;
 
     public ReviewServiceImpl(ReviewRepository reviewRepository, BookRepository bookRepository) {
@@ -34,11 +35,12 @@ public class ReviewServiceImpl implements ReviewService {
         this.bookRepository = bookRepository;
     }
 
+
     @Override
     public List<ReviewCreateDto> getAll(int page, int size, String searchTerm) {
-        PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.ASC, searchTerm);
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.DESC, searchTerm);
         Page<Review> reviews = reviewRepository.findAll(pageRequest);
-        return reviews.stream().map(ReviewConverter::fromModelToReviewCreateDto).toList();
+        return reviews.stream().filter(review -> !review.getComment().equals(NO_REVIEW)).map(ReviewConverter::fromModelToReviewCreateDto).toList();
     }
 
 
@@ -55,6 +57,10 @@ public class ReviewServiceImpl implements ReviewService {
         Optional<Book> checkIfBookExists = bookRepository.findById(reviewAddNewDto.bookId());
         if(checkIfBookExists.isEmpty()){
             throw new BookNotFoundException(BOOK_WITH_ID  + reviewAddNewDto.bookId() + DOESNT_EXIST);
+        }
+        Review checkFirstReview = checkIfBookExists.get().getReview().getFirst();
+        if(checkFirstReview.getComment().equals(NO_REVIEW)){
+            checkIfBookExists.get().getReview().removeFirst();
         }
         Review reviewToSave = ReviewConverter.fromReviewAddNewDtoToModel(reviewAddNewDto, checkIfBookExists.get());
         reviewRepository.save(reviewToSave);

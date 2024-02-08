@@ -78,10 +78,9 @@ public class Customer {
     @Schema(description = CUSTOMER_INVOICES, example = LIST_EXAMPLE)
     private Set<Invoice> invoices;
 
-
-    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne
     @Schema(description = CUSTOMER_ITEMS_TO_PURCHASE, example = LIST_EXAMPLE)
-    private Set<OrderItem> orderItems;
+    private OrderItem orderItem;
 
     @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Schema(description = CUSTOMER_ORDERS, example = LIST_EXAMPLE)

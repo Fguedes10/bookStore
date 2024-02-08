@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface CustomerService {
 
-    List<CustomerGetDto> getCustomers();
+    List<CustomerGetDto> getCustomers(int page, int size, String searchTerm);
 
     CustomerGetDto getCustomer(Long customerId) throws CustomerNotFoundException;
 

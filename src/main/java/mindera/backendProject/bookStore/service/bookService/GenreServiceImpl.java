@@ -7,6 +7,7 @@ import mindera.backendProject.bookStore.exception.book.GenreAlreadyExistsExcepti
 import mindera.backendProject.bookStore.exception.book.GenreNotFoundException;
 import mindera.backendProject.bookStore.model.Genre;
 import mindera.backendProject.bookStore.repository.bookRepository.GenreRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,9 +21,12 @@ import static mindera.backendProject.bookStore.util.Messages.*;
 @Service
 public class GenreServiceImpl implements GenreService{
 
+
     private final GenreRepository genreRepository;
 
-    public GenreServiceImpl(GenreRepository genreRepository){this.genreRepository=genreRepository;}
+    public GenreServiceImpl(GenreRepository genreRepository) {
+        this.genreRepository = genreRepository;
+    }
 
     @Override
     public List<GenreCreateDto> getAll() {

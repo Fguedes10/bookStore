@@ -2,6 +2,9 @@ package mindera.backendProject.bookStore.repository.customerRepository;
 
 import jakarta.transaction.Transactional;
 import mindera.backendProject.bookStore.model.Customer;
+import mindera.backendProject.bookStore.model.Review;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -17,6 +20,8 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     Optional<Customer> findByEmail(String email);
     Optional<Customer> findByNif(Long nif);
     Optional<Customer> findByUsername(String username);
+
+    Page<Customer> findAll(Pageable pageable);
 
 
 

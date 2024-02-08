@@ -45,9 +45,11 @@ public class CustomerController {
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = OK, description = CUSTOMERS_FOUND)})
-    @GetMapping("/")
-    public ResponseEntity<List<CustomerGetDto>> getCustomers() {
-        return new ResponseEntity<>(customerService.getCustomers(), HttpStatus.OK);
+    @GetMapping("/search")
+    public ResponseEntity<List<CustomerGetDto>> getCustomers(@RequestParam (defaultValue = "0", required = false) int page,
+                                                             @RequestParam (defaultValue = "10", required = false) int size,
+                                                             @RequestParam(defaultValue = "firstName") String searchTerm) {
+        return new ResponseEntity<>(customerService.getCustomers(page, size, searchTerm), HttpStatus.OK);
     }
 
 

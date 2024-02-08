@@ -4,6 +4,7 @@ import mindera.backendProject.bookStore.converter.book.PublisherConverter;
 import mindera.backendProject.bookStore.dto.book.PublisherCreateDto;
 import mindera.backendProject.bookStore.exception.book.PublisherAlreadyExistsException;
 import mindera.backendProject.bookStore.exception.book.PublisherNotFoundException;
+import mindera.backendProject.bookStore.model.Customer;
 import mindera.backendProject.bookStore.model.Publisher;
 import mindera.backendProject.bookStore.repository.bookRepository.PublisherRepository;
 import mindera.backendProject.bookStore.service.bookService.PublisherServiceImpl;
@@ -15,6 +16,10 @@ import org.mockito.InjectMocks;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
@@ -45,26 +50,33 @@ public class PublisherServiceTest {
     void testGetAll() {
 
         // GIVEN
+        int page = 0;
+        int size = 10;
+        String searchTerm = "name";
+
         Publisher publisher1 = Publisher.builder().id(1L).name("Porto Editora").build();
         Publisher publisher2 = Publisher.builder().id(1L).name("Bertrand Editora").build();
         List<Publisher> publisherList = List.of(publisher1, publisher2);
+        Page<Publisher> mockedPage = new PageImpl<>(publisherList);
 
         // WHEN
-        when(publisherRepositoryMock.findAll()).thenReturn(publisherList);
+        when(publisherRepositoryMock.findAll(any(PageRequest.class))).thenReturn(mockedPage);
 
         mockedPublisherConverter.when(() -> PublisherConverter.fromModelToPublisherCreateDto(publisher1))
                 .thenReturn(new PublisherCreateDto(publisher1.getName()));
         mockedPublisherConverter.when(() -> PublisherConverter.fromModelToPublisherCreateDto(publisher2))
                 .thenReturn(new PublisherCreateDto(publisher2.getName()));
 
-        List<PublisherCreateDto> result = publisherService.getAll();
+        List<PublisherCreateDto> result = publisherService.getAll(page, size, searchTerm);
+
+
 
 
         // THEN
         assertNotNull(result);
         assertEquals(2, result.size());
 
-        verify(publisherRepositoryMock).findAll();
+        verify(publisherRepositoryMock).findAll(PageRequest.of(page, size, Sort.Direction.DESC, searchTerm));
 
         mockedPublisherConverter.verify(() -> PublisherConverter.fromModelToPublisherCreateDto(publisher1));
         mockedPublisherConverter.verify(() -> PublisherConverter.fromModelToPublisherCreateDto(publisher2));

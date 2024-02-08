@@ -13,12 +13,9 @@ import java.util.stream.Collectors;
 
 public class OrderItemConverter {
 
-    public static OrderItem fromCreateDtoToModel(OrderItemCreateDto orderItemCreateDto, Customer customer, List<Book> books) {
+    public static OrderItem fromCreateDtoToModel(List<Book> books) {
         return OrderItem.builder()
-                .customer(customer)
                 .booksToPurchase(books)
-                .amountToPay(orderItemCreateDto.amountToPay())
-                .isOrdered(orderItemCreateDto.isOrdered())
                 .build();
     }
 

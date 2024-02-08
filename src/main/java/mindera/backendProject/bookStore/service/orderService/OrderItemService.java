@@ -16,7 +16,7 @@ public interface OrderItemService {
 
     OrderItemGetDto getOrderItem(Long orderItemId) throws OrderItemNotFoundException;
 
-    OrderItemGetDto createOrderItem(OrderItemCreateDto orderItemCreateDto, Long orderItemId) throws CustomerNotFoundException, OrderItemAlreadyExistsException, BookNotFoundException;
+    OrderItemGetDto createOrderItem(OrderItemCreateDto orderItemCreateDto, Long customerId) throws CustomerNotFoundException, BookNotFoundException;
 
     List<OrderItemGetDto> createOrderItems(List<OrderItemCreateDto> orderItemsCreateDto, Long orderItemId) throws CustomerNotFoundException, OrderItemNotFoundException, BookNotFoundException;
 

@@ -30,7 +30,7 @@ public class ExceptionsHandler {
             BookNotFoundException.class, GenreNotFoundException.class, RatingNotFoundException.class,
             ReviewNotFoundException.class, TranslationNotFoundException.class, DownloadNotFoundException.class,
             InvoiceNotFoundException.class, OrderNotFoundException.class, OrderItemNotFoundException.class,
-            PaymentNotFoundException.class, OrderItemNotFoundException.class})
+            PaymentNotFoundException.class, OrderItemNotFoundException.class, PdfNotFoundException.class})
     public ResponseEntity<String> NotFoundHandler(Exception exception) {
         logger.error("Know exception: " + exception.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());

@@ -78,7 +78,6 @@ public class BookServiceImpl implements BookService {
             throw new BookAlreadyExistsException(BOOK_ALREADY_EXISTS);
         }
         Book newBook = BookConverter.fromCreateDtoToModel(book, author, publisher, genreList, translationList);
-        reviewServiceImpl.addFirstReview(newBook);
         String title = newBook.getTitle().replaceAll("\\s+", "");
         GoogleBookInfoDto googleBook = googleBooksService.getBookInfo(title);
         if (googleBook != null) {
@@ -86,6 +85,7 @@ public class BookServiceImpl implements BookService {
             newBook.setPageCount(googleBook.getPageCount());
         }
         bookRepository.save(newBook);
+        reviewServiceImpl.addFirstReview(newBook);
         return BookConverter.fromModelToBookGetNewBookDto(newBook);
     }
 

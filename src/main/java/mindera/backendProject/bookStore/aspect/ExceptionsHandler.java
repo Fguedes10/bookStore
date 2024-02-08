@@ -58,11 +58,11 @@ public class ExceptionsHandler {
         return ResponseEntity.badRequest().body(errors);
     }
 
-    @ExceptionHandler(value = {Exception.class, RuntimeException.class})
+/*    @ExceptionHandler(value = {RuntimeException.class})
     public ResponseEntity<String> generalHandler(Exception exception) {
         logger.error("Know exception: " + exception.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
-    }
+    }*/
 
 
 }

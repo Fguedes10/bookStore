@@ -11,3 +11,11 @@ services:
       - '3310:3306'
     restart: always
 
+  bookstore:
+    depends_on:
+      - mysql
+    build: ./
+    container_name: Ebook_Project_BookStore
+    restart: on-failure
+    ports:
+      - "8080:8080"

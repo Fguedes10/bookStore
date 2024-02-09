@@ -1,8 +1,0 @@
-FROM mysql:8.3.0
-
-ENV MYSQL_ROOT_PASSWORD=ebooks
-ENV MYSQL_ROOT_DATABASE=ebookstore_db
-
-COPY . .
-
-EXPOSE 3306

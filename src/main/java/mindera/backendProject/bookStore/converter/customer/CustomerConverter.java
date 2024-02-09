@@ -15,6 +15,7 @@ public class CustomerConverter {
 
     public static Customer fromCustomerCreateDtoToEntity(CustomerCreateDto customerCreateDto, List<Genre> genreList){
         return Customer.builder()
+                .username(customerCreateDto.username())
                 .firstName(customerCreateDto.firstName())
                 .lastName(customerCreateDto.lastName())
                 .email(customerCreateDto.email())

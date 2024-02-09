@@ -4,7 +4,6 @@ import mindera.backendProject.bookStore.converter.book.PublisherConverter;
 import mindera.backendProject.bookStore.dto.book.PublisherCreateDto;
 import mindera.backendProject.bookStore.exception.book.PublisherAlreadyExistsException;
 import mindera.backendProject.bookStore.exception.book.PublisherNotFoundException;
-import mindera.backendProject.bookStore.model.Customer;
 import mindera.backendProject.bookStore.model.Publisher;
 import mindera.backendProject.bookStore.repository.bookRepository.PublisherRepository;
 import mindera.backendProject.bookStore.service.bookService.PublisherServiceImpl;
@@ -54,8 +53,15 @@ public class PublisherServiceTest {
         int size = 10;
         String searchTerm = "name";
 
-        Publisher publisher1 = Publisher.builder().id(1L).name("Porto Editora").build();
-        Publisher publisher2 = Publisher.builder().id(1L).name("Bertrand Editora").build();
+        Publisher publisher1 = new Publisher();
+        publisher1.setId(1L);
+        publisher1.setName("Porto Editora");
+
+        Publisher publisher2 = new Publisher();
+        publisher2.setId(2L);
+        publisher2.setName("Bertrand Editora");
+
+
         List<Publisher> publisherList = List.of(publisher1, publisher2);
         Page<Publisher> mockedPage = new PageImpl<>(publisherList);
 
@@ -68,8 +74,6 @@ public class PublisherServiceTest {
                 .thenReturn(new PublisherCreateDto(publisher2.getName()));
 
         List<PublisherCreateDto> result = publisherService.getAll(page, size, searchTerm);
-
-
 
 
         // THEN
@@ -165,7 +169,8 @@ public class PublisherServiceTest {
 
         // GIVEN
         String publisherName = "Porto Editora";
-        Publisher publisher = Publisher.builder().id(1L).name(publisherName).build();
+        Publisher publisher = new Publisher();
+        publisher.setName(publisherName);
 
         when(publisherRepositoryMock.findByName(publisherName)).thenReturn(Optional.of(publisher));
         mockedPublisherConverter.when(() -> PublisherConverter.fromModelToPublisherCreateDto(publisher))
@@ -187,7 +192,8 @@ public class PublisherServiceTest {
 
         // GIVEN
         Long publisherId = 1L;
-        Publisher publisher = Publisher.builder().id(publisherId).name("Porto Editora").build();
+        Publisher publisher = new Publisher();
+        publisher.setId(publisherId);
 
         when(publisherRepositoryMock.findById(publisherId)).thenReturn(Optional.of(publisher));
 

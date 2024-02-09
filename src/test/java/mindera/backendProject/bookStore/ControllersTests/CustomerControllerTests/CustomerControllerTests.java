@@ -37,7 +37,7 @@ public class CustomerControllerTests {
     @Test
     @DisplayName("Test get all customers when no customers on database returns empty list")
     void testGetAllCustomersWhenNoCustomersOnDatabaseReturnsEmptyList() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/customers/"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/customers/search"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$", hasSize(0)));
@@ -54,7 +54,7 @@ public class CustomerControllerTests {
         customerRepository.save(customer1);
         customerRepository.save(customer2);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/customers/"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/customers/search"))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", IsCollectionWithSize.hasSize(2)));

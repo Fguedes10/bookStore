@@ -41,6 +41,34 @@ public class AuthorControllerTest {
         authorRepository.resetAutoIncrement();
     }
 
+
+    @Test
+    @DisplayName("Test get all authors when 0 authors on database returns list with 0 authors")
+    void testGetAllAuthorsWhenListEmpty() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/authors/"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$", hasSize(0)));
+    }
+
+    @Test
+    @DisplayName("Test get Author by id")
+    void testGetAuthorById() throws Exception {
+
+        String authorName = "João Silva";
+        Author testAuthor = new Author();
+        testAuthor.setName(authorName);
+        authorRepository.save(testAuthor);
+
+        Long authorId = testAuthor.getId();
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/authors/id/{authorId}", authorId))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.name").value("João Silva"));
+
+    }
+
     @Test
     @DisplayName("Test create an author and returns a status code 201")
     void testCreateAuthorAndReturnsStatus201() throws Exception {
@@ -59,39 +87,15 @@ public class AuthorControllerTest {
         assertThat(authors.getFirst().getName()).isEqualTo("John");
     }
 
-
-    @Test
-    @DisplayName("Test get all authors when 0 authors on database returns list with 0 authors")
-    void testGetAllAuthorsWhenListEmpty() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/authors/"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$", hasSize(0)));
-    }
-
-    @Test
-    @DisplayName("Test get Author by id")
-    void testGetAuthorById() throws Exception {
-
-        Author author = Author.builder().name("Author1").build();
-        authorRepository.save(author);
-
-        Long authorId = author.getId();
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/authors/id/{authorId}", authorId))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.name").value("Author1"));
-
-    }
-
-
     @Test
     @DisplayName("Test get all authors when 2 authors on database returns list with 2 authors")
     void testGetAllAuthorsWhen2AuthorsOnDatabase() throws Exception {
 
-        Author author1 = Author.builder().name("Author1").build();
-        Author author2 = Author.builder().name("Author2").build();
+        Author author1 = new Author();
+        author1.setName("João Silva");
+
+        Author author2 = new Author();
+        author2.setName("Ana Almeida");
 
         authorRepository.save(author1);
         authorRepository.save(author2);
@@ -117,7 +121,8 @@ public class AuthorControllerTest {
     @DisplayName("Test create an author that already exists in DB")
     void testCreateAuthorAlreadyExists() throws Exception {
 
-        Author authorExists = Author.builder().name("John").build();
+        Author authorExists = new Author();
+        authorExists.setName("John");
         authorRepository.save(authorExists);
 
         AuthorCreateDto authorCreateDtoExists = new AuthorCreateDto("John");

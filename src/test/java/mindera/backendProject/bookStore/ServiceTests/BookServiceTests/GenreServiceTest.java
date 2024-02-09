@@ -45,8 +45,13 @@ public class GenreServiceTest {
     void testGetAll() {
 
         //GIVEN
-        Genre genre1 = Genre.builder().id(1L).name("Action").build();
-        Genre genre2 = Genre.builder().id(2L).name("Drama").build();
+        Genre genre1 = new Genre();
+        genre1.setId(1L);
+        genre1.setName("Drama");
+
+        Genre genre2 = new Genre();
+        genre2.setId(2L);
+        genre2.setName("Thriller");
 
         List<Genre> genreList = List.of(genre1, genre2);
 
@@ -77,7 +82,6 @@ public class GenreServiceTest {
 
         // GIVEN
         Long genreId = 1L;
-
         Genre genre = new Genre();
         genre.setId(genreId);
         genre.setName("Drama");
@@ -176,9 +180,14 @@ public class GenreServiceTest {
     void testFindByIds() throws GenreNotFoundException {
 
         // GIVEN
+
+        Genre genre1 = new Genre();
+        genre1.setId(1L);
+
+        Genre genre2 = new Genre();
+        genre2.setId(2L);
+
         List<Long> genreIds = List.of(1L, 2L);
-        Genre genre1 = Genre.builder().id(1L).name("Action").build();
-        Genre genre2 = Genre.builder().id(2L).name("Drama").build();
 
         when(genreRepositoryMock.findAllByIdIn(genreIds)).thenReturn(List.of(genre1, genre2));
 

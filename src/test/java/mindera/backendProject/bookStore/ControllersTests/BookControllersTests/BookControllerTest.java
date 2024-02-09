@@ -33,7 +33,7 @@ public class BookControllerTest {
     @Test
     @DisplayName("Test get all books when 0 books on database returns list with 0 books")
     void testGetAllBooksWhenListEmpty() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/books/"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/books/search"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$", hasSize(0)));

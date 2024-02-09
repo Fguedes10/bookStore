@@ -10,7 +10,10 @@ import mindera.backendProject.bookStore.exception.book.BookNotFoundException;
 import mindera.backendProject.bookStore.exception.book.IncorrectReleaseYearException;
 import mindera.backendProject.bookStore.exception.book.TranslationNotFoundException;
 import mindera.backendProject.bookStore.googleBooksApi.GoogleBooksService;
-import mindera.backendProject.bookStore.model.*;
+import mindera.backendProject.bookStore.model.Author;
+import mindera.backendProject.bookStore.model.Book;
+import mindera.backendProject.bookStore.model.Publisher;
+import mindera.backendProject.bookStore.model.Translation;
 import mindera.backendProject.bookStore.repository.bookRepository.BookRepository;
 import mindera.backendProject.bookStore.repository.bookRepository.TranslationRepository;
 import mindera.backendProject.bookStore.repository.customerRepository.CustomerRepository;
@@ -217,8 +220,8 @@ public class BookServiceTest {
                 478521L,
                 1L,
                 1L,
-                new ArrayList<>(),
-                new ArrayList<>(),
+                List.of(1L),
+                List.of(1L),
                 1,
                 2022,
                 5.99);

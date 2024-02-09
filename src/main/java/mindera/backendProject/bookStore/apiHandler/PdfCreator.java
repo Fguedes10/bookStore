@@ -29,7 +29,6 @@ public class PdfCreator {
     BookRepository bookRepository;
 
 
-    @Transactional
     public void createPdf(OrderModel order, Invoice invoice) throws DocumentException, FileNotFoundException, PdfNotFoundException {
 
         Document document = new Document();

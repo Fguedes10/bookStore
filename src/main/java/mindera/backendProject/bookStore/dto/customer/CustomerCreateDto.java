@@ -9,7 +9,7 @@ import static mindera.backendProject.bookStore.util.Messages.*;
 public record CustomerCreateDto(
 
         @NotBlank(message = INVALID_USERNAME)
-        @Size(max = 20, message = MAX_CHAR_SIZE)
+        @Size(max = 30, message = MAX_CHAR_SIZE)
         @Pattern(regexp = "[a-zA-Z_0-9!?#$]+", message = INVALID_USERNAME)
         String username,
 

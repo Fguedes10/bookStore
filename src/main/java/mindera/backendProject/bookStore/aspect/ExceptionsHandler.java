@@ -29,7 +29,7 @@ public class ExceptionsHandler {
     @ExceptionHandler(value = {CustomerNotFoundException.class, AuthorNotFoundException.class,
             BookNotFoundException.class, GenreNotFoundException.class, RatingNotFoundException.class,
             ReviewNotFoundException.class, TranslationNotFoundException.class, DownloadNotFoundException.class,
-            InvoiceNotFoundException.class, OrderNotFoundException.class, OrderItemNotFoundException.class,
+            InvoiceNotFoundException.class, OrderNotFoundException.class, PdfNotFoundException.class, OrderItemNotFoundException.class,
             PaymentNotFoundException.class, OrderItemNotFoundException.class, PdfNotFoundException.class})
     public ResponseEntity<String> NotFoundHandler(Exception exception) {
         logger.error("Know exception: " + exception.getMessage());

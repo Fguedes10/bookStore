@@ -1,4 +1,5 @@
-![EBOOK.png](..%2F..%2F..%2FDownloads%2FEBOOK.png)
+![EBOOK](https://github.com/Fguedes10/bookStore/assets/152307336/8fd19d34-2a1a-4367-a28c-01de71aa6a6a)
+
 Welcome to the Java Ebook Store implemented in Java!
 This eBook Store provides a user-friendly interface to customer to explore, purchase and review eBooks. Below is an
 overview of the features and functionalities.
@@ -28,7 +29,6 @@ ___
 * Java;
 
 ___
-
 
 ## How to do it:
 

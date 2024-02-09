@@ -15,6 +15,7 @@ import mindera.backendProject.bookStore.exception.book.BookNotFoundException;
 import mindera.backendProject.bookStore.exception.customer.CustomerNotFoundException;
 import mindera.backendProject.bookStore.exception.order.OrderAlreadyExistsException;
 import mindera.backendProject.bookStore.exception.order.OrderNotFoundException;
+import mindera.backendProject.bookStore.exception.order.PdfNotFoundException;
 import mindera.backendProject.bookStore.model.OrderModel;
 import mindera.backendProject.bookStore.service.orderService.OrderServiceImpl;
 import org.springframework.http.HttpStatus;
@@ -118,7 +119,7 @@ public class OrderController {
             @ApiResponse(responseCode = CONFLICT, description = ORDERMODEL_ALREADY_EXISTS)
     })
     @PostMapping("/")
-    public ResponseEntity<OrderGetDto> addNewOrder(@Valid @RequestBody OrderCreateDto order, Long orderId) throws OrderAlreadyExistsException, CustomerNotFoundException, DocumentException, FileNotFoundException, BookNotFoundException {
+    public ResponseEntity<OrderGetDto> addNewOrder(@Valid @RequestBody OrderCreateDto order, Long orderId) throws OrderAlreadyExistsException, CustomerNotFoundException, DocumentException, FileNotFoundException, BookNotFoundException, PdfNotFoundException {
         return new ResponseEntity<>(orderService.createOrder(order, orderId), HttpStatus.CREATED);
     }
 

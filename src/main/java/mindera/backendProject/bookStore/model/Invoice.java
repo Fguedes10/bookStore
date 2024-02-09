@@ -47,7 +47,6 @@ public class Invoice {
     @Schema(description = TAX_VALUE, example = TAX_VALUE_EXAMPLE)
     private double VAT = 0.06;
 
-    private String filePath;
 
     public Invoice(Customer customer, OrderModel orderModel, LocalDate issueDate, double totalAmount) {
         this.customer = customer;

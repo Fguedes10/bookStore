@@ -3,53 +3,44 @@ package mindera.backendProject.bookStore.apiHandler;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfWriter;
 import jakarta.transaction.Transactional;
+import mindera.backendProject.bookStore.exception.order.PdfNotFoundException;
 import mindera.backendProject.bookStore.model.Book;
 import mindera.backendProject.bookStore.model.Invoice;
 import mindera.backendProject.bookStore.model.OrderModel;
 import mindera.backendProject.bookStore.repository.bookRepository.BookRepository;
 import mindera.backendProject.bookStore.repository.customerRepository.CustomerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.List;
+import java.time.LocalDate;
+
+import static mindera.backendProject.bookStore.util.Messages.PDF_NOT_FOUND;
 
 @Service
 public class PdfCreator {
-    private BaseFont bfBold;
-    private BaseFont bf;
-    private int pageNumber = 0;
-    private String customerName;
-    private String invoiceDate;
-    private String invoiceId;
-    private List<Book> bookList;
-    private double totalPrice;
-    private CustomerRepository customerRepository;
-    private BookRepository bookRepository;
+    
+    @Autowired
+    CustomerRepository customerRepository;
+    @Autowired
+    BookRepository bookRepository;
 
-    public PdfCreator(BaseFont bfBold, BaseFont bf, CustomerRepository customerRepository, BookRepository bookRepository) {
-        this.bfBold = bfBold;
-        this.bf = bf;
-        this.customerRepository = customerRepository;
-        this.bookRepository = bookRepository;
-    }
 
     @Transactional
-    public void createPdf(String fileName, Invoice invoice) throws DocumentException, FileNotFoundException {
+    public void createPdf(OrderModel order, Invoice invoice) throws DocumentException, FileNotFoundException, PdfNotFoundException {
 
         Document document = new Document();
         try {
-            PdfWriter.getInstance(document, new FileOutputStream("iTextHelloWorld.pdf"));
-        } catch (DocumentException e) {
-            throw new RuntimeException(e);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+            PdfWriter.getInstance(document, new FileOutputStream(order.getInvoiceFilePath()));
+        } catch (DocumentException | FileNotFoundException e) {
+            throw new PdfNotFoundException(PDF_NOT_FOUND);
         }
+
         document.open();
+
         try {
             document.add(new Paragraph(printInvoice(invoice.getOrderModel(), invoice)));
         } catch (DocumentException e) {
@@ -60,13 +51,11 @@ public class PdfCreator {
     }
 
 
-     /*   this.customerName = invoice.getCustomer().getFirstName() + " " + invoice.getCustomer().getLastName();
-        this.invoiceDate = invoice.getIssueDate().toString();
-        this.invoiceId = invoice.getId().toString();
-        this.bookList = invoice.getOrderModel().getBooks();
-        this.totalPrice = invoice.getTotalAmount();*/
-
     private String printInvoice(OrderModel orderModel, Invoice invoice) {
+
+        LocalDate invoiceDate = LocalDate.now();
+
+
         String invoiceText = " ";
         for (Book book : orderModel.getBooks()) {
             invoiceText = invoiceText.concat(("Book: " + book.getTitle() + book.getAuthor() + "\t" + " - unit. price: " + book.getPrice()
@@ -77,19 +66,6 @@ public class PdfCreator {
                 + "\n" + "Total Amount: " + orderModel.getOrderItems().getAmountToPay();
 
         return invoiceText + finalText;
-    }
-
-
-    private void startFonts() {
-        try {
-            bfBold = BaseFont.createFont(BaseFont.COURIER, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-            bf = BaseFont.createFont(BaseFont.SYMBOL, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-
-        } catch (DocumentException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
 

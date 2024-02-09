@@ -45,8 +45,14 @@ public class TranslationServiceTest {
     void testGetAll() {
 
         //GIVEN
-        Translation translation1 = Translation.builder().id(1L).name("English").build();
-        Translation translation2 = Translation.builder().id(2L).name("Spanish").build();
+        Translation translation1 = new Translation();
+        translation1.setId(1L);
+        translation1.setName("English");
+
+        Translation translation2 = new Translation();
+        translation2.setId(2L);
+        translation2.setName("Spanish");
+
 
         List<Translation> translationList = List.of(translation1, translation2);
 
@@ -79,7 +85,6 @@ public class TranslationServiceTest {
         Long translationId = 1L;
         Translation translation = new Translation();
         translation.setId(translationId);
-        translation.setName("English");
 
         when(translationRepositoryMock.findById(translationId)).thenReturn(Optional.of(translation));
         TranslationCreateDto expectedDto = new TranslationCreateDto("English");
@@ -174,10 +179,15 @@ public class TranslationServiceTest {
     void testFindByIds() throws TranslationNotFoundException {
 
         // GIVEN
-        List<Long> translationIds = List.of(1L, 2L);
-        Translation translation1 = Translation.builder().id(1L).name("English").build();
-        Translation translation2 = Translation.builder().id(2L).name("Spanish").build();
 
+        Translation translation1 = new Translation();
+        translation1.setId(1L);
+
+        Translation translation2 = new Translation();
+        translation2.setId(2L);
+        
+
+        List<Long> translationIds = List.of(1L, 2L);
         when(translationRepositoryMock.findAllByIdIn(translationIds)).thenReturn(List.of(translation1, translation2));
 
         // WHEN

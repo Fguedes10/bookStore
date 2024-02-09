@@ -51,8 +51,12 @@ public class PublisherControllerTest {
     @DisplayName("Test get all publishers when 2 publishers on database returns list with 2 publishers")
     void testGetAllPublishersWhen2PublishersOnDatabase() throws Exception {
 
-        Publisher publisher1 = Publisher.builder().name("Publisher1").build();
-        Publisher publisher2 = Publisher.builder().name("Publisher2").build();
+        Publisher publisher1 = new Publisher();
+        publisher1.setName("Porto Editora");
+
+        Publisher publisher2 = new Publisher();
+        publisher2.setName("Bertrand Editora");
+
 
         publisherRepository.save(publisher1);
         publisherRepository.save(publisher2);
@@ -68,12 +72,14 @@ public class PublisherControllerTest {
     @DisplayName("Test get publisher by id")
     void testGetPublisherById() throws Exception {
 
-        Publisher publisher = Publisher.builder().name("Editora").build();
+        Long publisherId = 1L;
+        String publisherName = "Editora";
+        Publisher publisher = new Publisher();
+        publisher.setId(publisherId);
+        publisher.setName(publisherName);
 
         publisherRepository.save(publisher);
 
-
-        Long publisherId = publisher.getId();
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/publishers/id/{publisherId}", publisherId))
                 .andExpect(status().isOk())

@@ -53,8 +53,11 @@ public class GenreControllerTest {
     @DisplayName("Test get all genres when 2 genres on database returns list with 2 genres")
     void testGetAllGenresWhen2GenresOnDatabase() throws Exception {
 
-        Genre genre1 = Genre.builder().name("Genre1").build();
-        Genre genre2 = Genre.builder().name("Genre2").build();
+        Genre genre1 = new Genre();
+        genre1.setName("Drama");
+
+        Genre genre2 = new Genre();
+        genre2.setName("Thriller");
 
         genreRepository.save(genre1);
         genreRepository.save(genre2);
@@ -69,11 +72,13 @@ public class GenreControllerTest {
     @DisplayName("Test get Genre by id")
     void testGetGenreById() throws Exception {
 
-        Genre genre = Genre.builder().name("Drama").build();
+        Long genreId = 1L;
+        Genre genre = new Genre();
+        genre.setId(genreId);
+        genre.setName("Drama");
 
         genreRepository.save(genre);
 
-        Long genreId = genre.getId();
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/genres/id/{genreId}", genreId))
                 .andExpect(status().isOk())
@@ -116,7 +121,8 @@ public class GenreControllerTest {
     @DisplayName("Test create a genre that already exists in DB")
     void testCreateGenreAlreadyExists() throws Exception {
 
-        Genre genreExists = Genre.builder().name("Drama").build();
+        Genre genreExists = new Genre();
+        genreExists.setName("Drama");
         genreRepository.save(genreExists);
 
         GenreCreateDto genreCreateDtoExists = new GenreCreateDto("Drama");

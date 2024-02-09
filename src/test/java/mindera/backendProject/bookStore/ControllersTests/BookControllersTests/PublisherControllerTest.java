@@ -41,7 +41,7 @@ public class PublisherControllerTest {
     @Test
     @DisplayName("Test get all publishers when 0 publishers on database returns list with 0 publishers")
     void testGetAllPublishersWhenListEmpty() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/publishers/"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/publishers/search"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$", hasSize(0)));
@@ -57,7 +57,7 @@ public class PublisherControllerTest {
         publisherRepository.save(publisher1);
         publisherRepository.save(publisher2);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/publishers/"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/publishers/search"))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)));

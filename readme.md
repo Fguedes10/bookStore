@@ -25,7 +25,7 @@ ___
 ## What you need:
 
 * Docker;
-* DBeaver or MYSQL;
+* MYSQL;
 * Java;
 
 ___

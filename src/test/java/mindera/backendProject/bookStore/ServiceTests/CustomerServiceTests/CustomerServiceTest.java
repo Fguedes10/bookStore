@@ -64,7 +64,8 @@ public class CustomerServiceTest {
         String searchTerm = "firstName";
 
         Customer customer1 = Customer.builder()
-                .id(1L).firstName("John")
+                .id(1L)
+                .firstName("John")
                 .lastName("Daves")
                 .nif(4523652L)
                 .email("john@mindera.pt")
@@ -72,7 +73,8 @@ public class CustomerServiceTest {
                 .password("mypass").build();
 
         Customer customer2 = Customer.builder()
-                .id(2L).firstName("Mary")
+                .id(2L)
+                .firstName("Mary")
                 .lastName("Rose")
                 .nif(4523651L)
                 .email("mary@mindera.pt")

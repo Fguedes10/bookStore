@@ -12,6 +12,7 @@ import mindera.backendProject.bookStore.exception.book.BookNotFoundException;
 import mindera.backendProject.bookStore.exception.customer.CustomerNotFoundException;
 import mindera.backendProject.bookStore.exception.order.OrderAlreadyExistsException;
 import mindera.backendProject.bookStore.exception.order.OrderNotFoundException;
+import mindera.backendProject.bookStore.exception.order.PdfNotFoundException;
 import mindera.backendProject.bookStore.model.Book;
 import mindera.backendProject.bookStore.model.Customer;
 import mindera.backendProject.bookStore.model.Invoice;
@@ -118,7 +119,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderGetDto createOrder(OrderCreateDto order, Long orderId) throws CustomerNotFoundException,
-            OrderAlreadyExistsException, DocumentException, FileNotFoundException, BookNotFoundException {
+            OrderAlreadyExistsException, DocumentException, FileNotFoundException, BookNotFoundException, PdfNotFoundException {
         Optional<OrderModel> orderModelFindById = orderRepository.findById(orderId);
         Customer customer = customerService.findById(order.customerId());
         List<Book> bookList = bookService.getBooksByIds(order.books());
@@ -136,13 +137,19 @@ public class OrderServiceImpl implements OrderService {
                 totalAmount);
 
         invoiceRepository.save(invoice);
-        String path = "InvoicePDF".concat(invoice.getId().toString()).concat(".pdf");
 
-        pdfCreator.createPdf(path, invoice);
+        String path = "PdfPath" + newOrder.getId() + ".pdf";
+        newOrder.setInvoicePath(path);
 
-        String downloadLink = "https://yourwebsite.com/download?invoiceId=" + invoice.getId();
+        try {
+            pdfCreator.createPdf(newOrder, invoice);
+        } catch (PdfNotFoundException e) {
+            throw new PdfNotFoundException(PDF_NOT_FOUND);
+        }
 
-        emailService.sendEmailWithAttachment(customer.getEmail(), path, "invoicePdfName", customer, downloadLink);
+        String downloadLink = "https://ebookStore.com/download?invoiceId=" + invoice.getId();
+
+        emailService.sendEmailWithAttachment(customer.getEmail(), path, "invoice_" + newOrder.getId(), customer, downloadLink);
         orderRepository.save(newOrder);
         return OrderConverter.fromModelToOrderGetDto(newOrder);
     }

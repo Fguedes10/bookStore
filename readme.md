@@ -1,6 +1,8 @@
-<h1 align="center"> E-Book Store </h1>
+![EBOOK](https://github.com/Fguedes10/bookStore/assets/152307336/e34d1020-b79a-4d2f-b5c5-2899a1c9a676)
+
 Welcome to the Java Ebook Store implemented in Java!
-This eBook Store provides a user-friendly interface to customer to explore, purchase and review eBooks. Below is an overview of the features and functionalities.
+This eBook Store provides a user-friendly interface to customer to explore, purchase and review eBooks. Below is an
+overview of the features and functionalities.
 
 ___
 
@@ -28,7 +30,6 @@ ___
 
 ___
 
-
 ## How to do it:
 
 * Clone our repository to your computer;
@@ -50,6 +51,5 @@ ___
 
 * <a href=https://github.com/Fguedes10>Fábio Guedes
 * <a href=https://github.com/melissasa6/>Melissa Sá
-* <a href=https://https://github.com/FilipeMPinto91/>Filipe Pinto
 
 <h1 align="center"> THANK YOU FOR READING! </h1>

@@ -353,6 +353,8 @@ public class Messages {
     public static final String PURCHASE_DATE = "Purchase date";
     public static final String ORDERITEM_ASSOCIATED_WITH_THIS_ORDER = "Items associated with this Order";
     public static final String ORDER_DOWNLOADS = "Order downloads";
+    public static final String INVOICE_PATH = "Invoice path";
+    public static final String INVOICE_PATH_EXAMPLE = "C:/Users/WIN10/Downloads/invoice.pdf";
 
 
     //PUBLISHER MODEL @SCHEMA SWAGGER
@@ -466,6 +468,7 @@ public class Messages {
     //ORDER SERVICE
     public static final String ORDERMODEL_WITH_ID = "Order with id: ";
     public static final String ORDERMODEL_ALREADY_EXISTS = "Order already exists.";
+    public static final String PDF_NOT_FOUND = "Pdf not found.";
 
 
     //ORDERITEM SERVICE

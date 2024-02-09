@@ -8,6 +8,7 @@ import mindera.backendProject.bookStore.exception.customer.CustomerNotFoundExcep
 import mindera.backendProject.bookStore.exception.order.InvoiceNotFoundException;
 import mindera.backendProject.bookStore.exception.order.OrderAlreadyExistsException;
 import mindera.backendProject.bookStore.exception.order.OrderNotFoundException;
+import mindera.backendProject.bookStore.exception.order.PdfNotFoundException;
 
 import java.io.FileNotFoundException;
 import java.util.List;
@@ -17,7 +18,7 @@ public interface OrderService {
     OrderGetDto getOrder(Long orderId) throws OrderNotFoundException;
 
 
-    OrderGetDto createOrder(OrderCreateDto order, Long orderId) throws CustomerNotFoundException, OrderAlreadyExistsException, InvoiceNotFoundException, BookNotFoundException, DocumentException, FileNotFoundException;
+    OrderGetDto createOrder(OrderCreateDto order, Long orderId) throws CustomerNotFoundException, OrderAlreadyExistsException, InvoiceNotFoundException, BookNotFoundException, DocumentException, FileNotFoundException, PdfNotFoundException;
 
 
     void deleteOrder(Long orderId) throws OrderNotFoundException;

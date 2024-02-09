@@ -46,7 +46,7 @@ public class EmailServiceImpl {
 
             // SEND
             email.send();
-            System.out.println("Email sent successfully");
+            System.out.println("Email sent.");
         } catch (Exception e) {
             e.printStackTrace();
         }

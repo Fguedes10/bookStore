@@ -1,4 +1,4 @@
-![EBOOK](https://github.com/Fguedes10/bookStore/assets/152307336/8fd19d34-2a1a-4367-a28c-01de71aa6a6a)
+![EBOOK](https://github.com/Fguedes10/bookStore/assets/152307336/e34d1020-b79a-4d2f-b5c5-2899a1c9a676)
 
 Welcome to the Java Ebook Store implemented in Java!
 This eBook Store provides a user-friendly interface to customer to explore, purchase and review eBooks. Below is an
